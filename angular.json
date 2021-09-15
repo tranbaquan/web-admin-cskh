@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "web-admin-cskh"
+    }
+  },
+  "defaultProject": "web-admin-cskh",
+  "cli": {
+    "analytics": "88407365-4ff8-49b2-86ba-c12995b05c23"
+  }
 }

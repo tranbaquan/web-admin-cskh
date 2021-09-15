@@ -1,0 +1,139 @@
+@import "src/app/shared/scss/core-variables.scss";
+
+.triangle-top-left {
+  width: 0;
+  height: 0;
+  border-top: 200px solid $color-orange-l1;
+  border-right: 200px solid transparent;
+}
+
+.main {
+  height: 100vh;
+  padding: 0 0 50px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+
+  .body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 700px;
+
+    .name {
+      font-size: 44px;
+      font-weight: 700;
+      color: $color-orange-l1;
+      margin-bottom: 30px;
+    }
+
+    .form {
+      border: 1px solid $color-gray-l4;
+      border-radius: 5px;
+      box-shadow: 1px 2px 5px $color-gray-l5;
+      padding: 30px 60px 30px 90px;
+      width: 500px;
+
+      .intro {
+        font-weight: bold;
+        font-size: 16px;
+        margin-bottom: 30px;
+      }
+
+      .input-group {
+        padding-left: 20px;
+
+        .core-input {
+          margin-bottom: 20px;
+        }
+      }
+
+      .right {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .error-message {
+        font-size: 11px;
+        color: $color-red-l2;
+        margin-bottom: 20px;
+      }
+
+      .forgot-password {
+        margin-bottom: 20px;
+      }
+    }
+  }
+
+  .footer {
+    flex: 0;
+    width: 700px;
+
+    .company-name {
+      text-transform: uppercase;
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .email, .address, .phone {
+      margin-bottom: 5px;
+    }
+  }
+}
+
+.banner {
+  background-image: url("/assets/imgs/building.jpg");
+  background-size: cover;
+
+
+  .banner-text {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding-right: 30px;
+    z-index: 1;
+
+    .text1 {
+      font-size: 56px;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: $color-orange-l1;
+    }
+
+    .text2 {
+      font-size: 56px;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: $color-orange-l1;
+    }
+
+    .text3 {
+      font-size: 56px;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-bottom: 50px;
+    }
+  }
+
+
+  .triangle-bottom-right {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    z-index: 0;
+    border-bottom: 150px solid $color-orange-l1;
+    border-left: 150px solid transparent;
+  }
+}
+
+
