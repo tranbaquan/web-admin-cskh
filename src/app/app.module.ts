@@ -7,18 +7,22 @@ import {SplashComponent} from './splash/splash.component';
 import {LoginPageComponent} from './login-page/login-page.component';
 import {SharedModule} from './shared/shared.module';
 import {LayoutModule} from './layout/layout.module';
+import {NotFoundPageComponent} from './not-found-page/not-found-page.component';
+import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
     AppComponent,
     SplashComponent,
-    LoginPageComponent
+    LoginPageComponent,
+    NotFoundPageComponent
   ],
   imports: [
-    BrowserModule,
     AppRoutingModule,
     SharedModule,
     LayoutModule,
+    BrowserModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

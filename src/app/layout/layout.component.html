@@ -5,13 +5,47 @@
       <div class="desc">Cung cấp giải pháp & vật liệu trong xây dựng</div>
     </div>
     <div class="right">
-      abc
+      <fa-icon [icon]="faUser" size="lg"></fa-icon>
+      <span class="username">{{user?.Name}}</span>
     </div>
   </nav>
   <div class="base-bar">
+    <div class="breadcrumb">
+      <span class="crumb">Home</span>
+    </div>
     <div class="search-bar">
       <input type="text" appInput [width]="500">
+      <button appButton [width]="50" background="bg-dark">
+        <fa-icon [icon]="faSearch"></fa-icon>
+      </button>
     </div>
-    <div class="menu">abc</div>
+    <div class="menu">
+      <button appButton background="bg-transparent" (click)="isMenuShow = true">
+        <fa-icon [icon]="faBars"></fa-icon>
+      </button>
+    </div>
+  </div>
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
+  <div class="menu-bar" [@openClose]="isMenuShow ? 'open' : 'closed'">
+    <div class="header">
+      <div class="title">Quản lý danh mục</div>
+      <button appButton background="bg-transparent" (click)="isMenuShow = false">
+        <fa-icon [icon]="faTimes"></fa-icon>
+      </button>
+    </div>
+    <div class="body">
+      <ul>
+        <li class="item">Quản lý danh mục</li>
+        <li class="item">Quản lý sản phẩm</li>
+        <li class="item">Quản lý kho</li>
+        <li class="item">Quản lý đơn hàng</li>
+        <li class="item">Quản lý khách hàng</li>
+        <li class="item">Thống kê</li>
+      </ul>
+
+    </div>
   </div>
 </div>
+

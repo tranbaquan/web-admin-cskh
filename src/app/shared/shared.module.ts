@@ -7,6 +7,7 @@ import {RouterModule} from '@angular/router';
 import {ButtonDirective} from './component/button.directive';
 import {UserService} from './service/user.service';
 import {JwtInterceptor} from './interceptor/jwt.interceptor';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import {JwtInterceptor} from './interceptor/jwt.interceptor';
     FormsModule,
     HttpClientModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FontAwesomeModule
   ],
   declarations: [
     InputDirective,
@@ -35,7 +37,8 @@ import {JwtInterceptor} from './interceptor/jwt.interceptor';
     RouterModule,
     ReactiveFormsModule,
     InputDirective,
-    ButtonDirective
+    ButtonDirective,
+    FontAwesomeModule
   ]
 })
 export class SharedModule {

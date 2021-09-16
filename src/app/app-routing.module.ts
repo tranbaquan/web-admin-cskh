@@ -3,6 +3,7 @@ import {Routes, RouterModule} from '@angular/router';
 import {AppComponent} from './app.component';
 import {LoginPageComponent} from './login-page/login-page.component';
 import {AuthGuard} from './shared/provider/auth-guard';
+import {NotFoundPageComponent} from './not-found-page/not-found-page.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,10 @@ const routes: Routes = [
     path: 'login',
     pathMatch: 'full',
     component: LoginPageComponent
+  },
+  {
+    path: '**',
+    component: NotFoundPageComponent
   }
 ];
 

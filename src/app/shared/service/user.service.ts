@@ -20,8 +20,8 @@ export class UserService {
   login(user: UserModel): Observable<UserResponseModel> {
     const url = this.baseUrl + '/api/useradmin/login';
     return this.http.post(url, user).pipe(
-      map(data => {
-        return Object.assign(new UserResponseModel(), data);
+      map((response: any) => {
+        return Object.assign(new UserResponseModel(), response.data);
       })
     );
   }

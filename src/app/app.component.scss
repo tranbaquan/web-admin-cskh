@@ -1,0 +1,39 @@
+@import "src/app/shared/scss/core-variables";
+
+.page-loading {
+  position: fixed;
+  width: 0;
+  height: 3px;
+  background-color: $color-orange-l1;
+  left: 0;
+  top: 0;
+  z-index: 100;
+
+  &.begin {
+    animation: beginLoading 0.5s ease-in-out;
+  }
+
+  &.finish {
+    animation: endLoading 1s ease-in-out;
+  }
+
+  @keyframes beginLoading {
+    0% {
+      width: 0;
+    }
+
+    100% {
+      width: 50vw;
+    }
+  }
+
+  @keyframes endLoading {
+    0% {
+      width: 50vw;
+    }
+
+    100% {
+      width: 100vw;
+    }
+  }
+}
