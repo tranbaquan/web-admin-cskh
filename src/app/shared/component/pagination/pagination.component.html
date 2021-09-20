@@ -1,0 +1,14 @@
+<div *ngIf="pagination" class="paging">
+  <button appIconButton background="bg-transparent" [disabled]="previousDisabled"
+          (click)="updateCurrentPage(currentPage - 1)">
+    <fa-icon [icon]="faAngleLeft" size="sm"></fa-icon>
+  </button>
+  <button appButton *ngFor="let page of pageList" [class.current]="currentPage == page"
+          background="bg-transparent" (click)="updateCurrentPage(page)">
+    {{page}}
+  </button>
+  <button appIconButton background="bg-transparent" size="20" [disabled]="nextDisabled"
+          (click)="updateCurrentPage(currentPage + 1)">
+    <fa-icon [icon]="faAngleRight" size="sm"></fa-icon>
+  </button>
+</div>

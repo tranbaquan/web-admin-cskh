@@ -1,0 +1,13 @@
+@import "src/app/shared/scss/core-variables";
+
+.paging {
+  display: flex;
+  //gap: 5px;
+  align-items: center;
+  padding: 10px 0;
+  justify-content: flex-end;
+
+  .current {
+    color: $color-orange-l1;
+  }
+}
