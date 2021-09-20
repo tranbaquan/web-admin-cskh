@@ -13,12 +13,7 @@
     <div class="breadcrumb">
       <span class="crumb">Home</span>
     </div>
-    <div class="search-bar">
-      <input type="text" appInput [width]="500">
-      <button appButton [width]="50" background="bg-dark">
-        <fa-icon [icon]="faSearch"></fa-icon>
-      </button>
-    </div>
+
     <div class="menu">
       <button appButton background="bg-transparent" (click)="isMenuShow = true">
         <fa-icon [icon]="faBars"></fa-icon>
@@ -28,23 +23,22 @@
   <div class="container">
     <router-outlet></router-outlet>
   </div>
-  <div class="menu-bar" [@openClose]="isMenuShow ? 'open' : 'closed'">
-    <div class="header">
-      <div class="title">Quản lý danh mục</div>
+  <div *ngIf="isMenuShow" class="menu-bar" [@slideToggle]>
+    <div class="header" *ngIf="isMenuShow">
+      <div class="title">Danh mục quản lý</div>
       <button appButton background="bg-transparent" (click)="isMenuShow = false">
         <fa-icon [icon]="faTimes"></fa-icon>
       </button>
     </div>
-    <div class="body">
+    <div class="body" *ngIf="isMenuShow">
       <ul>
         <li class="item">Quản lý danh mục</li>
-        <li class="item">Quản lý sản phẩm</li>
+        <li class="item" (click)="redirectTo('product')">Quản lý sản phẩm</li>
         <li class="item">Quản lý kho</li>
         <li class="item">Quản lý đơn hàng</li>
         <li class="item">Quản lý khách hàng</li>
         <li class="item">Thống kê</li>
       </ul>
-
     </div>
   </div>
 </div>

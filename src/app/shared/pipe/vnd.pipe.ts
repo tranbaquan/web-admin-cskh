@@ -1,8 +1,13 @@
 import {Pipe, PipeTransform} from '@angular/core';
+import {DecimalPipe} from '@angular/common';
 
-@Pipe({name: 'cost'})
-export class CostPipe implements PipeTransform {
-  transform(value: any, ...args: any[]): any {
+@Pipe({name: 'vnd'})
+export class VndPipe implements PipeTransform {
+
+  constructor(private numberPipe: DecimalPipe) {
   }
 
+  transform(value: any): string {
+    return this.numberPipe.transform(Math.abs(value), '1.0') + ' Đ';
+  }
 }

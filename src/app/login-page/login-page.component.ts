@@ -37,7 +37,7 @@ export class LoginPageComponent implements OnInit {
   login(): void {
     this.userService.login(this.user).subscribe(data => {
       localStorage.setItem('user:info', JSON.stringify(data));
-      this.router.navigate(['home']).then(() => {
+      this.router.navigate(['category']).then(() => {
       });
     }, () => {
       this.errorMessage = 'Sai thông tin đăng nhập!';

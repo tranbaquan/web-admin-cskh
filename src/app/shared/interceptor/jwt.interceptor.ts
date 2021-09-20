@@ -8,7 +8,8 @@ import {Injectable} from '@angular/core';
 export class JwtInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let headers = req.headers;
-    headers = headers.append('Authorization', 'Basic VXNlck1vdG9sb2s6VXNlck1vdG9sb2s=');
+    const basic = btoa('AdminMotolok:AdminMotolok');
+    headers = headers.append('Authorization', 'Basic ' + basic);
     headers = headers.append('Content-Type', 'application/json; charset=utf-8');
     headers = headers.append('Access-Control-Allow-Origin', '*');
 

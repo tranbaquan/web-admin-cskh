@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {InputDirective} from './component/input.directive';
-import {CommonModule} from '@angular/common';
+import {CommonModule, DecimalPipe} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
@@ -8,6 +8,10 @@ import {ButtonDirective} from './component/button.directive';
 import {UserService} from './service/user.service';
 import {JwtInterceptor} from './interceptor/jwt.interceptor';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {IconButtonDirective} from './component/icon-button.directive';
+import {VndPipe} from './pipe/vnd.pipe';
+import { PaginationComponent } from './component/pagination/pagination.component';
+import { SelectDirective } from './component/select.directive';
 
 @NgModule({
   imports: [
@@ -16,19 +20,24 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
     HttpClientModule,
     RouterModule,
     ReactiveFormsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
   ],
   declarations: [
     InputDirective,
-    ButtonDirective
+    ButtonDirective,
+    IconButtonDirective,
+    VndPipe,
+    PaginationComponent,
+    SelectDirective
   ],
   providers: [
     UserService,
+    DecimalPipe,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
       multi: true
-    },
+    }
   ],
   exports: [
     CommonModule,
@@ -38,7 +47,11 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
     ReactiveFormsModule,
     InputDirective,
     ButtonDirective,
-    FontAwesomeModule
+    FontAwesomeModule,
+    IconButtonDirective,
+    VndPipe,
+    PaginationComponent,
+    SelectDirective
   ]
 })
 export class SharedModule {

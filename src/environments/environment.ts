@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   apiBaseUrl: 'https://apiadminmotolok.way.vn',
+  storageUrl: 'https://attachmentmotolok.way.vn'
 };
 
 /*

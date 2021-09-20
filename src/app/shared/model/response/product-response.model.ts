@@ -1,0 +1,33 @@
+export class ProductResponseModel {
+  ProductID: number;
+  TypeProductID: number;
+  Color: string;
+  Code: string;
+  NameProduct: string;
+  Unit: string;
+  AmountBuy: number;
+  AmountSale: number;
+  AmountSaleMuilti: number;
+  AmountPromotion: number;
+  FIFO: number;
+  Description: string;
+  DateProduction: Date;
+  DateExpired: Date;
+  Status: number;
+  ImagesPath: string[];
+  IsHome: boolean;
+  IsStandard: boolean;
+  IsBestSell: boolean;
+  IsSpecical: boolean;
+  Order: number;
+  MinQuantity: number;
+  DiscountProvider: number;
+  InformationTech: string;
+  Rating: number;
+  CountNumberRating: number;
+  ListSpec1: any;
+  ListSpec2: any;
+  ListSpec3: any;
+  ListProduction: any;
+  ListPrices: any;
+}

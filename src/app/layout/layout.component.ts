@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {faUser} from '@fortawesome/free-regular-svg-icons';
-import {faSearch, faBars, faTimes} from '@fortawesome/free-solid-svg-icons';
+import {faBars, faTimes} from '@fortawesome/free-solid-svg-icons';
 import {Router} from '@angular/router';
 import {UserResponseModel} from '../shared/model/response/user-response.model';
 import {animate, state, style, transition, trigger} from '@angular/animations';
@@ -10,27 +10,20 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
   animations: [
-    trigger('openClose', [
-      state('open', style({
-        display: 'block',
-        // width: '300px'
-      })),
-      state('closed', style({
-        display: 'none',
-        // width: '0px',
-      })),
-      transition('open => closed', [
-        animate('0.1s ease-in-out')
+    trigger('slideToggle', [
+      transition(':enter', [
+        style({width: '0'}),
+        animate('300ms ease-in-out', style({width: '300px'}))
       ]),
-      transition('closed => open', [
-        animate('0.1s ease')
-      ])
+      transition(':leave', [
+        animate('300ms ease-in-out', style({width: '0'}))
+      ]),
+      state('*', style({width: '300px'}))
     ])
   ]
 })
 export class LayoutComponent implements OnInit {
   faUser = faUser;
-  faSearch = faSearch;
   faBars = faBars;
   faTimes = faTimes;
 
@@ -38,7 +31,7 @@ export class LayoutComponent implements OnInit {
   isMenuShow: boolean;
 
   constructor(private router: Router) {
-    this.isMenuShow = true;
+    this.isMenuShow = false;
   }
 
   ngOnInit(): void {
@@ -49,5 +42,10 @@ export class LayoutComponent implements OnInit {
       this.router.navigate(['login']).then(() => {
       });
     }
+  }
+
+  redirectTo(path: string): void {
+    this.router.navigate([path]).then(() => {
+    });
   }
 }
