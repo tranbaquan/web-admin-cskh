@@ -59,6 +59,12 @@
         label {
           font-weight: 500;
         }
+
+        .input-list {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 5px;
+        }
       }
 
       .weight {
@@ -71,3 +77,4 @@
     flex: 1;
   }
 }
+

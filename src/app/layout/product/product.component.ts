@@ -84,7 +84,7 @@ export class ProductComponent implements OnInit {
 
   onPageChange(page: number): void {
     this.page = page;
-    this.getProducts();
+    this.searchProduct(this.searchQuery, this.currentCategory?.TypeProductID);
   }
 
   getParentCategories(): void {
