@@ -1,0 +1,37 @@
+.order-page {
+  .title {
+    border-bottom: #c3bfbf 1px solid;
+  }
+
+  .block-left {
+
+  }
+
+  .search-box {
+    position: relative;
+
+    input {
+      width: 100px !important;
+      outline: none;
+    }
+  }
+
+  .block-right {
+    position:  absolute;
+    right: 0;
+  }
+
+  .label-orange {
+    font-weight: bold;
+    color: #E57331;
+  }
+
+  .dropdown-sort {
+    padding-left: 20px;
+  }
+
+  .table-head {
+    color: #FFFFFF;
+    background-color: #E57331;
+  }
+}

@@ -1,0 +1,55 @@
+<div class="order-page">
+  <div class="row my-3 py-2 title">
+    <div class="col-6 block-left">
+      <h5 class="font-weight-bold">DANH SÁCH ĐƠN HÀNG</h5>
+    </div>
+    <div class="col-6 search-box">
+      <div class="block-right row">
+        <input type="text" class="input-search" aria-describedby="basic-addon2">
+        <!--<div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button">Button</button>
+        </div>-->
+      </div>
+    </div>
+  </div>
+
+  <div class="order-content">
+    <div class="row my-2">
+      <div class="col-5 d-flex flex-row">
+        <label><span class="label-orange">Hiển thị:</span> {{pagination.data ? pagination.data.length : 0}}/{{pagination.totalItem ? pagination.totalItem : 0}} đơn hàng</label>
+      </div>
+      <div class="col-7 d-flex flex-row-reverse">
+        <div class="dropdown-sort">Tình trạng</div>
+        <div class="dropdown-sort">Trạng thái</div>
+        <label class="label-orange">Lọc theo: </label>
+      </div>
+    </div>
+    <div class="py-2">
+      <table class="table">
+        <thead class="table-head">
+          <tr>
+            <th scope="col" style="width: 10%">Mã đơn hàng</th>
+            <th scope="col" style="width: 15%">Ngày xuất</th>
+            <th scope="col" style="width: 15%">Tên khách hàng</th>
+            <th scope="col" style="width: 30%">Trạng thái</th>
+            <th scope="col" style="width: 15%">Người tạo</th>
+            <th scope="col" style="width: 15%">Ngày tạo</th>
+         </tr>
+        </thead>
+        <tbody>
+              <tr *ngFor="let item of pagination.data">
+                <td>{{item.ExportID}}</td>
+                <td>{{item.DateApprove | date:'yyyy-mm-dd hh:mm'}}</td>
+                <td>{{item.NameCustomer}}</td>
+                <td>{{item.IsAccept == 2 ? 'Chờ duyệt' : 'xác nhận đơn hàng'}}</td>
+                <td>{{item.UserCreated}}</td>
+                <td>{{item.DateCreated | date:'yyyy-mm-dd hh:mm'}}</td>
+              </tr>
+        </tbody>
+      </table>
+      <div class="paging">
+        <app-pagination [pagination]="pagination" (pageChange)="onPageChange($event)"></app-pagination>
+      </div>
+    </div>
+  </div>
+</div>

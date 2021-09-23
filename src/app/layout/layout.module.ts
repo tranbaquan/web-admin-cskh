@@ -5,13 +5,15 @@ import {SharedModule} from '../shared/shared.module';
 import {ProductComponent} from './product/product.component';
 import { CategoryComponent } from './category/category.component';
 import { ProductDetailComponent } from './product/product-detail/product-detail.component';
+import { OrderComponent } from './order/order.component';
 
 @NgModule({
   declarations: [
     LayoutComponent,
     ProductComponent,
     CategoryComponent,
-    ProductDetailComponent
+    ProductDetailComponent,
+    OrderComponent
   ],
   imports: [
     LayoutRoutingModule,
