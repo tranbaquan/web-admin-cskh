@@ -1,5 +1,5 @@
 <div class="item-list">
-  <div *ngFor="let category of categories" class="item">
+  <div *ngFor="let category of categories" (click)="redirectTo('product')" class="item">
     <img class="item-img" [src]="getUrl(category)" [alt]="category.NameType">
     <div class="item-name">{{category.NameType}}</div>
   </div>

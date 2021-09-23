@@ -31,21 +31,21 @@
     <div class="py-2">
       <table class="table">
         <thead class="table-head">
-          <tr>
-            <th scope="col" style="width: 15%">Mã đơn hàng</th>
-            <th scope="col" style="width: 15%">Ngày xuất</th>
-            <th scope="col" style="width: 15%">Tên khách hàng</th>
-            <th scope="col" style="width: 25%">Trạng thái</th>
-            <th scope="col" style="width: 15%">Người tạo</th>
-            <th scope="col" style="width: 15%">Ngày tạo</th>
+          <tr class="col">
+            <th class="col-2">Mã đơn hàng</th>
+            <th class="col-2">Ngày xuất</th>
+            <th class="col-2">Tên khách hàng</th>
+            <th class="col-2">Trạng thái</th>
+            <th class="col-2">Người tạo</th>
+            <th class="col-2">Ngày tạo</th>
          </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let item of listOrder">
-          <td>{{item.ExportID}}</td>
-          <td>{{item.DateApprove | date:'yyyy-mm-dd hh:mm'}}</td>
-          <td>{{item.NameCustomer}}</td>
-          <td>
+        <tr class="col" *ngFor="let item of listOrder">
+          <td class="col-2">{{item.Code}}</td>
+          <td class="col-2">{{item.DateApprove | date:'yyyy-mm-dd hh:mm'}}</td>
+          <td class="col-2">{{item.NameCustomer}}</td>
+          <td class="col-2">
             <div class="row">
               <input class="status-input" type="text" appInput [width]="150" [value]="getStatusLabel(item)" disabled>
               <button class="status-button" appButton [width]="30">
@@ -53,8 +53,8 @@
               </button>
             </div>
           </td>
-          <td>{{item.UserCreated}}</td>
-          <td>{{item.DateCreated | date:'yyyy-mm-dd hh:mm'}}</td>
+          <td class="col-2">{{item.UserCreated}}</td>
+          <td class="col-2">{{item.DateCreated | date:'yyyy-mm-dd hh:mm'}}</td>
         </tr>
         </tbody>
       </table>

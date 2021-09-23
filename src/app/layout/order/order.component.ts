@@ -30,7 +30,7 @@ export class OrderComponent implements OnInit {
   constructor(private orderSerVice: OrderService) {
     this.isLoading = false;
     this.page = 1;
-    this.size = 10;
+    this.size = 20;
     this.keySearch = '';
     this.status = 100;
     this.isAccept = 100;
