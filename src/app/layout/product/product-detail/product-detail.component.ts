@@ -1,6 +1,9 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {faCameraRetro} from '@fortawesome/free-solid-svg-icons';
-import {HttpEventType} from '@angular/common/http';
+import {faCameraRetro, faPlus} from '@fortawesome/free-solid-svg-icons';
+import {CKEditor4} from 'ckeditor4-angular';
+import {ActivatedRoute} from '@angular/router';
+import {ProductResponseModel} from '../../../shared/model/response/product-response.model';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-product-detail',
@@ -9,12 +12,21 @@ import {HttpEventType} from '@angular/common/http';
 })
 export class ProductDetailComponent implements OnInit {
   faCameraRetro = faCameraRetro;
+  faPlus = faPlus;
 
-  @ViewChild('fileUpload') fileUpload: ElementRef;
+  @ViewChild('fileUpload')
+  fileUpload: ElementRef;
   file: File;
   fileBase64: string;
 
-  constructor() {
+  product: ProductResponseModel;
+  producers: any;
+
+  constructor(private route: ActivatedRoute) {
+    this.product = this.route.snapshot.data.product;
+    this.producers = this.route.snapshot.data.producers;
+    console.log(this.product);
+    console.log(this.producers);
   }
 
   ngOnInit(): void {
@@ -37,5 +49,9 @@ export class ProductDetailComponent implements OnInit {
       const progress = Math.round(100 * (e.loaded / e.total));
       console.log(progress);
     };
+  }
+
+  getUrl(product: ProductResponseModel): string {
+    return environment.storageUrl + product.ImagesPath[0]?.substr(1);
   }
 }

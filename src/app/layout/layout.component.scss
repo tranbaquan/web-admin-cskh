@@ -18,13 +18,12 @@
       margin-right: 10px;
       font-size: 44px;
       color: $color-orange-l1;
-      font-weight: 700;
+      font-weight: 600;
       line-height: 0.8;
     }
 
     .desc {
       text-transform: uppercase;
-      font-weight: 400;
       color: $color-black-l4;
     }
   }
@@ -85,6 +84,7 @@
   border-left: 1px solid $color-gray-l5;
   background: $color-white-l1;
   white-space: nowrap;
+  z-index: 10;
 
   .header {
     padding: 5px 10px;
@@ -119,6 +119,7 @@
         display: flex;
         align-items: center;
         padding: 5px 10px;
+        cursor: pointer;
 
         &:nth-child(n) {
           border-bottom: 1px solid $color-gray-l5;

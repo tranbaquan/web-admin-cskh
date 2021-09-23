@@ -12,6 +12,7 @@ import {IconButtonDirective} from './component/icon-button.directive';
 import {VndPipe} from './pipe/vnd.pipe';
 import { PaginationComponent } from './component/pagination/pagination.component';
 import { SelectDirective } from './component/select.directive';
+import {CKEditorModule} from 'ckeditor4-angular';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { SelectDirective } from './component/select.directive';
     RouterModule,
     ReactiveFormsModule,
     FontAwesomeModule,
+    CKEditorModule
   ],
   declarations: [
     InputDirective,
@@ -51,10 +53,10 @@ import { SelectDirective } from './component/select.directive';
     IconButtonDirective,
     VndPipe,
     PaginationComponent,
-    SelectDirective
+    SelectDirective,
+    CKEditorModule
   ]
 })
 export class SharedModule {
 }
-
 

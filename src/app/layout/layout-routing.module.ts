@@ -4,6 +4,8 @@ import {NgModule} from '@angular/core';
 import {CategoryComponent} from './category/category.component';
 import {ProductComponent} from './product/product.component';
 import {ProductDetailComponent} from './product/product-detail/product-detail.component';
+import {ProductDetailResolver} from './product/product-detail/product-detail.resolver';
+import {ProducersResolver} from './product/product-detail/producers.resolver';
 import {OrderComponent} from "./order/order.component";
 
 const routes: Routes = [
@@ -29,12 +31,15 @@ const routes: Routes = [
       {
         path: 'product/:productId',
         pathMatch: 'full',
-        component: ProductDetailComponent
-      },
+        component: ProductDetailComponent,
+        resolve: {
+          product: ProductDetailResolver,
+          producers: ProducersResolver
+        },
       {
         path: 'order',
         pathMatch: 'full',
-        component: OrderComponent
+        component: OrderComponent,
       }
     ]
   }

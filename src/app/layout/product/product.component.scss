@@ -104,12 +104,12 @@
 
   .label {
     color: $color-orange-l1;
-    font-weight: 600;
+    font-weight: 500;
   }
 
   .value {
     color: $color-gray-l1;
-    font-weight: 600;
+    font-weight: 500;
   }
 
   .filter-group {
@@ -138,17 +138,17 @@
 }
 
 %product-name {
-  font-weight: 600;
+  font-weight: 500;
 }
 
 %base-cost {
   color: $color-gray-l5;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 %discounted-cost {
   color: $color-orange-l1;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 16px;
 }
 
@@ -197,7 +197,7 @@
       right: 20px;
       width: 42px;
       height: 42px;
-      z-index: 10;
+      z-index: 2;
       border-radius: 50%;
       background: $color-orange-l1;
       color: $color-white-l1;
@@ -206,7 +206,7 @@
 
       span {
         font-size: 10px;
-        font-weight: 400;
+        font-weight: 500;
         margin: auto;
       }
     }

@@ -32,5 +32,20 @@ export class ProductService {
         return pagination;
       })
     );
-  };
+  }
+
+  getProductById(productId: number): Observable<ProductResponseModel> {
+    const url = this.baseUrl + '/api/products/getproductbyid/' + '85';
+    return this.http.get(url).pipe(
+      map((response: any) => Object.assign(new ProductResponseModel(), response.data))
+    );
+  }
+
+  getAllProducers(): Observable<any> {
+    const url = this.baseUrl + '/api/productproduction/getProductProductionAll';
+    const headers = new HttpHeaders().append('page', '1').append('limit', '20');
+    return this.http.get(url, {headers}).pipe(
+      map((response: any) => response.data)
+    );
+  }
 }

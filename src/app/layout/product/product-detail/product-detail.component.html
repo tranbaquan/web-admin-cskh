@@ -2,7 +2,7 @@
   <div class="form">
     <div class="form-group">
       <div class="image-preview">
-        <img *ngIf="fileBase64" [src]="fileBase64" [alt]="file.name">
+        <img *ngIf="product.ImagesPath" [src]="getUrl(product)" [alt]="product.NameProduct">
       </div>
       <div class="upload-group">
         <button appIconButton background="bg-orange" (click)="openFileDialog()">
@@ -17,12 +17,12 @@
       <div class="group-title">Thông tin sản phẩm</div>
       <div class="input">
         <label>Tên sản phẩm</label>
-        <input type="text" placeholder="Tên sản phẩm" appInput>
+        <input type="text" placeholder="Tên sản phẩm" [required]="true" [(ngModel)]="product.NameProduct" appInput>
       </div>
       <div class="input-group">
         <div class="input">
           <label>Mã sản phẩm</label>
-          <input type="text" placeholder="Mã sản phẩm" appInput>
+          <input type="text" placeholder="Mã sản phẩm" [required]="true" [(ngModel)]="product.Code" appInput>
         </div>
         <div class="input">
           <label>Hãng sản xuất</label>
@@ -32,28 +32,104 @@
       <div class="input-group">
         <div class="input weight">
           <label>Khối lượng tối thiểu</label>
-          <select id="weight" appSelect>
-            <option value="1">One</option>
-            <option value="2">Two</option>
+          <select id="weight" appSelect [(ngModel)]="product.MinQuantity">
+            <option [value]="product.MinQuantity">{{product.MinQuantity}}</option>
           </select>
         </div>
         <div class="input">
           <label>Đơn vị</label>
-          <select id="unit" appSelect>
-            <option value="kilogram">KG</option>
-            <option value="gram">G</option>
+          <select id="unit" appSelect [(ngModel)]="product.Unit">
+            <option [value]="product.Unit">{{product.Unit}}</option>
           </select>
         </div>
       </div>
       <div class="input">
         <label>Hãng sản xuất</label>
         <select id="producer" appSelect>
-          <option value="vinamilk">Vinamilk</option>
+          <option [value]="product.ListProduction[0]">{{product.ListProduction[0]}}</option>
         </select>
       </div>
     </div>
     <div class="form-group">
-      <div></div>
+      <div class="group-title">Đặc tả sản phẩm</div>
+      <ng-container *ngIf="product.ListSpec1.length != 0">
+        <div class="input">
+          <label>Tên đặc tả</label>
+          <input type="text" appInput [value]="product.ListSpec1[0]?.SpecName">
+        </div>
+        <div class="input">
+          <label>Giá trị</label>
+          <div class="input-list">
+            <ng-container *ngFor="let spec of product.ListSpec1; index as index">
+              <input *ngIf="index != 0" type="text" appInput [width]="70" [value]="spec.SpecName">
+            </ng-container>
+            <button appIconButton background="bg-orange">
+              <fa-icon [icon]="faPlus"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="product.ListSpec2.length != 0">
+        <div class="input">
+          <label>Tên đặc tả</label>
+          <input type="text" appInput [value]="product.ListSpec2[0]?.SpecName">
+        </div>
+        <div class="input">
+          <label>Giá trị</label>
+          <div class="input-list">
+            <ng-container *ngFor="let spec of product.ListSpec2; index as index">
+              <input *ngIf="index != 0" type="text" appInput [width]="70" [value]="spec.SpecName">
+            </ng-container>
+            <button appIconButton background="bg-orange">
+              <fa-icon [icon]="faPlus"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="product.ListSpec3.length != 0">
+        <div class="input">
+          <label>Tên đặc tả</label>
+          <input type="text" appInput [value]="product.ListSpec3[0]?.SpecName">
+        </div>
+        <div class="input">
+          <label>Giá trị</label>
+          <div class="input-list">
+            <ng-container *ngFor="let spec of product.ListSpec3; index as index">
+              <input *ngIf="index != 0" type="text" appInput [width]="70" [value]="spec.SpecName">
+            </ng-container>
+            <button appIconButton background="bg-orange">
+              <fa-icon [icon]="faPlus"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </ng-container>
+      <div>
+        <button appButton background="bg-dark">
+          <fa-icon [icon]="faPlus"></fa-icon>
+          <label>Thêm đặc tả</label>
+        </button>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="group-title">Giá và chiết khấu</div>
+      <div class="input-group">
+        <div class="input">
+          <label>Giá</label>
+          <input type="number" [min]="0" appInput [value]="product.AmountSale">
+        </div>
+        <div class="input">
+          <label>Chiết khấu</label>
+          <input type="number" [min]="0" appInput [value]="product.DiscountProvider">
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="group-title">Tính năng chính</div>
+    </div>
+    <div class="form-group">
+      <div class="group-title">Thông số kỹ thuật</div>
+      <ckeditor [(ngModel)]="product.InformationTech"></ckeditor>
+
     </div>
   </div>
   <div class="table"></div>

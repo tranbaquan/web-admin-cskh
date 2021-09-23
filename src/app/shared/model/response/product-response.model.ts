@@ -25,9 +25,20 @@ export class ProductResponseModel {
   InformationTech: string;
   Rating: number;
   CountNumberRating: number;
-  ListSpec1: any;
-  ListSpec2: any;
-  ListSpec3: any;
+  ListSpec1: Specific[];
+  ListSpec2: Specific[];
+  ListSpec3: Specific[];
   ListProduction: any;
   ListPrices: any;
+}
+
+export class Specific {
+  Code: string;
+  Description: string;
+  ParentID: number;
+  ProductID: number;
+  SpecID: number;
+  SpecName: string;
+  SpecParentID: number[];
+  Status: number;
 }
