@@ -1,3 +1,4 @@
+@import "src/app/shared/scss/core-variables";
 .order-page {
   .title {
     border-bottom: #c3bfbf 1px solid;
@@ -7,12 +8,10 @@
 
   }
 
-  .search-box {
-    position: relative;
-
-    input {
-      width: 100px !important;
-      outline: none;
+  .search-bar {
+    .core-input {
+      border-radius: 0;
+      border: 1px solid $color-gray-l5;
     }
   }
 
@@ -33,5 +32,64 @@
   .table-head {
     color: #FFFFFF;
     background-color: #E57331;
+  }
+
+  /* css dropdown sort */
+  .dropbtn {
+    vertical-align: middle;
+    background-color: #FFFFFF;
+    color: $color-black-l1;
+    border: none;
+    cursor: pointer;
+    padding: 2px 3px;
+    margin-bottom: -1px;
+  }
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+
+  .dropdown-content a {
+    color: black;
+    padding: 5px 16px;
+    text-decoration: none;
+    display: block;
+  }
+
+  .dropdown-content a:hover {background-color: #f1f1f1}
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  .dropdown:hover .dropbtn {
+    //background-color: #c8cbc8;
+  }
+
+  /* css dropdown sort */
+
+  .status-input {
+    border-radius: 7px 0px 0px 7px;
+  }
+
+  .status-button {
+    background-color: #E57331;
+    color: #FFFFFF;
+    border-radius: 0px 7px 7px 0px;
+  }
+
+  .spinner-loading {
+    text-align: center;
+    margin-top: 30px;
   }
 }

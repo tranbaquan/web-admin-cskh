@@ -18,11 +18,11 @@ export class OrderService {
   getOrder(page: number, limit: number, keySearch: string, status: string, isAcept: string ): Observable<any> {
     const url = this.baseUrl + '/api/exportstore/getExportStoreSearch';
     const headers = new HttpHeaders().append('page', page.toString()).append('limit', limit.toString());
-    const params = new HttpParams();
-    params.append('typeExportID', '1');
-    params.append('keySearch', keySearch);
-    params.append('status', status);
-    params.append('isAccept', isAcept);
+    const params = new HttpParams()
+      .set('typeExportID', '1')
+      .set('keySearch', keySearch)
+      .set('status', status)
+      .set('isAccept', isAcept);
     return this.http.get(url, {headers, params});
   }
 }
