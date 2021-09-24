@@ -1,8 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {faCameraRetro, faPlus} from '@fortawesome/free-solid-svg-icons';
-import {CKEditor4} from 'ckeditor4-angular';
 import {ActivatedRoute} from '@angular/router';
-import {ProductResponseModel} from '../../../shared/model/response/product-response.model';
+import {ProductResponseModel, Specific} from '../../../shared/model/response/product-response.model';
 import {environment} from '../../../../environments/environment';
 
 @Component({
@@ -21,10 +20,12 @@ export class ProductDetailComponent implements OnInit {
 
   product: ProductResponseModel;
   producers: any;
+  productTypes: any;
 
   constructor(private route: ActivatedRoute) {
     this.product = this.route.snapshot.data.product;
     this.producers = this.route.snapshot.data.producers;
+    this.productTypes = this.route.snapshot.data.productTypes;
     console.log(this.product);
     console.log(this.producers);
   }
@@ -53,5 +54,9 @@ export class ProductDetailComponent implements OnInit {
 
   getUrl(product: ProductResponseModel): string {
     return environment.storageUrl + product.ImagesPath[0]?.substr(1);
+  }
+
+  findSpecName(specs: Specific[], specId: number): string {
+    return specs.find(spec => spec.SpecID === specId)?.Code;
   }
 }

@@ -48,7 +48,8 @@
 
       .input-group {
         display: flex;
-        gap: 20px;
+        gap: 10px;
+        flex-wrap: nowrap;
       }
 
       .input {
@@ -64,6 +65,10 @@
           display: flex;
           flex-wrap: wrap;
           gap: 5px;
+        }
+
+        &.checkbox {
+          flex: 1;
         }
       }
 

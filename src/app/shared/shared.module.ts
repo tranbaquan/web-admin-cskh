@@ -13,6 +13,7 @@ import {VndPipe} from './pipe/vnd.pipe';
 import { PaginationComponent } from './component/pagination/pagination.component';
 import { SelectDirective } from './component/select.directive';
 import {CKEditorModule} from 'ckeditor4-angular';
+import { TableDirective } from './component/table.directive';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import {CKEditorModule} from 'ckeditor4-angular';
     IconButtonDirective,
     VndPipe,
     PaginationComponent,
-    SelectDirective
+    SelectDirective,
+    TableDirective
   ],
   providers: [
     UserService,
@@ -41,21 +43,22 @@ import {CKEditorModule} from 'ckeditor4-angular';
       multi: true
     }
   ],
-  exports: [
-    CommonModule,
-    FormsModule,
-    HttpClientModule,
-    RouterModule,
-    ReactiveFormsModule,
-    InputDirective,
-    ButtonDirective,
-    FontAwesomeModule,
-    IconButtonDirective,
-    VndPipe,
-    PaginationComponent,
-    SelectDirective,
-    CKEditorModule
-  ]
+    exports: [
+        CommonModule,
+        FormsModule,
+        HttpClientModule,
+        RouterModule,
+        ReactiveFormsModule,
+        InputDirective,
+        ButtonDirective,
+        FontAwesomeModule,
+        IconButtonDirective,
+        VndPipe,
+        PaginationComponent,
+        SelectDirective,
+        CKEditorModule,
+        TableDirective
+    ]
 })
 export class SharedModule {
 }

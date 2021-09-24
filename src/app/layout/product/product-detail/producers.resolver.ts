@@ -12,7 +12,7 @@ export class ProducersResolver implements Resolve<any> {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-    return this.productService.getAllProducers();
+    return this.productService.getAllProducers1();
   }
 
 }

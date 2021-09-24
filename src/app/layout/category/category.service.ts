@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {map} from 'rxjs/operators';
@@ -27,6 +27,14 @@ export class CategoryService {
     const url = this.baseUrl + '/api/typeproduct/gettypeproductbyparentid/' + parentId;
     return this.http.get(url).pipe(
       map((response: any) => response.data.map(data => Object.assign(new CategoryResponseModel(), data)))
+    );
+  }
+
+  getAllCategories(): Observable<CategoryResponseModel[]> {
+    const url = this.baseUrl + '/api/typeproduct/gettypeproductall';
+    const headers = new HttpHeaders().append('Status', '100');
+    return this.http.get(url, {headers}).pipe(
+      map((response: any) => response.data.data.map(data => Object.assign(new CategoryResponseModel(), data)))
     );
   }
 }
