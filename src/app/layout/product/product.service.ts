@@ -35,7 +35,7 @@ export class ProductService {
   }
 
   getProductById(productId: number): Observable<ProductResponseModel> {
-    const url = this.baseUrl + '/api/products/getproductbyid/' + '85';
+    const url = this.baseUrl + '/api/products/getproductbyid/' + productId;
     return this.http.get(url).pipe(
       map((response: any) => Object.assign(new ProductResponseModel(), response.data))
     );
@@ -43,9 +43,17 @@ export class ProductService {
 
   getAllProducers(): Observable<any> {
     const url = this.baseUrl + '/api/productproduction/getProductProductionAll';
-    const headers = new HttpHeaders().append('page', '1').append('limit', '20');
+    const headers = new HttpHeaders().append('page', '1').append('limit', '10000');
     return this.http.get(url, {headers}).pipe(
-      map((response: any) => response.data)
+      map((response: any) => response.data.data)
+    );
+  }
+
+  getAllProducers1(): Observable<any> {
+    const url = this.baseUrl + '/api/production/getAllProduction';
+    const headers = new HttpHeaders().append('page', '1').append('limit', '10000');
+    return this.http.get(url, {headers}).pipe(
+      map((response: any) => response.data.data)
     );
   }
 }

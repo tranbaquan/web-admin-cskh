@@ -1,0 +1,23 @@
+@import 'src/app/shared/scss/core-variables';
+
+.modal-footer {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-top: 1px solid $color-gray-l5;
+
+  ::ng-deep {
+    .left-section {
+      margin-right: 20px;
+    }
+
+    .right-section {
+      margin-left: auto;
+
+      .btn-group {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+}

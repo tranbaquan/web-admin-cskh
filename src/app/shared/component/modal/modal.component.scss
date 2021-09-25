@@ -1,0 +1,32 @@
+@import 'src/app/shared/scss/core-variables';
+
+.core-modal {
+  position: fixed;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  top: -20px;
+  opacity: 0;
+  overflow-y: scroll;
+  z-index: 200;
+  transition: top 0.2s ease-in-out, opacity 0.2s ease-in-out;
+
+  .core-modal-dialog {
+    position: relative;
+    width: 400px;
+    background: $color-white-l1;
+    border-radius: 5px;
+    margin: 60px auto;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.06), 0 8px 8px rgba(0, 0, 0, 0.06), 0 16px 16px rgba(0, 0, 0, 0.06);
+
+    > * {
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+
+  &.core-fade {
+    top: 0;
+    opacity: 1;
+  }
+}

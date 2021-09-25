@@ -10,9 +10,14 @@ import {JwtInterceptor} from './interceptor/jwt.interceptor';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {IconButtonDirective} from './component/icon-button.directive';
 import {VndPipe} from './pipe/vnd.pipe';
-import { PaginationComponent } from './component/pagination/pagination.component';
-import { SelectDirective } from './component/select.directive';
+import {PaginationComponent} from './component/pagination/pagination.component';
+import {SelectDirective} from './component/select.directive';
 import {CKEditorModule} from 'ckeditor4-angular';
+import {TableDirective} from './component/table.directive';
+import {ModalComponent} from './component/modal/modal.component';
+import {ModalHeaderComponent} from './component/modal/modal-header/modal-header.component';
+import {ModalBodyComponent} from './component/modal/modal-body/modal-body.component';
+import {ModalFooterComponent} from './component/modal/modal-footer/modal-footer.component';
 
 @NgModule({
   imports: [
@@ -30,7 +35,12 @@ import {CKEditorModule} from 'ckeditor4-angular';
     IconButtonDirective,
     VndPipe,
     PaginationComponent,
-    SelectDirective
+    SelectDirective,
+    TableDirective,
+    ModalComponent,
+    ModalHeaderComponent,
+    ModalBodyComponent,
+    ModalFooterComponent
   ],
   providers: [
     UserService,
@@ -54,7 +64,12 @@ import {CKEditorModule} from 'ckeditor4-angular';
     VndPipe,
     PaginationComponent,
     SelectDirective,
-    CKEditorModule
+    CKEditorModule,
+    TableDirective,
+    ModalComponent,
+    ModalHeaderComponent,
+    ModalBodyComponent,
+    ModalFooterComponent
   ]
 })
 export class SharedModule {
