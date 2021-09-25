@@ -8,6 +8,8 @@ import {ProductDetailResolver} from './product/product-detail/product-detail.res
 import {ProducersResolver} from './product/product-detail/producers.resolver';
 import {OrderComponent} from './order/order.component';
 import {ProductTypeResolver} from './product/product-detail/product-type.resolver';
+import {OrderDetail} from "../shared/model/order-detail.model";
+import {OrderDetailComponent} from "./order/order-detail/order-detail.component";
 
 const routes: Routes = [
   {
@@ -43,6 +45,11 @@ const routes: Routes = [
         path: 'order',
         pathMatch: 'full',
         component: OrderComponent
+      },
+      {
+        path: 'order-detail',
+        pathMatch: 'full',
+        component: OrderDetailComponent
       }
     ]
   }

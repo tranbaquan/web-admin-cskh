@@ -6,6 +6,8 @@ import {ProductComponent} from './product/product.component';
 import { CategoryComponent } from './category/category.component';
 import { ProductDetailComponent } from './product/product-detail/product-detail.component';
 import { OrderComponent } from './order/order.component';
+import { OrderDetailComponent } from './order/order-detail/order-detail.component';
+import { OrderStatusComponent } from './order/order-status/order-status.component';
 
 @NgModule({
   declarations: [
@@ -13,7 +15,9 @@ import { OrderComponent } from './order/order.component';
     ProductComponent,
     CategoryComponent,
     ProductDetailComponent,
-    OrderComponent
+    OrderComponent,
+    OrderDetailComponent,
+    OrderStatusComponent
   ],
   imports: [
     LayoutRoutingModule,
