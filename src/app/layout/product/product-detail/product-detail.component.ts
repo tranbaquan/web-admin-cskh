@@ -3,6 +3,7 @@ import {faCameraRetro, faPlus} from '@fortawesome/free-solid-svg-icons';
 import {ActivatedRoute} from '@angular/router';
 import {ProductResponseModel, Specific} from '../../../shared/model/response/product-response.model';
 import {environment} from '../../../../environments/environment';
+import {ModalService} from '../../../shared/component/modal/modal.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -22,7 +23,7 @@ export class ProductDetailComponent implements OnInit {
   producers: any;
   productTypes: any;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private modalService: ModalService) {
     this.product = this.route.snapshot.data.product;
     this.producers = this.route.snapshot.data.producers;
     this.productTypes = this.route.snapshot.data.productTypes;
@@ -58,5 +59,14 @@ export class ProductDetailComponent implements OnInit {
 
   findSpecName(specs: Specific[], specId: number): string {
     return specs.find(spec => spec.SpecID === specId)?.Code;
+  }
+
+  openModal(id: string): void {
+    this.modalService.open(id);
+  }
+
+  closeModal(id: string): void {
+    console.log('hi');
+    this.modalService.close(id);
   }
 }

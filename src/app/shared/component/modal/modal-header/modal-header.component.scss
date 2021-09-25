@@ -1,0 +1,36 @@
+@import 'src/app/shared/scss/core-variables';
+
+.modal-header {
+  display: flex;
+  background: $color-gray-l7;
+  padding: 15px 20px;
+  border-bottom: 1px solid $color-gray-l5;
+  border-radius: 5px 5px 0 0;
+
+  ::ng-deep {
+    > * {
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+
+    .modal-title {
+      .title {
+        font-size: 18px;
+        font-weight: 600;
+        padding-right: 10px;
+      }
+
+      .description {
+        color: $color-gray-l5;
+
+        &.margin-topped {
+          margin-top: 3px;
+        }
+      }
+    }
+
+    .header-close-btn {
+      margin: auto -6px auto auto;
+    }
+  }
+}

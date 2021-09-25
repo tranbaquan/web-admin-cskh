@@ -96,7 +96,8 @@
           <label>Giá trị</label>
           <div class="input-list">
             <ng-container *ngFor="let spec of product.ListSpec1; index as index">
-              <input *ngIf="index != 0" type="text" appInput [width]="70" [value]="spec.SpecName">
+              <div class="spec-item" *ngIf="index != 0">{{spec.SpecName}}</div>
+<!--              <input *ngIf="index != 0" type="text" appInput [width]="70" [value]="spec.SpecName">-->
             </ng-container>
             <button appIconButton background="bg-orange">
               <fa-icon [icon]="faPlus"></fa-icon>
@@ -113,7 +114,8 @@
           <label>Giá trị</label>
           <div class="input-list">
             <ng-container *ngFor="let spec of product.ListSpec2; index as index">
-              <input *ngIf="index != 0" type="text" appInput [width]="70" [value]="spec.SpecName">
+              <div class="spec-item" *ngIf="index != 0">{{spec.SpecName}}</div>
+<!--              <input *ngIf="index != 0" type="text" appInput [width]="70" [value]="spec.SpecName">-->
             </ng-container>
             <button appIconButton background="bg-orange">
               <fa-icon [icon]="faPlus"></fa-icon>
@@ -130,7 +132,8 @@
           <label>Giá trị</label>
           <div class="input-list">
             <ng-container *ngFor="let spec of product.ListSpec3; index as index">
-              <input *ngIf="index != 0" type="text" appInput [width]="70" [value]="spec.SpecName">
+              <div class="spec-item" *ngIf="index != 0">{{spec.SpecName}}</div>
+<!--              <input *ngIf="index != 0" type="text" appInput [width]="70" [value]="spec.SpecName">-->
             </ng-container>
             <button appIconButton background="bg-orange">
               <fa-icon [icon]="faPlus"></fa-icon>
@@ -138,8 +141,8 @@
           </div>
         </div>
       </ng-container>
-      <div>
-        <button appButton background="bg-dark">
+      <div *ngIf="product.ListSpec3 || product.ListSpec3.length === 0">
+        <button appButton background="bg-dark" (click)="openModal('test')">
           <fa-icon [icon]="faPlus"></fa-icon>
           <label>Thêm đặc tả</label>
         </button>
@@ -198,3 +201,23 @@
     </table>
   </div>
 </div>
+
+<app-modal id="test" [width]="500" [contentTemplate]="testModal"></app-modal>
+
+<ng-template #testModal>
+  <app-modal-header>
+    <div class="modal-title">
+      <div class="title">Test</div>
+    </div>
+  </app-modal-header>
+  <app-modal-body>
+    Hello body
+  </app-modal-body>
+  <app-modal-footer>
+    <div class="right-section">
+      <div class="btn-group">
+        <button appButton background="bg-orange" (click)="closeModal('test')">Close</button>
+      </div>
+    </div>
+  </app-modal-footer>
+</ng-template>

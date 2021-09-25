@@ -1,0 +1,11 @@
+@import 'src/app/shared/scss/core-variables';
+
+.modal-body {
+  &.normal-padding {
+    padding: 20px 30px;
+  }
+
+  &.separated {
+    border-bottom: 1px solid $color-gray-l5;
+  }
+}

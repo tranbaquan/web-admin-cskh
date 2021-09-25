@@ -180,3 +180,24 @@ a {
     }
   }
 }
+
+body.core-modal-show {
+  overflow: hidden;
+}
+
+.core-modal-backdrop {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: $color-black-l1-alpha-50;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  z-index: 199;
+  overflow: hidden;
+  transition: opacity 0.2s ease-in-out;
+
+  &.core-fade {
+    opacity: 1;
+  }
+}
