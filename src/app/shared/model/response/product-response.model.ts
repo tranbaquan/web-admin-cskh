@@ -14,7 +14,7 @@ export class ProductResponseModel {
   DateProduction: Date;
   DateExpired: Date;
   Status: number;
-  ImagesPath: string[];
+  ImagesPath: string[] | string;
   IsHome: boolean;
   IsStandard: boolean;
   IsBestSell: boolean;
@@ -30,6 +30,8 @@ export class ProductResponseModel {
   ListSpec3: Specific[];
   ListProduction: any;
   ListPrices: any;
+  UserCreated: string;
+  UserUpdated: string;
 }
 
 export class Specific {

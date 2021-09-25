@@ -56,4 +56,9 @@ export class ProductService {
       map((response: any) => response.data.data)
     );
   }
+
+  updateProduct(product: ProductResponseModel): Observable<any> {
+    const url = this.baseUrl + '/api/products/update';
+    return this.http.post(url, product);
+  }
 }

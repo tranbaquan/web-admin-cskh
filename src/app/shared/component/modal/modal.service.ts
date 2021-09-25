@@ -38,7 +38,9 @@ export class ModalService {
     setTimeout(() => {
       this.hideBackdrop();
     });
-    modalFound.close();
+    if (modalFound) {
+      modalFound.close();
+    }
     setTimeout(() => {
       this.visibleModals = this.visibleModals.filter(modal => modal.id !== id);
     }, 200);
