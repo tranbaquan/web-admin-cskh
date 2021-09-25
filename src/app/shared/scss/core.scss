@@ -95,6 +95,10 @@ a {
     color: $color-white-l1;
   }
 
+  &.bg-gray {
+    background: $color-gray-l7;
+  }
+
   &.bg-transparent {
     background: transparent;
     box-shadow: none;
