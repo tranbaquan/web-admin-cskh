@@ -4,7 +4,8 @@ import {OrderResponseModel} from '../../shared/model/response/order-response.mod
 import {OrderService} from './order.service';
 import {faSearch, faSortDown, faEllipsisH, faSpinner} from '@fortawesome/free-solid-svg-icons';
 import {OrderStatusModel} from '../../shared/model/order-status.model';
-import {finalize} from "rxjs/operators";
+import {finalize} from 'rxjs/operators';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-order',
@@ -27,7 +28,8 @@ export class OrderComponent implements OnInit {
   faEllipsisH = faEllipsisH;
   faSpinner = faSpinner;
 
-  constructor(private orderSerVice: OrderService) {
+  constructor(private orderSerVice: OrderService,
+              private router: Router) {
     this.isLoading = false;
     this.page = 1;
     this.size = 20;
@@ -102,4 +104,9 @@ export class OrderComponent implements OnInit {
     }
     return '';
   }
+
+  gotoDetail(item: OrderResponseModel): void {
+    this.router.navigate(['order-detail'], {state: {order: item}});
+  }
+
 }

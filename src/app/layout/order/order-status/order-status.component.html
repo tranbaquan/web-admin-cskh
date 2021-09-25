@@ -1,0 +1,50 @@
+<div class="order-status-report">
+  <div>
+    <div class="status-inline status-active">
+      <fa-icon class="icon-size-1" [icon]="faListAlt"></fa-icon>
+      <hr class="status-line">
+    </div>
+    <p style="margin-left: -10px" class="status-label">Đặt hàng</p>
+  </div>
+  <div>
+    <div class="status-inline" [class]="status > 0 ? 'status-active' : 'status-inactive'">
+      <fa-icon class="icon-size-2" [icon]="faHourglass"></fa-icon>
+      <hr class="status-line">
+    </div>
+    <p style="margin-left: -15px" class="status-label">Chờ báo giá</p>
+  </div>
+  <div>
+    <div class="status-inline " [class]="status > 1 ? 'status-active' : 'status-inactive'">
+      <fa-icon class="icon-size-2" [icon]="faFilePdf"></fa-icon>
+      <hr class="status-line">
+    </div>
+    <p style="margin-left: -8px" class="status-label">Báo giá</p>
+  </div>
+  <div>
+    <div class="status-inline" [class]="status > 2 ? 'status-active' : 'status-inactive'">
+      <fa-icon class="icon-size-2" [icon]="faThumbsUp"></fa-icon>
+      <hr class="status-line">
+    </div>
+    <p style="margin-left: -9px" class="status-label">Xác nhận</p>
+  </div>
+  <div>
+    <div class="status-inline" [class]="status > 3 ? 'status-active' : 'status-inactive'">
+      <fa-icon class="icon-size-1" [icon]="faCreditCard"></fa-icon>
+      <hr class="status-line">
+    </div>
+    <p style="margin-left: -12px" class="status-label">Thanh toán</p>
+  </div>
+  <div>
+    <div class="status-inline" [class]="status > 4 ? 'status-active' : 'status-inactive'">
+      <fa-icon class="icon-size-1" [icon]="faTruck"></fa-icon>
+      <hr class="status-line">
+    </div>
+    <p style="margin-left: -12px" class="status-label">Vận chuyển</p>
+  </div>
+  <div>
+    <div class="status-inline" [class]="status > 5 ? 'status-active' : 'status-inactive'">
+      <fa-icon class="icon-size-1" [icon]="faCheckDouble"></fa-icon>
+    </div>
+    <p style="margin-left: -9px" class="status-label">Hoàn tất</p>
+  </div>
+</div>

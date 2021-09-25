@@ -1,0 +1,63 @@
+@import "src/app/shared/scss/core-variables";
+.order-detail {
+  .title {
+    border-bottom: $color-gray-l4 1px solid;
+  }
+
+  .order-status {
+    padding: 30px 20px 20px 20px;
+    background-color: $color-gray-l6;
+
+    button {
+      background-color: $color-orange-l1;
+      color: $color-white-l1;
+      margin-left: 5px;
+      border: none;
+    }
+  }
+
+  .display-inline {
+    display: inline-flex;
+  }
+
+  .status-info {
+    padding-right: 30px;
+    padding-left: 30px;
+  }
+
+  .status-action {
+    align-self: center;
+  }
+
+  .label {
+    color: $color-gray-l1;
+  }
+
+  hr {
+    height: 2px;
+  }
+
+  .table-head {
+    color: #FFFFFF;
+    background-color: $color-orange-l1;
+  }
+
+  table {
+    vertical-align: middle;
+
+    button {
+      border: none;
+      background-color: $color-orange-l1;
+      color: $color-white-l1;
+    }
+  }
+
+  .action-group {
+    button {
+      border: none;
+      color: $color-white-l1;
+      background-color: $color-orange-l1;
+      margin-right: 10px;
+    }
+  }
+}

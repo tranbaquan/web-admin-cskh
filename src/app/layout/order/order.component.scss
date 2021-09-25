@@ -1,7 +1,7 @@
 @import "src/app/shared/scss/core-variables";
 .order-page {
   .title {
-    border-bottom: #c3bfbf 1px solid;
+    border-bottom: $color-gray-l4 1px solid;
   }
 
   .block-left {
@@ -22,7 +22,7 @@
 
   .label-orange {
     font-weight: bold;
-    color: #E57331;
+    color: $color-orange-l1;
   }
 
   .dropdown-sort {
@@ -31,7 +31,7 @@
 
   .table-head {
     color: #FFFFFF;
-    background-color: #E57331;
+    background-color: $color-orange-l1;
   }
 
   /* css dropdown sort */
@@ -83,7 +83,7 @@
   }
 
   .status-button {
-    background-color: #E57331;
+    background-color: $color-orange-l1;
     color: #FFFFFF;
     border-radius: 0px 7px 7px 0px;
   }
