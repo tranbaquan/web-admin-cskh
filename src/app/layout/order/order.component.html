@@ -42,13 +42,13 @@
         </thead>
         <tbody>
         <tr class="col" *ngFor="let item of listOrder">
-          <td style="width: 15%"><a (click)="gotoDetail(item)">{{item.Code}}</a></td>
+          <td style="width: 15%"><a (click)="gotoDetail(item.ExportID)">{{item.Code}}</a></td>
           <td style="width: 15%">{{item.DateApprove | date:'yyyy-mm-dd hh:mm'}}</td>
           <td style="width: 15%">{{item.NameCustomer}}</td>
           <td style="width: 25%">
             <div class="row">
               <input class="status-input" type="text" appInput [width]="150" [value]="getStatusLabel(item)" disabled>
-              <button class="status-button" appButton [width]="30">
+              <button class="status-button" (click)="openStatusMadal(item)" appButton [width]="30">
                 <fa-icon [icon]="faEllipsisH"></fa-icon>
               </button>
             </div>
@@ -67,3 +67,24 @@
     </div>
   </div>
 </div>
+
+<app-modal id="status-modal" [width]="650" [contentTemplate]="statusModal"></app-modal>
+<ng-template #statusModal>
+  <app-modal-header>
+    <div style="margin: auto; padding-top: 10px">
+      <app-order-status [order]="selectedOrder"></app-order-status>
+    </div>
+  </app-modal-header>
+  <app-modal-footer>
+    <div class="left-section">
+      <h5>Đơn hàng: {{selectedOrder.Code}}</h5>
+      <span>Đặt ngày: {{selectedOrder.DateCreated | date:'yyyy-mm-dd hh:mm'}} &middot; {{getStatusLabel(selectedOrder)}}</span>
+    </div>
+    <div class="right-section">
+      <div class="btn-group">
+        <button appButton background="bg-orange" (click)="closeModal('status-modal')"><fa-icon [icon]="faWindowClose"></fa-icon>Hủy</button>
+        <button appButton background="bg-orange"><fa-icon [icon]="faClone"></fa-icon>Duyệt</button>
+      </div>
+    </div>
+  </app-modal-footer>
+</ng-template>

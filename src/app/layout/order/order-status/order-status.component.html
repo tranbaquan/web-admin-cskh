@@ -21,28 +21,28 @@
     <p style="margin-left: -8px" class="status-label">Báo giá</p>
   </div>
   <div>
-    <div class="status-inline" [class]="status > 2 ? 'status-active' : 'status-inactive'">
+    <div class="status-inline" [class]="status > 3 ? 'status-active' : 'status-inactive'">
       <fa-icon class="icon-size-2" [icon]="faThumbsUp"></fa-icon>
       <hr class="status-line">
     </div>
     <p style="margin-left: -9px" class="status-label">Xác nhận</p>
   </div>
   <div>
-    <div class="status-inline" [class]="status > 3 ? 'status-active' : 'status-inactive'">
+    <div class="status-inline" [class]="status > 5 ? 'status-active' : 'status-inactive'">
       <fa-icon class="icon-size-1" [icon]="faCreditCard"></fa-icon>
       <hr class="status-line">
     </div>
     <p style="margin-left: -12px" class="status-label">Thanh toán</p>
   </div>
   <div>
-    <div class="status-inline" [class]="status > 4 ? 'status-active' : 'status-inactive'">
+    <div class="status-inline" [class]="status > 6 ? 'status-active' : 'status-inactive'">
       <fa-icon class="icon-size-1" [icon]="faTruck"></fa-icon>
       <hr class="status-line">
     </div>
     <p style="margin-left: -12px" class="status-label">Vận chuyển</p>
   </div>
   <div>
-    <div class="status-inline" [class]="status > 5 ? 'status-active' : 'status-inactive'">
+    <div class="status-inline" [class]="status > 7 ? 'status-active' : 'status-inactive'">
       <fa-icon class="icon-size-1" [icon]="faCheckDouble"></fa-icon>
     </div>
     <p style="margin-left: -9px" class="status-label">Hoàn tất</p>

@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import {Pagination} from '../../shared/model/pagination';
 import {OrderResponseModel} from '../../shared/model/response/order-response.model';
 import {OrderService} from './order.service';
-import {faSearch, faSortDown, faEllipsisH, faSpinner} from '@fortawesome/free-solid-svg-icons';
+import {faSearch, faSortDown, faEllipsisH, faSpinner, faTimesCircle, faWindowClose, faSave, faClone} from '@fortawesome/free-solid-svg-icons';
 import {OrderStatusModel} from '../../shared/model/order-status.model';
 import {finalize} from 'rxjs/operators';
 import {Router} from '@angular/router';
+import {ModalService} from '../../shared/component/modal/modal.service';
 
 @Component({
   selector: 'app-order',
@@ -22,14 +23,20 @@ export class OrderComponent implements OnInit {
   listOrder: OrderResponseModel[];
   pagination: Pagination<OrderResponseModel>;
   orderStatusState: OrderStatusModel[];
+  selectedOrder: OrderResponseModel;
 
   faSearch = faSearch;
   faSortDown = faSortDown;
   faEllipsisH = faEllipsisH;
   faSpinner = faSpinner;
+  faTimesCircle = faTimesCircle;
+  faSave = faSave;
+  faWindowClose = faWindowClose;
+  faClone = faClone;
 
   constructor(private orderSerVice: OrderService,
-              private router: Router) {
+              private router: Router,
+              private modalService: ModalService) {
     this.isLoading = false;
     this.page = 1;
     this.size = 20;
@@ -105,8 +112,16 @@ export class OrderComponent implements OnInit {
     return '';
   }
 
-  gotoDetail(item: OrderResponseModel): void {
-    this.router.navigate(['order-detail'], {state: {order: item}});
+  gotoDetail(orderId: number): void {
+    this.router.navigate(['order', orderId]);
   }
 
+  openStatusMadal(order: OrderResponseModel): void {
+    this.selectedOrder = order;
+    this.modalService.open('status-modal');
+  }
+
+  closeModal(id: string): void {
+    this.modalService.close(id);
+  }
 }
