@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {OrderResponseModel} from '../../../shared/model/response/order-response.model';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {faWindowClose, faSpinner, faFilePdf, faSave, faTrashAlt, faTimesCircle, faPaperPlane} from '@fortawesome/free-solid-svg-icons';
 import {OrderService} from '../order.service';
 import {ModalService} from '../../../shared/component/modal/modal.service';
@@ -10,7 +10,7 @@ import {OrderStatusModel} from '../../../shared/model/order-status.model';
 import {finalize} from 'rxjs/operators';
 import {StoreService} from '../../../shared/service/store.service';
 import {StoreResponseModel} from '../../../shared/model/response/store-response.model';
-import { ViewportScroller } from '@angular/common'
+import { ViewportScroller } from '@angular/common';
 
 
 @Component({
@@ -40,6 +40,7 @@ export class OrderDetailComponent implements OnInit {
   faSpinner = faSpinner;
 
   constructor(private activateRoute: ActivatedRoute,
+              private router: Router,
               private orderService: OrderService,
               private modalService: ModalService,
               private storeService: StoreService,
@@ -73,6 +74,12 @@ export class OrderDetailComponent implements OnInit {
   openModalPrice(item: OrderDetail): void {
     this.selectedProduct = item;
     this.modalService.open('price-modal');
+  }
+
+  closeModalPrice(): void {
+    this.priceTemp = 0;
+    this.totalTemp = 0;
+    this.modalService.close('price-modal');
   }
 
   getOrderStatusId(): number {
@@ -130,6 +137,7 @@ export class OrderDetailComponent implements OnInit {
         .subscribe(data => {
         });
     }
+    window.location.reload();
   }
 
   changePrice(): void {
