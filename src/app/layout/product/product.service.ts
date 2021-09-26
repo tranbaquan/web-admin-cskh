@@ -78,4 +78,10 @@ export class ProductService {
     const url = this.baseUrl + '/api/products/updateprice';
     return this.http.post(url, price);
   }
+
+  getAllStores(): Observable<any> {
+    const url = this.baseUrl + '/api/Stores/getAllStore';
+    const headers = new HttpHeaders().append('page', '1').append('limit', '100000');
+    return this.http.get(url, {headers});
+  }
 }

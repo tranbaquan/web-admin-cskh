@@ -32,7 +32,8 @@
         </div>
         <div class="input">
           <label>Hãng sản xuất</label>
-          <select id="producers" placeholder="Hãng sản xuất" [(ngModel)]="producerCode" appSelect (ngModelChange)="producerChange()">
+          <select id="producers" placeholder="Hãng sản xuất" [(ngModel)]="producerCode" appSelect
+                  (ngModelChange)="producerChange()">
             <option *ngFor="let producer of producers" [value]="producer.Code">{{producer.NameProduction}}</option>
           </select>
         </div>
@@ -92,14 +93,21 @@
           <label>Giá trị</label>
           <div class="input-list">
             <ng-container *ngFor="let spec of product.ListSpec1; index as index">
-              <div class="spec-item" (click)="openModalEditSpecItem('edit-spec-item-modal', spec, product.ListSpec1, product.ListSpec2)" *ngIf="index != 0">
+              <div class="spec-item"
+                   (click)="openModalEditSpecItem('edit-spec-item-modal', spec, product.ListSpec1, [])"
+                   *ngIf="index != 0">
                 {{spec.SpecName}}
               </div>
-<!--              <input *ngIf="index != 0" type="text" appInput [width]="70" [value]="spec.SpecName">-->
+              <!--              <input *ngIf="index != 0" type="text" appInput [width]="70" [value]="spec.SpecName">-->
             </ng-container>
-            <button appIconButton background="bg-orange" (click)="openModalAddSpecItem('add-spec-item-modal', product.ListSpec1[0])">
+            <input type="text" appInput [width]="100" [(ngModel)]="newSpec1">
+            <button appIconButton background="bg-orange" (click)="addSpecItem1(1, newSpec1, product.ListSpec1[0].SpecID)">
               <fa-icon [icon]="faPlus"></fa-icon>
             </button>
+<!--            <button appIconButton background="bg-orange"-->
+<!--                    (click)="openModalAddSpecItem('add-spec-item-modal', product.ListSpec1[0])">-->
+<!--              <fa-icon [icon]="faPlus"></fa-icon>-->
+<!--            </button>-->
           </div>
         </div>
       </ng-container>
@@ -112,14 +120,21 @@
           <label>Giá trị</label>
           <div class="input-list">
             <ng-container *ngFor="let spec of product.ListSpec2; index as index">
-              <div class="spec-item"  (click)="openModalEditSpecItem('edit-spec-item-modal', spec, product.ListSpec2, product.ListSpec3)" *ngIf="index != 0">
+              <div class="spec-item"
+                   (click)="openModalEditSpecItem('edit-spec-item-modal', spec, product.ListSpec2, product.ListSpec1)"
+                   *ngIf="index != 0">
                 {{spec.SpecName}}
               </div>
-<!--              <input *ngIf="index != 0" type="text" appInput [width]="70" [value]="spec.SpecName">-->
+              <!--              <input *ngIf="index != 0" type="text" appInput [width]="70" [value]="spec.SpecName">-->
             </ng-container>
-            <button appIconButton background="bg-orange"  (click)="openModalAddSpecItem('add-spec-item-modal', product.ListSpec2[0])">
+            <input type="text" appInput [width]="100" [(ngModel)]="newSpec2">
+            <button appIconButton background="bg-orange" (click)="addSpecItem1(2, newSpec2, product.ListSpec2[0].SpecID)">
               <fa-icon [icon]="faPlus"></fa-icon>
             </button>
+<!--            <button appIconButton background="bg-orange"-->
+<!--                    (click)="openModalAddSpecItem('add-spec-item-modal', product.ListSpec2[0])">-->
+<!--              <fa-icon [icon]="faPlus"></fa-icon>-->
+<!--            </button>-->
           </div>
         </div>
       </ng-container>
@@ -132,14 +147,20 @@
           <label>Giá trị</label>
           <div class="input-list">
             <ng-container *ngFor="let spec of product.ListSpec3; index as index">
-              <div class="spec-item" (click)="openModalEditSpecItem('edit-spec-item-modal', spec, product.ListSpec3, [])" *ngIf="index != 0">
+              <div class="spec-item"
+                   (click)="openModalEditSpecItem('edit-spec-item-modal', spec, product.ListSpec3, product.ListSpec2)"
+                   *ngIf="index != 0">
                 {{spec.SpecName}}
               </div>
-<!--              <input *ngIf="index != 0" type="text" appInput [width]="70" [value]="spec.SpecName">-->
             </ng-container>
-            <button appIconButton background="bg-orange"  (click)="openModalAddSpecItem('add-spec-item-modal', product.ListSpec3[0])">
+            <input type="text" appInput [width]="100" [(ngModel)]="newSpec3">
+            <button appIconButton background="bg-orange" (click)="addSpecItem1(1, newSpec3, product.ListSpec3[0].SpecID)">
               <fa-icon [icon]="faPlus"></fa-icon>
             </button>
+            <!--            <button appIconButton background="bg-orange"-->
+            <!--                    (click)="openModalAddSpecItem('add-spec-item-modal', product.ListSpec3[0])">-->
+            <!--              <fa-icon [icon]="faPlus"></fa-icon>-->
+            <!--            </button>-->
           </div>
         </div>
       </ng-container>
@@ -186,17 +207,17 @@
         <th>Đơn vị</th>
         <th style="min-width: 150px">Giá</th>
         <th>Chiết khấu</th>
-        <th>Số lượng tối thiểu</th>
+        <th>Tối thiểu</th>
         <th></th>
       </tr>
       <tr *ngFor="let price of pagination.data">
         <td *ngIf="product.ListSpec1.length != 0">{{findSpecName(product.ListSpec1, price.SpecID1)}}</td>
         <td *ngIf="product.ListSpec2.length != 0">{{findSpecName(product.ListSpec2, price.SpecID2)}}</td>
         <td *ngIf="product.ListSpec3.length != 0">{{findSpecName(product.ListSpec3, price.SpecID3)}}</td>
-        <td>{{price.StoreID}}</td>
+        <td>{{getStoreName(price.StoreID)}}</td>
         <td>{{product.Unit}}</td>
         <td style="min-width: 150px">
-          <input type="number" min="0" [(ngModel)]="price.Prices" appInput>
+          <input type="text" min="0" [(ngModel)]="price.Prices" appInput>
         </td>
         <td>{{product.DiscountProvider}}</td>
         <td>{{product.MinQuantity}}</td>
@@ -235,15 +256,15 @@
     <form [formGroup]="addSpecFormGroup" class="modal-form">
       <div class="input">
         <label>Mã đặc tả</label>
-        <input formControlName="Code" placeholder="Mã đặc tả" type="text" appInput>
+        <input [required]="true" formControlName="Code" placeholder="Mã đặc tả" type="text" appInput>
       </div>
       <div class="input">
         <label>Tên đặc tả</label>
-        <input formControlName="SpecName" placeholder="Tên đặc tả" type="text" appInput>
+        <input [required]="true" formControlName="SpecName" placeholder="Tên đặc tả" type="text" appInput>
       </div>
       <div class="input">
         <label>Trạng thái</label>
-        <select formControlName="Status" appSelect>
+        <select [required]="true" formControlName="Status" appSelect>
           <option [value]="1">Kích hoạt</option>
           <option [value]="0">Hủy kích hoạt</option>
         </select>
@@ -318,20 +339,31 @@
     <div class="modal-form" *ngIf="editingSpecItem">
       <div class="input">
         <label>Mã lựa chọn</label>
-        <input type="text" appInput [(ngModel)]="editingSpecItem.Code">
+        <input [required]="true" type="text" appInput [(ngModel)]="editingSpecItem.Code">
       </div>
       <div class="input">
         <label>Tên lựa chọn</label>
-        <input type="text" appInput  [(ngModel)]="editingSpecItem.SpecName">
+        <input [required]="true" type="text" appInput [(ngModel)]="editingSpecItem.SpecName">
       </div>
-<!--      <div>-->
-<!--        <div *ngFor="let spec of specChildren">-->
-<!--          <div *ngIf="spec.ParentID">-->
-<!--            <input type="checkbox" appInput>-->
-<!--            <label>{{spec.SpecName}}</label>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
+      <div class="input">
+        <label>Trạng thái</label>
+        <select [required]="true" [(ngModel)]="editingSpecItem.Status" appSelect>
+          <option [value]="1">Kích hoạt</option>
+          <option [value]="0">Hủy kích hoạt</option>
+        </select>
+      </div>
+      <div class="input" *ngIf="specParents?.length > 0">
+        <label>Quan hệ liên kết</label>
+        <div class="relationship">
+          <div *ngFor="let spec of specParents">
+            <div *ngIf="spec.ParentID">
+              <input type="checkbox" appInput [checked]="idSpecCheck(editingSpecItem, spec.SpecID)"
+                     (change)="specRelationshipChange($event, editingSpecItem.SpecID, spec.SpecID)">
+              <label>{{spec.SpecName}}</label>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </app-modal-body>
   <app-modal-footer>
@@ -341,7 +373,7 @@
     <div class="right-section">
       <div class="btn-group">
         <button appButton background="bg-gray" (click)="closeModal('edit-spec-item-modal')">Đóng</button>
-        <button appButton background="bg-orange">Lưu lại</button>
+        <button appButton background="bg-orange" (click)="updateSpec()">Lưu lại</button>
       </div>
     </div>
   </app-modal-footer>
