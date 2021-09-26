@@ -27,6 +27,10 @@
 
   .status-action {
     align-self: center;
+    padding-left: 30px;
+    a {
+      text-decoration: none;
+    }
   }
 
   .label {
@@ -37,27 +41,32 @@
     height: 2px;
   }
 
-  .table-head {
-    color: #FFFFFF;
+}
+
+.table-head {
+  color: #FFFFFF;
+  background-color: $color-orange-l1;
+}
+
+table {
+  vertical-align: middle;
+
+  button {
+    border: none;
     background-color: $color-orange-l1;
+    color: $color-white-l1;
   }
+}
 
-  table {
-    vertical-align: middle;
-
-    button {
-      border: none;
-      background-color: $color-orange-l1;
-      color: $color-white-l1;
-    }
+.action-group {
+  button {
+    border: none;
+    color: $color-white-l1;
+    background-color: $color-orange-l1;
+    margin-right: 10px;
+    padding: 3px 8px 3px 8px;
   }
-
-  .action-group {
-    button {
-      border: none;
-      color: $color-white-l1;
-      background-color: $color-orange-l1;
-      margin-right: 10px;
-    }
-  }
+}
+.error {
+  color: $color-red-l1;
 }

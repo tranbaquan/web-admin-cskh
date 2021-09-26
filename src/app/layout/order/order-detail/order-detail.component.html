@@ -6,133 +6,238 @@
   <div class="my-3 order-status">
     <div class="display-inline">
       <app-order-status [order]="order"></app-order-status>
-      <div class="status-info">
-        <h5>Đơn hàng: {{order.Code}}</h5>
-        <p class="label">Đặt ngày: {{order.DateCreated | date:'yyyy-mm-dd hh:mm'}}</p>
-      </div>
-      <div class="status-action">
-        <button><fa-icon [icon]="faWindowClose"></fa-icon> Hủy</button>
-        <button><fa-icon [icon]="faFilePdf"></fa-icon> Báo giá</button>
+      <div style="justify-content: space-between" class="display-inline">
+        <div class="status-info">
+          <h5>Đơn hàng: {{order.Code}}</h5>
+          <p class="label">Đặt ngày: {{order.DateCreated | date:'yyyy-mm-dd hh:mm'}}</p>
+        </div>
+        <div class="status-action">
+   <!--       <button><fa-icon [icon]="faWindowClose"></fa-icon> Hủy</button>-->
+          <button appButton background="bg-orange" (click)="gotoPriceSection()"><fa-icon [icon]="faFilePdf"></fa-icon> Báo giá</button>
+        </div>
       </div>
     </div>
   </div>
 
-  <div>
-    <div class="form-group col-3">
-      <label>Mã đơn hàng:</label>
-      <input type="text" class="form-control"  [value]="order.Code ? order.Code : ''" disabled>
-    </div>
-    <div class="col-8">
+  <form [formGroup]="orderDetailForm">
+    <div>
+      <div class="form-group col-3">
+        <label>Mã đơn hàng</label>
+        <input type="text" class="form-control"  [value]="order.Code ? order.Code : ''" disabled>
+      </div>
+      <div class="col-8">
 
+        <div class="row">
+          <div class="col-6">
+            <div class="form-group my-2">
+              <label>Ngày xuất</label>
+              <input type="text" class="form-control"  [value]="order.DateExport | date:'yyyy-mm-dd hh:mm'" disabled>
+            </div>
+            <div class="form-group my-2">
+              <label>Kho hàng</label>
+              <select formControlName="store" class="form-select" disabled>
+                <option *ngFor="let item of listStores" [value]="item.StoreID">{{item.StoreName}}</option>
+              </select>
+            </div>
+            <div class="form-group my-2">
+              <label>Khách hàng</label>
+              <input formControlName="customerName" type="text" class="form-control" disabled>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group my-2">
+              <label>Trạng thái</label>
+              <select formControlName="status" class="form-select">
+                <option value=0>Đặt hàng</option>
+                <option value=1>Chờ báo giá</option>
+                <option value=2>Đã báo giá</option>
+                <option value=3>Chờ phê duyệt</option>
+                <option value=4>Đã phê duyệt</option>
+                <option value=5>Chờ thanh toán</option>
+                <option value=6>Đã thanh toán</option>
+                <option value=7>Đang vận chuyển</option>
+                <option value=8>Hoàn tất</option>
+                <option value=9>Hủy</option>
+                <option value=10>Hủy phê duyệt</option>
+              </select>
+            </div>
+            <div class="form-group my-2">
+              <label>VAT</label>
+              <input formControlName="vat" type="text" class="form-control"  [value]="order.VAT ? order.VAT : 0 | price">
+            </div>
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+          <div class="col-6">
+            <div class="form-group my-2">
+              <label>Sale</label>
+              <input type="text" class="form-control"  value="" disabled>
+            </div>
+            <div class="form-group my-2">
+              <label>Delivery Staff</label>
+              <input type="text" class="form-control"  value="" disabled>
+            </div>
+            <div class="form-group my-2">
+              <label>User</label>
+              <input type="text" class="form-control"  value="" disabled>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group mt-1">
+              <label>Địa chỉ nhận hàng</label>
+              <textarea formControlName="address" class="form-control" rows="7" [value]="order.AddressReceive"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-4">
+          <div class="col-6">
+            <div class="form-group my-2">
+              <label>Loại giao hàng</label>
+              <select formControlName="deliveryType" class="form-select" [value]="order.TypeDelivery">
+                <option value="0"></option>
+                <option value="1">Giao hàng tiêu chuẩn</option>
+                <option value="2">Giao hàng nhanh</option>
+              </select>
+            </div>
+            <div class="form-group my-2">
+              <label>Loại thanh toán</label>
+              <select formControlName="paymentType" class="form-select" [value]="order.TypePayment">
+                <option value="0"></option>
+                <option value="1">Thanh toán qua ngân hàng</option>
+                <option value="2">Thanh toán tiền mặt</option>
+              </select>
+            </div>
+            <div class="form-group my-2">
+              <label>Lời nhắn</label>
+              <input formControlName="message" type="text" class="form-control"  [value]="order.Message">
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group mt-1">
+              <label>Mô tả</label>
+              <textarea formControlName="description" class="form-control" rows="7" [value]="order.Description"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <hr>
+      </div>
+
+      <div class="mt-4" id="productList">
+        <table class="table table-striped">
+          <thead class="table-head">
+            <tr class="">
+              <th style="width: 5%">STT</th>
+              <th style="width: 25%">Tên sản phẩm</th>
+              <th style="width: 7%">Số lượng</th>
+              <th style="width: 13%">Đơn giá</th>
+              <th style="width: 13%">Thành tiền</th>
+              <th style="width: 27%">Mô tả</th>
+              <th style="width: 10%"></th>
+            </tr>
+          </thead>
+          <tbody *ngIf="order.listOrderDetail" >
+            <tr *ngFor="let item of order.listOrderDetail; let i = index">
+              <td>{{i + 1}}</td>
+              <td>{{item.NameProduct}}</td>
+              <td>{{item.Quantity}}</td>
+              <td>{{item.Amount | price}}</td>
+              <td>{{item.Total | price}}</td>
+              <td>{{item.Description}}</td>
+              <td><button *ngIf="item.Amount === 0" (click)="openModalPrice(item)">Báo giá</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="my-3">
+        <button (click)="saveOrder()" appButton background="bg-orange" [disabled]="isLoadingUpdate"><fa-icon *ngIf="!isLoadingUpdate" [icon]="faSave"></fa-icon><fa-icon *ngIf="isLoadingUpdate" [icon]="faSpinner"></fa-icon> Lưu</button>
+        <!--<button><fa-icon [icon]="faTrashAlt"></fa-icon> Xóa</button>
+        <button><fa-icon [icon]="faWindowClose"></fa-icon> Hủy</button>-->
+      </div>
+    </div>
+  </form>
+</div>
+
+
+<app-modal id="price-modal" [width]="800" [contentTemplate]="priceModal"></app-modal>
+<ng-template #priceModal>
+  <app-modal-header>
+    <div class="modal-title">
+      <div class="title">TẠO BÁO GIÁ</div>
+    </div>
+    <div>
+      <button appIconButton background="bg-transparent" (click)="closeModalPrice()">
+        <fa-icon size="lg" [icon]="faTimesCircle"></fa-icon>
+      </button>
+    </div>
+  </app-modal-header>
+  <app-modal-body>
+    <div class="my-3">
+      <h5>Đơn hàng: {{order.Code}}</h5>
+      <p class="label">Đặt ngày: {{order.DateCreated | date:'yyyy-mm-dd hh:mm'}}</p>
+    </div>
+
+    <form [formGroup]="priceForm" class="modal-form">
       <div class="row">
         <div class="col-6">
-          <div class="form-group my-2">
-            <label>Ngày xuất</label>
-            <input type="text" class="form-control"  [value]="order.DateExport | date:'yyyy-mm-dd hh:mm'" disabled>
-          </div>
-          <div class="form-group my-2">
-            <label>Kho hàng:</label>
-            <input type="text" class="form-control"  [value]="order.StoreName ? order.StoreName : ''">
-          </div>
-          <div class="form-group my-2">
-            <label>Khách hàng:</label>
-            <input type="text" class="form-control" [value]="order.NameCustomer ? order.NameCustomer : ''">
+          <input type="text" class="form-control my-2"  [value]="selectedProduct.NameProduct" disabled>
+          <div class="row">
+            <div class="col-5">
+              <input type="text" class="form-control my-2"  [value]="selectedProduct.Quantity" placeholder="Số lượng" disabled>
+              <!--<input type="text" class="form-control my-2"  [value]="" placeholder="% chiết khấu">-->
+            </div>
+            <div class="col-7">
+              <input type="text" class="form-control my-2" formControlName="price" [value]="this.priceTemp > 0 ? this.priceTemp : ''" (ngModelChange)="changePrice()" placeholder="Đơn giá">
+            </div>
+            <div class="col-12">
+              <input type="text" class="form-control my-2" formControlName="total" [value]="(this.totalTemp > 0 ? this.totalTemp: '') | price" placeholder="Tổng tiền" disabled>
+            </div>
           </div>
         </div>
         <div class="col-6">
-          <div class="form-group my-2">
-            <label>Trạng thái:</label>
-            <input type="text" class="form-control"  value="">
-          </div>
-          <div class="form-group my-2">
-            <label>VAT:</label>
-            <input type="text" class="form-control"  [value]="order.VAT ? order.VAT : 0">
-          </div>
+          <textarea class="form-control my-2" rows="5" [value]="selectedProduct.Description" placeholder="Mô tả"></textarea>
         </div>
       </div>
-
-      <hr>
-
-      <div class="row">
-        <div class="col-6">
-          <div class="form-group my-2">
-            <label>Sale:</label>
-            <input type="text" class="form-control"  value="">
-          </div>
-          <div class="form-group my-2">
-            <label>Delivery Staff:</label>
-            <input type="text" class="form-control"  value="">
-          </div>
-          <div class="form-group my-2">
-            <label>User:</label>
-            <input type="text" class="form-control"  value="">
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="form-group mt-1">
-            <label>Địa chỉ nhận hàng:</label>
-            <textarea class="form-control" rows="7"></textarea>
-          </div>
-        </div>
+      <div *ngIf="priceErrorMessage" class="my-3 error">
+        <span>{{priceErrorMessage}}</span>
       </div>
-
-      <div class="row mt-4">
-        <div class="col-6">
-          <div class="form-group my-2">
-            <label>Loại giao hàng:</label>
-            <input type="text" class="form-control"  value="">
-          </div>
-          <div class="form-group my-2">
-            <label>Loại thanh toán:</label>
-            <input type="text" class="form-control"  value="">
-          </div>
-          <div class="form-group my-2">
-            <label>Lời nhắn:</label>
-            <input type="text" class="form-control"  value="">
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="form-group mt-1">
-            <label>Mô tả:</label>
-            <textarea class="form-control" rows="7"></textarea>
-          </div>
-        </div>
+      <div class="my-3">
+        <button appButton background="bg-orange" (click)="savePrice()"><fa-icon [icon]="faSave"></fa-icon> Lưu</button>
+        <!--<button><fa-icon [icon]="faWindowClose"></fa-icon> Hủy</button>-->
       </div>
+    </form>
 
-      <hr>
-    </div>
-
-    <div class="mt-5">
+    <!--<div class="my-4">
       <table class="table table-striped">
         <thead class="table-head">
         <tr class="">
           <th style="width: 5%">STT</th>
-          <th style="width: 25%">Tên sản phẩm</th>
-          <th style="width: 7%">Số lượng</th>
-          <th style="width: 13%">Đơn giá</th>
-          <th style="width: 13%">Thành tiền</th>
+          <th style="width: 28%">Tên sản phẩm</th>
+          <th style="width: 10%">Số lượng</th>
+          <th style="width: 15%">Đơn giá</th>
+          <th style="width: 15%">Thành tiền</th>
           <th style="width: 27%">Mô tả</th>
-          <th style="width: 10%"></th>
         </tr>
         </thead>
-        <tbody *ngIf="order.listOrderDetail" >
-          <tr *ngFor="let item of order.listOrderDetail; let i = index">
-            <td>{{i + 1}}</td>
-            <td>{{item.NameProduct}}</td>
-            <td>{{item.Quantity}}</td>
-            <td>{{item.Amount}}</td>
-            <td>{{item.Total}}</td>
-            <td>{{item.Description}}</td>
-            <td><button *ngIf="item.Amount === 0">Báo giá</button></td>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>{{selectedProduct.NameProduct}}</td>
+            <td>100</td>
+            <td>{{10000000 | price}}</td>
+            <td>{{10000000 | price}}</td>
+            <td>Không có chiết khấu</td>
           </tr>
         </tbody>
       </table>
-    </div>
-
-    <div class="my-3 action-group">
-      <button><fa-icon [icon]="faSave"></fa-icon> Lưu</button>
-      <button><fa-icon [icon]="faTrashAlt"></fa-icon> Xóa</button>
-      <button><fa-icon [icon]="faWindowClose"></fa-icon> Hủy</button>
-    </div>
-  </div>
-</div>
+      <div class="my-3 action-group">
+        <button><fa-icon [icon]="faPaperPlane"></fa-icon> Gửi báo giá</button>
+      </div>
+    </div>-->
+  </app-modal-body>
+</ng-template>

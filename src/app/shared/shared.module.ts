@@ -18,6 +18,7 @@ import {ModalComponent} from './component/modal/modal.component';
 import {ModalHeaderComponent} from './component/modal/modal-header/modal-header.component';
 import {ModalBodyComponent} from './component/modal/modal-body/modal-body.component';
 import {ModalFooterComponent} from './component/modal/modal-footer/modal-footer.component';
+import {PricePipe} from './pipe/price.pipe';
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import {ModalFooterComponent} from './component/modal/modal-footer/modal-footer.
     ButtonDirective,
     IconButtonDirective,
     VndPipe,
+    PricePipe,
     PaginationComponent,
     SelectDirective,
     TableDirective,
@@ -62,6 +64,7 @@ import {ModalFooterComponent} from './component/modal/modal-footer/modal-footer.
     FontAwesomeModule,
     IconButtonDirective,
     VndPipe,
+    PricePipe,
     PaginationComponent,
     SelectDirective,
     CKEditorModule,

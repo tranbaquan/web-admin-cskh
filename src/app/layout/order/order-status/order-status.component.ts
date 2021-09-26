@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {faListAlt, faHourglass, faFilePdf, faThumbsUp, faCreditCard, faTruck, faCheckDouble, faRulerHorizontal} from '@fortawesome/free-solid-svg-icons';
 import {OrderResponseModel} from '../../../shared/model/response/order-response.model';
+import {OrderService} from '../order.service';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class OrderStatusComponent implements OnInit {
   faCheckDouble = faCheckDouble;
   faRulerHorizontal = faRulerHorizontal;
 
-  constructor() {
+  constructor(private orderService: OrderService) {
     this.status = 0;
   }
 
@@ -32,26 +33,9 @@ export class OrderStatusComponent implements OnInit {
   }
 
   getState(): void {
-    if (this.order) {
-      if (this.order.StatusID === 0 && this.order.IsAccept === 2) {
-        this.status = 1;
-      }
-      if (this.order.StatusID === 0 && this.order.IsAccept === 3) {
-        this.status = 2;
-      }
-      if (this.order.StatusID === 0 && this.order.IsAccept === 1) {
-        this.status = 3;
-      }
-      if (this.order.StatusID === 1 && this.order.IsAccept === 1) {
-        this.status = 4;
-      }
-      if (this.order.StatusID === 3 && this.order.IsAccept === 1) {
-        this.status = 5;
-      }
-      if (this.order.StatusID === 4 && this.order.IsAccept === 1) {
-        this.status = 6;
-      }
+    const status = this.orderService.getStatusByOrder(this.order);
+    if (status) {
+      this.status = status.id;
     }
-    console.log(this.status);
   }
 }

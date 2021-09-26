@@ -8,6 +8,7 @@ import { ProductDetailComponent } from './product/product-detail/product-detail.
 import { OrderComponent } from './order/order.component';
 import { OrderDetailComponent } from './order/order-detail/order-detail.component';
 import { OrderStatusComponent } from './order/order-status/order-status.component';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { OrderStatusComponent } from './order/order-status/order-status.componen
   imports: [
     LayoutRoutingModule,
     SharedModule,
+    FormsModule,
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,
