@@ -27,8 +27,30 @@ export class SpecificService {
     return this.http.post(url, specific);
   }
 
+  updateSpec(specific: Specific): Observable<any> {
+    const url = this.baseUrl + '/api/spec/update';
+    return this.http.post(url, specific);
+  }
+
   deleteSpec(specId: number): Observable<any> {
     const url = this.baseUrl + '/api/spec/delete/' + specId;
     return this.http.delete(url);
+  }
+
+  createRelationship(parentId: number, childId: number): Observable<any> {
+    const url = this.baseUrl + '/api/specspec/create';
+    const data = {
+      SpecSpecID: null,
+      SpecParentID: parentId,
+      SpecChildID: childId
+    };
+
+    return this.http.post(url, data);
+  }
+
+  deleteRelationship(parentId: number, childId: number): Observable<any> {
+    const url = this.baseUrl + '/api/specspec/delete';
+    const params = new HttpParams().append('specParentID', parentId.toString()).append('specChildID', childId.toString());
+    return this.http.delete(url, {params});
   }
 }

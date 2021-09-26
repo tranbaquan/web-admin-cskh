@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {faCameraRetro, faPlus, faSave} from '@fortawesome/free-solid-svg-icons';
+import {faCameraRetro, faPlus, faSave, faEdit} from '@fortawesome/free-solid-svg-icons';
 import {faTimesCircle} from '@fortawesome/free-regular-svg-icons';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ProductResponseModel, Specific} from '../../../shared/model/response/product-response.model';
@@ -22,6 +22,7 @@ export class ProductDetailComponent implements OnInit {
   faPlus = faPlus;
   faTimesCircle = faTimesCircle;
   faSave = faSave;
+  faEdit = faEdit;
 
   @ViewChild('fileUpload')
   fileUpload: ElementRef;
@@ -34,12 +35,16 @@ export class ProductDetailComponent implements OnInit {
   user: any;
   editingSpecItem: Specific;
   editingSpecs: Specific[];
-  specChildren: any[];
+  specParents: any[];
   pagination: Pagination<any>;
   currentPage: number;
   pageSize: number;
   isCreated: boolean;
   producerCode: string;
+  newSpec1: string;
+  newSpec2: string;
+  newSpec3: string;
+  stores: any[];
 
 
   constructor(private route: ActivatedRoute,
@@ -57,10 +62,15 @@ export class ProductDetailComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user:info'));
     this.currentPage = 1;
     this.pageSize = 50;
+    this.stores = [];
     this.updatePagination();
   }
 
   ngOnInit(): void {
+    this.productService.getAllStores().subscribe(response => {
+      this.stores = response.data.data;
+      console.log(this.stores);
+    });
   }
 
   getProductInfo(): void {
@@ -203,21 +213,26 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
-  openModalEditSpecItem(modalId: string, specItem: Specific, specs: Specific[], specChildren: Specific[]): void {
+  openModalEditSpecItem(modalId: string, specItem: Specific, specs: Specific[], specParents: Specific[]): void {
     this.openModal(modalId);
     this.editingSpecItem = specItem;
     this.editingSpecs = specs;
-    // this.specChildren = specChildren.map(spec => Object.assign(new Specific(), spec));
-    // const parentId = specs[0].SpecID;
-    // let childId;
-    // if (specChildren && specChildren.length > 0) {
-    //   childId = specChildren[0].SpecID;
-    // }
-    // if (parentId && childId) {
-    //   this.specService.getSpecRelationship(parentId, childId).subscribe(data => {
-    //     console.log(data);
-    //   });
-    // }
+    this.specParents = specParents.map(spec => Object.assign(new Specific(), spec));
+  }
+
+  idSpecCheck(spec: Specific, id: number): boolean {
+    return spec.SpecParentID.includes(id);
+  }
+
+  updateSpec(): void {
+    this.closeModal('edit-spec-item-modal');
+    this.editingSpecItem.UserCreated = this.user.UserCreated;
+    this.editingSpecItem.UserUpdated = this.user.Code;
+    this.toast.info('Đang cập nhật lựa chọn...', 'Cập nhật lựa chọn', {timeOut: 3000});
+    this.specService.updateSpec(this.editingSpecItem).subscribe(data => {
+      this.toast.clear();
+      this.toast.success('Cập nhật lựa chọn thành công', 'Cập nhật lựa chọn', {timeOut: 3000});
+    });
   }
 
   addSpecItem(): void {
@@ -278,5 +293,49 @@ export class ProductDetailComponent implements OnInit {
       this.toast.clear();
       this.toast.success('Lưu giá thành công', 'Lưu giá', {timeOut: 3000});
     });
+  }
+
+  specRelationshipChange($event: Event, childId: number, parentId: number): void {
+    if (($event.target as HTMLInputElement).checked) {
+      this.specService.createRelationship(parentId, childId).subscribe(data => {
+      });
+    } else {
+      this.specService.deleteRelationship(parentId, childId).subscribe(data => {
+      });
+    }
+
+  }
+
+  addSpecItem1(specType: number, name: string, parentId: number): void {
+    this.newSpec1 = '';
+    this.newSpec2 = '';
+    this.newSpec3 = '';
+    const value = new Specific();
+    value.ProductID = this.product.ProductID;
+    value.Status = 1;
+    value.ParentID = parentId;
+    value.Code = name;
+    value.SpecName = name;
+    value.TypeSpec = specType;
+    value.SpecParentID = [];
+    value.Description = '';
+    value.SpecID = null;
+    value.UserCreated = this.user.UserCreated;
+    value.UserUpdated = this.user.Code;
+
+    this.specService.createSpec(value).subscribe(() => {
+      this.productService.getPrices(this.product.ProductID, this.user.Code).subscribe(() => {
+        this.getProductInfo();
+        this.updatePagination();
+      });
+    });
+  }
+
+  getStoreName(id: number): string {
+    return this.stores.find(store => store.StoreID === id)?.StoreName;
+  }
+
+  test($event: any) {
+    console.log($event);
   }
 }

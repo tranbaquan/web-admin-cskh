@@ -101,3 +101,12 @@
   flex-direction: column;
   gap: 10px;
 }
+
+.relationship {
+  display: flex;
+  gap: 20px;
+
+  input {
+    margin-right: 5px;
+  }
+}
