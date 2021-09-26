@@ -179,29 +179,24 @@
   <div class="helios-table">
     <table appTable [isEvenSeparate]="true">
       <tr>
-        <th>Tên sản phẩm</th>
-        <th>Mã sản phẩm</th>
         <th *ngIf="product.ListSpec1.length != 0">{{product.ListSpec1[0]?.SpecName}}</th>
         <th *ngIf="product.ListSpec2.length != 0">{{product.ListSpec2[0]?.SpecName}}</th>
         <th *ngIf="product.ListSpec3.length != 0">{{product.ListSpec3[0]?.SpecName}}</th>
         <th>Kho</th>
         <th>Đơn vị</th>
-        <th>Giá</th>
+        <th style="min-width: 150px">Giá</th>
         <th>Chiết khấu</th>
         <th>Số lượng tối thiểu</th>
         <th></th>
       </tr>
       <tr *ngFor="let price of pagination.data">
-        <td>{{product.NameProduct}}</td>
-        <td>{{product.Code}}</td>
         <td *ngIf="product.ListSpec1.length != 0">{{findSpecName(product.ListSpec1, price.SpecID1)}}</td>
         <td *ngIf="product.ListSpec2.length != 0">{{findSpecName(product.ListSpec2, price.SpecID2)}}</td>
         <td *ngIf="product.ListSpec3.length != 0">{{findSpecName(product.ListSpec3, price.SpecID3)}}</td>
         <td>{{price.StoreID}}</td>
         <td>{{product.Unit}}</td>
-        <td>
+        <td style="min-width: 150px">
           <input type="number" min="0" [(ngModel)]="price.Prices" appInput>
-<!--          {{price.Prices | vnd}}-->
         </td>
         <td>{{product.DiscountProvider}}</td>
         <td>{{product.MinQuantity}}</td>
