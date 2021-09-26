@@ -25,4 +25,4 @@ export class ButtonDirective implements OnInit {
 
 }
 
-export type BackgroundType = 'bg-dark' | 'bg-default' | 'bg-transparent' | 'bg-orange' | 'bg-gray';
+export type BackgroundType = 'bg-dark' | 'bg-default' | 'bg-transparent' | 'bg-orange' | 'bg-gray' | 'bg-red';

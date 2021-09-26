@@ -17,7 +17,7 @@ export class ProductService {
     this.baseUrl = environment.apiBaseUrl;
   }
 
-  getProduct(page: number, limit: number, params?: HttpParams): Observable<Pagination<ProductResponseModel>> {
+  getProducts(page: number, limit: number, params?: HttpParams): Observable<Pagination<ProductResponseModel>> {
     const url = this.baseUrl + '/api/products/getproductSearch';
     const headers = new HttpHeaders().append('page', page.toString()).append('limit', limit.toString());
     return this.http.get(url, {headers, params}).pipe(
@@ -60,5 +60,22 @@ export class ProductService {
   updateProduct(product: ProductResponseModel): Observable<any> {
     const url = this.baseUrl + '/api/products/update';
     return this.http.post(url, product);
+  }
+
+  createProduct(product: ProductResponseModel): Observable<any> {
+    const url = this.baseUrl + '/api/products/create';
+    return this.http.post(url, product);
+  }
+
+  getPrices(productId: number, user: string): Observable<any> {
+    const url = this.baseUrl + '/api/products/getproductspecproductionbyproductid';
+    const params = new HttpParams().append('productID', productId.toString());
+    const headers = new HttpHeaders().append('page', '1').append('limit', '100000').append('usernamelogin', user);
+    return this.http.get(url, {params, headers});
+  }
+
+  updatePrice(price: any): Observable<any> {
+    const url = this.baseUrl + '/api/products/updateprice';
+    return this.http.post(url, price);
   }
 }

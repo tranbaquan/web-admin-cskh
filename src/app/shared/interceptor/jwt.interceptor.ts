@@ -10,7 +10,9 @@ export class JwtInterceptor implements HttpInterceptor {
     let headers = req.headers;
     const basic = btoa('AdminMotolok:AdminMotolok');
     headers = headers.append('Authorization', 'Basic ' + basic);
-    headers = headers.append('Content-Type', 'application/json; charset=utf-8');
+    if (!req.url.includes('/api/fileupload/upload')) {
+      headers = headers.append('Content-Type', 'application/json; charset=utf-8');
+    }
     headers = headers.append('Access-Control-Allow-Origin', '*');
 
     req = req.clone({

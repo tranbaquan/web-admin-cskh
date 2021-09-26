@@ -16,10 +16,7 @@ export class FileUploadService {
 
   updateImage(formData: FormData): Observable<any> {
     const url = this.baseUrl + '/api/fileupload/upload';
-
-    const headers = new HttpHeaders().append('Content-Type', 'multipart/*')
-      .append('Content-Disposition', 'form-data');
-
+    const headers = {};
     return this.http.post(url, formData, {headers});
   }
 
