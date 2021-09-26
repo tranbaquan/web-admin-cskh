@@ -1,4 +1,4 @@
-<div *ngIf="pagination" class="paging">
+<div *ngIf="pagination && pagination.totalItem > 0" class="paging">
   <button appIconButton background="bg-transparent" [disabled]="previousDisabled"
           (click)="updateCurrentPage(currentPage - 1)">
     <fa-icon [icon]="faAngleLeft" size="sm"></fa-icon>

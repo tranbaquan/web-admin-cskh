@@ -103,6 +103,11 @@ a {
     background: transparent;
     box-shadow: none;
   }
+
+  &.bg-red {
+    background: $color-red-l3;
+    color: $color-white-l1;
+  }
 }
 
 
@@ -173,6 +178,11 @@ a {
     th {
       white-space: nowrap;
       overflow: hidden;
+      padding: 0 15px;
+    }
+
+    td {
+      padding: 0 15px;
     }
   }
 

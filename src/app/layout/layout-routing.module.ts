@@ -12,6 +12,7 @@ import {OrderDetail} from '../shared/model/order-detail.model';
 import {OrderDetailComponent} from './order/order-detail/order-detail.component';
 import {OrderResponseModel} from '../shared/model/response/order-response.model';
 import {OrderDetailResolver} from './order/order-detail/order-detail.resolver';
+import {ProductResponseModel} from '../shared/model/response/product-response.model';
 
 const routes: Routes = [
   {
@@ -32,6 +33,15 @@ const routes: Routes = [
         path: 'product',
         pathMatch: 'full',
         component: ProductComponent
+      },
+      {
+        path: 'product/create',
+        pathMatch: 'full',
+        component: ProductDetailComponent,
+        resolve: {
+          producers: ProducersResolver,
+          productTypes: ProductTypeResolver
+        },
       },
       {
         path: 'product/:productId',

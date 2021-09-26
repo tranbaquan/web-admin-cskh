@@ -1,13 +1,16 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {faCameraRetro, faPlus} from '@fortawesome/free-solid-svg-icons';
+import {faCameraRetro, faPlus, faSave} from '@fortawesome/free-solid-svg-icons';
 import {faTimesCircle} from '@fortawesome/free-regular-svg-icons';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ProductResponseModel, Specific} from '../../../shared/model/response/product-response.model';
 import {environment} from '../../../../environments/environment';
 import {ModalService} from '../../../shared/component/modal/modal.service';
 import {FileUploadService} from './file-upload.service';
 import {FormControl, FormGroup} from '@angular/forms';
 import {ProductService} from '../product.service';
+import {SpecificService} from './specific.service';
+import {Pagination} from '../../../shared/model/pagination';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-product-detail',
@@ -18,32 +21,71 @@ export class ProductDetailComponent implements OnInit {
   faCameraRetro = faCameraRetro;
   faPlus = faPlus;
   faTimesCircle = faTimesCircle;
+  faSave = faSave;
 
   @ViewChild('fileUpload')
   fileUpload: ElementRef;
   file: File;
-  fileBase64: string;
 
   product: ProductResponseModel;
-  producers: any;
+  producers: any[];
   productTypes: any;
   addSpecFormGroup: FormGroup;
   user: any;
+  editingSpecItem: Specific;
+  editingSpecs: Specific[];
+  specChildren: any[];
+  pagination: Pagination<any>;
+  currentPage: number;
+  pageSize: number;
+  isCreated: boolean;
+  producerCode: string;
+
 
   constructor(private route: ActivatedRoute,
               private modalService: ModalService,
               private fileUploadService: FileUploadService,
-              private productService: ProductService) {
+              private productService: ProductService,
+              private specService: SpecificService,
+              private toast: ToastrService,
+              private router: Router) {
     this.product = this.route.snapshot.data.product;
+    this.validateProduct();
     this.producers = this.route.snapshot.data.producers;
     this.productTypes = this.route.snapshot.data.productTypes;
     this.initFormGroup();
     this.user = JSON.parse(localStorage.getItem('user:info'));
-    console.log(this.product);
-    console.log(this.producers);
+    this.currentPage = 1;
+    this.pageSize = 50;
+    this.updatePagination();
   }
 
   ngOnInit(): void {
+  }
+
+  getProductInfo(): void {
+    this.productService.getProductById(this.product.ProductID).subscribe(data => {
+      this.product = data;
+      this.updatePagination();
+    });
+  }
+
+  validateProduct(): void {
+    if (!this.product) {
+      this.isCreated = true;
+      this.product = new ProductResponseModel();
+    }
+    this.producerCode = this.product.ListProduction[0]?.Code;
+  }
+
+  updatePagination(): void {
+    this.pagination = new Pagination<any>();
+    this.pagination.totalItem = this.product.ListPrices.length;
+    this.pagination.page = this.currentPage;
+    this.pagination.size = this.pageSize;
+    const start = (this.currentPage - 1) * this.pageSize;
+    this.pagination.data = this.product.ListPrices.slice(start, start + this.pageSize);
+    this.pagination.totalPage = Math.ceil(this.pagination.totalItem / this.pageSize);
   }
 
   initFormGroup(): void {
@@ -55,6 +97,7 @@ export class ProductDetailComponent implements OnInit {
       SpecID: new FormControl(),
       SpecName: new FormControl(),
       SpecParentID: new FormControl(),
+      TypeSpec: new FormControl(),
       Status: new FormControl()
     });
   }
@@ -68,22 +111,11 @@ export class ProductDetailComponent implements OnInit {
     this.file = ($event.target as HTMLInputElement)?.files[0];
 
     const formData = new FormData();
-    formData.append('', this.file);
+    formData.set('', this.file);
 
     this.fileUploadService.updateImage(formData).subscribe(data => {
-      console.log(data);
+      this.product.ImagesPath = [data.data];
     });
-
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(this.file);
-
-    fileReader.onload = (e) => {
-      console.log(e);
-      console.log(fileReader.result);
-      this.fileBase64 = fileReader.result as string;
-      const progress = Math.round(100 * (e.loaded / e.total));
-      console.log(progress);
-    };
   }
 
   getUrl(product: ProductResponseModel): string {
@@ -91,7 +123,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   findSpecName(specs: Specific[], specId: number): string {
-    return specs.find(spec => spec.SpecID === specId)?.Code;
+    return specs.find(spec => spec.SpecID === specId)?.SpecName;
   }
 
   openModal(id: string): void {
@@ -103,25 +135,148 @@ export class ProductDetailComponent implements OnInit {
   }
 
   saveChange(): void {
+    this.toast.info('Đang cập nhật sản phẩm...', 'Cập nhật', {timeOut: 3000});
     const product = Object.assign({} as any, this.product);
     product.UserCreated = this.user.UserCreated;
     product.UserUpdated = this.user.Code;
+    product.Status = this.product.Status ? 1 : 0;
     if (typeof this.product.ImagesPath === 'object') {
-      product.ImagesPath = this.product.ImagesPath.join(',');
+      product.ImagesPath = this.product.ImagesPath[0];
+    }
+    if (!product.ImagesPath) {
+      product.ImagesPath = '';
     }
     this.productService.updateProduct(product).subscribe(data => {
-      console.log(data);
+      this.toast.clear();
+      this.toast.success('Cập nhật thành công', 'Cập nhật', {timeOut: 3000});
+      this.getProductInfo();
+    });
+  }
+
+
+  createProduct(): void {
+    this.toast.info('Đang tạo sản phẩm...', 'Tạo sản phẩm', {timeOut: 3000});
+    const product = Object.assign({} as any, this.product);
+    product.UserCreated = this.user.UserCreated;
+    product.UserUpdated = this.user.Code;
+    product.Status = this.product.Status ? 1 : 0;
+    product.FIFO = this.product.FIFO ? 1 : 0;
+    if (typeof this.product.ImagesPath === 'object') {
+      product.ImagesPath = this.product.ImagesPath[0];
+    }
+    this.productService.createProduct(product).subscribe(data => {
+      this.toast.clear();
+      this.toast.success('Tạo sản phẩm thành công', 'Tạo sản phẩm', {timeOut: 3000});
+      this.router.navigate(['product', data.data.ProductID.toString()]).then(() => {
+      });
     });
   }
 
   addSpec(): void {
+    this.toast.info('Đang tạo đặc tả...', 'Tạo đặc tả', {timeOut: 3000});
     this.closeModal('add-spec-modal');
+    const value = this.addSpecFormGroup.value;
     if (!this.product.ListSpec1 || this.product.ListSpec1.length === 0) {
-      this.product.ListSpec1 = [this.addSpecFormGroup.value];
+      value.TypeSpec = 1;
+      this.product.ListSpec1 = [value];
     } else if (!this.product.ListSpec2 || this.product.ListSpec2.length === 0) {
-      this.product.ListSpec2 = [this.addSpecFormGroup.value];
+      value.TypeSpec = 2;
+      this.product.ListSpec2 = [value];
     } else if (!this.product.ListSpec3 || this.product.ListSpec3.length === 0) {
-      this.product.ListSpec3 = [this.addSpecFormGroup.value];
+      value.TypeSpec = 3;
+      this.product.ListSpec3 = [value];
     }
+
+    value.ProductID = this.product.ProductID;
+    value.ParentID = 0;
+    value.UserCreated = this.user.UserCreated;
+    value.UserUpdated = this.user.Code;
+    value.Status = Number(value.Status);
+    value.SpecParentID = [];
+    value.Description = '';
+
+    this.specService.createSpec(value).subscribe(data => {
+      this.addSpecFormGroup.reset();
+      this.toast.clear();
+      this.toast.success('Tạo đặc tả thành công', 'Tạo đặc tả', {timeOut: 3000});
+      this.getProductInfo();
+    });
+  }
+
+  openModalEditSpecItem(modalId: string, specItem: Specific, specs: Specific[], specChildren: Specific[]): void {
+    this.openModal(modalId);
+    this.editingSpecItem = specItem;
+    this.editingSpecs = specs;
+    // this.specChildren = specChildren.map(spec => Object.assign(new Specific(), spec));
+    // const parentId = specs[0].SpecID;
+    // let childId;
+    // if (specChildren && specChildren.length > 0) {
+    //   childId = specChildren[0].SpecID;
+    // }
+    // if (parentId && childId) {
+    //   this.specService.getSpecRelationship(parentId, childId).subscribe(data => {
+    //     console.log(data);
+    //   });
+    // }
+  }
+
+  addSpecItem(): void {
+    this.toast.info('Đang tạo lựa chọn...', 'Tạo lựa chọn', {timeOut: 3000});
+    this.closeModal('add-spec-item-modal');
+    const value = this.addSpecFormGroup.value;
+
+    value.ProductID = this.product.ProductID;
+    value.Status = Number(value.Status);
+    value.SpecParentID = [];
+    value.Description = '';
+    value.SpecID = null;
+    value.UserCreated = this.user.UserCreated;
+    value.UserUpdated = this.user.Code;
+
+    this.specService.createSpec(value).subscribe(() => {
+      this.addSpecFormGroup.reset();
+      this.productService.getPrices(this.product.ProductID, this.user.Code).subscribe(() => {
+        this.toast.clear();
+        this.toast.success('Tạo lựa chọn thành công', 'Tạo lựa chọn', {timeOut: 3000});
+        this.getProductInfo();
+      });
+    });
+  }
+
+  openModalAddSpecItem(modalId: string, specParent: Specific): void {
+    this.editingSpecItem = new Specific();
+    this.initFormGroup();
+    this.addSpecFormGroup.controls.ParentID.setValue(specParent.SpecID);
+    this.addSpecFormGroup.controls.TypeSpec.setValue(specParent.TypeSpec);
+    this.openModal(modalId);
+  }
+
+  deleteSpec(): void {
+    this.toast.info('Đang xóa lựa chọn...', 'Xóa lựa chọn', {timeOut: 3000});
+    this.closeModal('edit-spec-item-modal');
+    this.specService.deleteSpec(this.editingSpecItem.SpecID).subscribe(data => {
+      this.addSpecFormGroup.reset();
+      this.toast.clear();
+      this.toast.success('Xóa lựa chọn thành công', 'Xóa lựa chọn', {timeOut: 3000});
+      this.getProductInfo();
+    });
+  }
+
+  onPageChange(page: number): void {
+    this.currentPage = page;
+    this.updatePagination();
+  }
+
+  producerChange(): void {
+    const obj = this.producers.find(producer => producer.Code === this.producerCode);
+    this.product.ListProduction = [obj];
+  }
+
+  savePrice(price: any): void {
+    this.toast.info('Đang lưu giá...', 'Lưu giá', {timeOut: 3000});
+    this.productService.updatePrice(price).subscribe(data => {
+      this.toast.clear();
+      this.toast.success('Lưu giá thành công', 'Lưu giá', {timeOut: 3000});
+    });
   }
 }

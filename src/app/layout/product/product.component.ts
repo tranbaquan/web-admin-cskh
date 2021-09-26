@@ -54,7 +54,7 @@ export class ProductComponent implements OnInit {
 
   getProducts(): void {
     this.loading = true;
-    this.productService.getProduct(this.page, this.size).subscribe(data => {
+    this.productService.getProducts(this.page, this.size).subscribe(data => {
       this.pagination = data;
       this.products = data.data;
     }, () => {
@@ -69,7 +69,7 @@ export class ProductComponent implements OnInit {
     if (categoryType) {
       params = params.append('typeProductID', categoryType.toString());
     }
-    this.productService.getProduct(this.page, this.size, params).subscribe(data => {
+    this.productService.getProducts(this.page, this.size, params).subscribe(data => {
       this.pagination = data;
       this.products = data.data;
     }, () => {
@@ -109,6 +109,11 @@ export class ProductComponent implements OnInit {
   changeDisplay(display: ProductDisplay): void {
     this.display = display;
     localStorage.setItem('product:display', this.display);
+  }
+
+  createProduct(): void {
+    this.router.navigate(['product', 'create']).then(() => {
+    });
   }
 }
 
