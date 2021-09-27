@@ -101,13 +101,14 @@
               <!--              <input *ngIf="index != 0" type="text" appInput [width]="70" [value]="spec.SpecName">-->
             </ng-container>
             <input type="text" appInput [width]="100" [(ngModel)]="newSpec1">
-            <button appIconButton background="bg-orange" (click)="addSpecItem1(1, newSpec1, product.ListSpec1[0].SpecID)">
+            <button appIconButton background="bg-orange"
+                    (click)="addSpecItem1(1, newSpec1, product.ListSpec1[0].SpecID)">
               <fa-icon [icon]="faPlus"></fa-icon>
             </button>
-<!--            <button appIconButton background="bg-orange"-->
-<!--                    (click)="openModalAddSpecItem('add-spec-item-modal', product.ListSpec1[0])">-->
-<!--              <fa-icon [icon]="faPlus"></fa-icon>-->
-<!--            </button>-->
+            <!--            <button appIconButton background="bg-orange"-->
+            <!--                    (click)="openModalAddSpecItem('add-spec-item-modal', product.ListSpec1[0])">-->
+            <!--              <fa-icon [icon]="faPlus"></fa-icon>-->
+            <!--            </button>-->
           </div>
         </div>
       </ng-container>
@@ -128,13 +129,14 @@
               <!--              <input *ngIf="index != 0" type="text" appInput [width]="70" [value]="spec.SpecName">-->
             </ng-container>
             <input type="text" appInput [width]="100" [(ngModel)]="newSpec2">
-            <button appIconButton background="bg-orange" (click)="addSpecItem1(2, newSpec2, product.ListSpec2[0].SpecID)">
+            <button appIconButton background="bg-orange"
+                    (click)="addSpecItem1(2, newSpec2, product.ListSpec2[0].SpecID)">
               <fa-icon [icon]="faPlus"></fa-icon>
             </button>
-<!--            <button appIconButton background="bg-orange"-->
-<!--                    (click)="openModalAddSpecItem('add-spec-item-modal', product.ListSpec2[0])">-->
-<!--              <fa-icon [icon]="faPlus"></fa-icon>-->
-<!--            </button>-->
+            <!--            <button appIconButton background="bg-orange"-->
+            <!--                    (click)="openModalAddSpecItem('add-spec-item-modal', product.ListSpec2[0])">-->
+            <!--              <fa-icon [icon]="faPlus"></fa-icon>-->
+            <!--            </button>-->
           </div>
         </div>
       </ng-container>
@@ -154,7 +156,8 @@
               </div>
             </ng-container>
             <input type="text" appInput [width]="100" [(ngModel)]="newSpec3">
-            <button appIconButton background="bg-orange" (click)="addSpecItem1(1, newSpec3, product.ListSpec3[0].SpecID)">
+            <button appIconButton background="bg-orange"
+                    (click)="addSpecItem1(3, newSpec3, product.ListSpec3[0].SpecID)">
               <fa-icon [icon]="faPlus"></fa-icon>
             </button>
             <!--            <button appIconButton background="bg-orange"-->
@@ -190,15 +193,30 @@
     </div>
     <div class="form-group">
       <div class="group-title">Thông số kỹ thuật</div>
-      <ckeditor [(ngModel)]="product.InformationTech"></ckeditor>
+      <div class="tech-info-table">
+        <table class="core-table even-separate">
+          <tbody [innerHTML]="trustHtml(product.InformationTech)">
+          </tbody>
+        </table>
+      </div>
+      <div class="input-group">
+        <input [(ngModel)]="techKey" type="text" appInput>
+        <input [(ngModel)]="techValue" type="text" appInput>
+      </div>
+      <button appIconButton background="bg-orange" (click)="addTechInfoLine()">
+        <fa-icon [icon]="faPlus"></fa-icon>
+      </button>
     </div>
     <div class="form-group">
       <button *ngIf="!isCreated" background="bg-orange" appButton (click)="saveChange()">Lưu thay đổi</button>
       <button *ngIf="isCreated" background="bg-orange" appButton (click)="createProduct()">Tạo sản phẩm</button>
     </div>
   </div>
+
+
   <div class="helios-table">
     <table appTable [isEvenSeparate]="true">
+      <thead>
       <tr>
         <th *ngIf="product.ListSpec1.length != 0">{{product.ListSpec1[0]?.SpecName}}</th>
         <th *ngIf="product.ListSpec2.length != 0">{{product.ListSpec2[0]?.SpecName}}</th>
@@ -210,6 +228,8 @@
         <th>Tối thiểu</th>
         <th></th>
       </tr>
+      </thead>
+      <tbody>
       <tr *ngFor="let price of pagination.data">
         <td *ngIf="product.ListSpec1.length != 0">{{findSpecName(product.ListSpec1, price.SpecID1)}}</td>
         <td *ngIf="product.ListSpec2.length != 0">{{findSpecName(product.ListSpec2, price.SpecID2)}}</td>
@@ -230,6 +250,7 @@
       <tr *ngIf="!product.ListPrices || product.ListPrices.length == 0">
         <td colspan="10" style="text-align: center">Chưa có dữ liệu</td>
       </tr>
+      </tbody>
     </table>
     <div class="paging">
       <app-pagination [pagination]="pagination" (pageChange)="onPageChange($event)"></app-pagination>
@@ -373,7 +394,7 @@
     <div class="right-section">
       <div class="btn-group">
         <button appButton background="bg-gray" (click)="closeModal('edit-spec-item-modal')">Đóng</button>
-        <button appButton background="bg-orange" (click)="updateSpec()">Lưu lại</button>
+        <button appButton background="bg-orange" (click)="updateSpecItem()">Lưu lại</button>
       </div>
     </div>
   </app-modal-footer>
