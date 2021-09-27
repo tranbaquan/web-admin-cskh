@@ -110,8 +110,19 @@
     margin-right: 5px;
   }
 }
+
 .buttoncss{
   float:right;
   width: 32px;
   margin-right: 2px;
+}
+
+.tech-info-table {
+  table {
+    ::ng-deep {
+      tbody, td, tr {
+        border-width: 1px;
+      }
+    }
+  }
 }

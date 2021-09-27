@@ -177,12 +177,8 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     });
   }
 
-  techInfoToHtml(): string {
-    let html = '';
-    for (const techInfoLine of this.techInfoLines) {
-      html += `<tr><td>${techInfoLine.key}</td><td>${techInfoLine.value}</td></tr>`;
-    }
-    return html;
+  techInfoToHtml(key: string, value: string): string {
+    return `<tr><td>${key}</td><td>${value}</td></tr>`;
   }
 
 
@@ -369,10 +365,8 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
   }
 
   addTechInfoLine(): void {
-    this.techInfoLines.push({key: this.techKey, value: this.techValue});
+    this.product.InformationTech = this.product.InformationTech + this.techInfoToHtml(this.techKey, this.techValue);
     this.techKey = '';
     this.techValue = '';
-    this.product.InformationTech = this.product.InformationTech + this.techInfoToHtml();
-    this.techInfoLines = [];
   }
 }
