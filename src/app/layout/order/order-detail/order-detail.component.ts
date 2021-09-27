@@ -73,6 +73,7 @@ export class OrderDetailComponent implements OnInit {
 
   openModalPrice(item: OrderDetail): void {
     this.selectedProduct = item;
+    this.initPriceForm();
     this.modalService.open('price-modal');
   }
 
@@ -142,7 +143,7 @@ export class OrderDetailComponent implements OnInit {
 
   changePrice(): void {
     this.priceErrorMessage = '';
-    this.priceTemp = Number(this.priceForm.get('price').value);
+    this.priceTemp = Number(this.priceForm.get('price').value.replace(/[,]+/g, ''));
     if (!this.priceTemp) {
       this.priceErrorMessage = 'Giá không hợp lệ';
     }

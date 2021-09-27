@@ -192,10 +192,10 @@
               <!--<input type="text" class="form-control my-2"  [value]="" placeholder="% chiết khấu">-->
             </div>
             <div class="col-7">
-              <input type="text" class="form-control my-2" formControlName="price" [value]="this.priceTemp > 0 ? this.priceTemp : ''" (ngModelChange)="changePrice()" placeholder="Đơn giá">
+              <input type="text" class="form-control my-2" formControlName="price" [value]="(priceTemp > 0 ? priceTemp : '') | price" (ngModelChange)="changePrice()" placeholder="Đơn giá">
             </div>
             <div class="col-12">
-              <input type="text" class="form-control my-2" formControlName="total" [value]="(this.totalTemp > 0 ? this.totalTemp: '') | price" placeholder="Tổng tiền" disabled>
+              <input type="text" class="form-control my-2" formControlName="total" [value]="(totalTemp > 0 ? totalTemp: '') | price" placeholder="Tổng tiền" disabled>
             </div>
           </div>
         </div>
