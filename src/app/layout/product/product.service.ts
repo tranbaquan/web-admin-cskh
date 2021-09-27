@@ -79,6 +79,11 @@ export class ProductService {
     return this.http.post(url, price);
   }
 
+  deletePrice(price: any): Observable<any> {
+    const url = this.baseUrl + '/api/products/deleteprice';
+    return this.http.post(url, price);
+  }
+
   getAllStores(): Observable<any> {
     const url = this.baseUrl + '/api/Stores/getAllStore';
     const headers = new HttpHeaders().append('page', '1').append('limit', '100000');

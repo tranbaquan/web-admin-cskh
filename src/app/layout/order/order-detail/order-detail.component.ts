@@ -165,6 +165,22 @@ export class OrderDetailComponent implements OnInit {
     }
   }
 
+  deletePrice(): void {
+    this.priceErrorMessage = '';
+    if (this.totalTemp > 0 && this.priceTemp) {
+      this.selectedProduct.Amount = this.priceTemp;
+      this.selectedProduct.Total = this.totalTemp;
+      this.orderService.updateProductDetail(this.selectedProduct)
+        .subscribe(data => {
+        });
+      this.priceTemp = 0;
+      this.totalTemp = 0;
+      this.modalService.close('price-modal');
+    } else {
+      this.priceErrorMessage = 'chưa nhập giá';
+    }
+  }
+
   gotoPriceSection(): void {
     this.viewportScroller.scrollToAnchor('productList');
   }

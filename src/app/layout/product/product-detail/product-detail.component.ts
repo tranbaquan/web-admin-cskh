@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {faCameraRetro, faPlus, faSave, faEdit} from '@fortawesome/free-solid-svg-icons';
+import {faCameraRetro, faPlus, faSave, faEdit, faTrash} from '@fortawesome/free-solid-svg-icons';
 import {faTimesCircle} from '@fortawesome/free-regular-svg-icons';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ProductResponseModel, Specific} from '../../../shared/model/response/product-response.model';
@@ -24,6 +24,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
   faTimesCircle = faTimesCircle;
   faSave = faSave;
   faEdit = faEdit;
+  faTrash = faTrash;
 
   @ViewChild('fileUpload')
   fileUpload: ElementRef;
@@ -314,6 +315,16 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     this.productService.updatePrice(price).subscribe(() => {
       this.toast.clear();
       this.toast.success('Lưu giá thành công', 'Lưu giá', {timeOut: 3000});
+    });
+  }
+
+  deletePrice(price: any): void {
+    this.toast.info('Đang xóa giá...', 'Xóa giá', {timeOut: 3000});
+    this.productService.deletePrice(price).subscribe(() => {
+      this.toast.clear();
+      this.toast.success('Xóa giá thành công', 'Xóa giá', {timeOut: 3000});
+
+      this.getProductInfo();
     });
   }
 

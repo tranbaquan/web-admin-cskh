@@ -241,10 +241,13 @@
         </td>
         <td>{{product.DiscountProvider}}</td>
         <td>{{product.MinQuantity}}</td>
-        <td>
-          <button appIconButton background="bg-orange" (click)="savePrice(price)">
-            <fa-icon [icon]="faSave"></fa-icon>
+        <td style="min-width: 70px;">
+          <button appIconButton background="bg-orange" (click)="deletePrice(price)" class="buttoncss">
+            <fa-icon [icon]="faTrash"></fa-icon>
           </button>
+          <button appIconButton background="bg-orange" (click)="savePrice(price)" class="buttoncss">
+            <fa-icon [icon]="faSave"></fa-icon>
+          </button>         
         </td>
       </tr>
       <tr *ngIf="!product.ListPrices || product.ListPrices.length == 0">
