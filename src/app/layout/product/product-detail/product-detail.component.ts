@@ -373,5 +373,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     this.techKey = '';
     this.techValue = '';
     this.product.InformationTech = this.product.InformationTech + this.techInfoToHtml();
+    this.techInfoLines = [];
   }
 }

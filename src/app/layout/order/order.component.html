@@ -61,6 +61,9 @@
       <div *ngIf="isLoading" class="spinner-loading">
         <fa-icon [icon]="faSpinner" [spin]="true"></fa-icon>
       </div>
+      <div class="my-3" *ngIf="!isLoading && !pagination.data">
+        <p>Chưa có dữ liệu</p>
+      </div>
       <div class="paging" *ngIf="pagination.data">
         <app-pagination [pagination]="pagination" (pageChange)="onPageChange($event)"></app-pagination>
       </div>
