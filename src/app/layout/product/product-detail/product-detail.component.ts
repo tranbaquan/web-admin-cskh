@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {faCameraRetro, faPlus, faSave, faEdit} from '@fortawesome/free-solid-svg-icons';
 import {faTimesCircle} from '@fortawesome/free-regular-svg-icons';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -11,13 +11,14 @@ import {ProductService} from '../product.service';
 import {SpecificService} from './specific.service';
 import {Pagination} from '../../../shared/model/pagination';
 import {ToastrService} from 'ngx-toastr';
+import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.scss']
 })
-export class ProductDetailComponent implements OnInit {
+export class ProductDetailComponent implements OnInit, AfterViewInit {
   faCameraRetro = faCameraRetro;
   faPlus = faPlus;
   faTimesCircle = faTimesCircle;
@@ -45,6 +46,9 @@ export class ProductDetailComponent implements OnInit {
   newSpec2: string;
   newSpec3: string;
   stores: any[];
+  techInfoLines: any[];
+  techKey: string;
+  techValue: string;
 
 
   constructor(private route: ActivatedRoute,
@@ -53,6 +57,7 @@ export class ProductDetailComponent implements OnInit {
               private productService: ProductService,
               private specService: SpecificService,
               private toast: ToastrService,
+              private domSanitizer: DomSanitizer,
               private router: Router) {
     this.product = this.route.snapshot.data.product;
     this.validateProduct();
@@ -63,14 +68,17 @@ export class ProductDetailComponent implements OnInit {
     this.currentPage = 1;
     this.pageSize = 50;
     this.stores = [];
+    this.techInfoLines = [];
     this.updatePagination();
   }
 
   ngOnInit(): void {
     this.productService.getAllStores().subscribe(response => {
       this.stores = response.data.data;
-      console.log(this.stores);
     });
+  }
+
+  ngAfterViewInit(): void {
   }
 
   getProductInfo(): void {
@@ -78,6 +86,10 @@ export class ProductDetailComponent implements OnInit {
       this.product = data;
       this.updatePagination();
     });
+  }
+
+  trustHtml(html: string): SafeHtml {
+    return this.domSanitizer.bypassSecurityTrustHtml(html);
   }
 
   validateProduct(): void {
@@ -108,7 +120,7 @@ export class ProductDetailComponent implements OnInit {
       SpecName: new FormControl(),
       SpecParentID: new FormControl(),
       TypeSpec: new FormControl(),
-      Status: new FormControl()
+      Status: new FormControl(1, [])
     });
   }
 
@@ -156,11 +168,20 @@ export class ProductDetailComponent implements OnInit {
     if (!product.ImagesPath) {
       product.ImagesPath = '';
     }
+
     this.productService.updateProduct(product).subscribe(data => {
       this.toast.clear();
       this.toast.success('Cập nhật thành công', 'Cập nhật', {timeOut: 3000});
       this.getProductInfo();
     });
+  }
+
+  techInfoToHtml(): string {
+    let html = '';
+    for (const techInfoLine of this.techInfoLines) {
+      html += `<tr><td>${techInfoLine.key}</td><td>${techInfoLine.value}</td></tr>`;
+    }
+    return html;
   }
 
 
@@ -205,7 +226,7 @@ export class ProductDetailComponent implements OnInit {
     value.SpecParentID = [];
     value.Description = '';
 
-    this.specService.createSpec(value).subscribe(data => {
+    this.specService.createSpec(value).subscribe(() => {
       this.addSpecFormGroup.reset();
       this.toast.clear();
       this.toast.success('Tạo đặc tả thành công', 'Tạo đặc tả', {timeOut: 3000});
@@ -224,12 +245,13 @@ export class ProductDetailComponent implements OnInit {
     return spec.SpecParentID.includes(id);
   }
 
-  updateSpec(): void {
+  updateSpecItem(): void {
     this.closeModal('edit-spec-item-modal');
     this.editingSpecItem.UserCreated = this.user.UserCreated;
     this.editingSpecItem.UserUpdated = this.user.Code;
     this.toast.info('Đang cập nhật lựa chọn...', 'Cập nhật lựa chọn', {timeOut: 3000});
-    this.specService.updateSpec(this.editingSpecItem).subscribe(data => {
+    this.specService.updateSpec(this.editingSpecItem).subscribe(() => {
+      this.getProductInfo();
       this.toast.clear();
       this.toast.success('Cập nhật lựa chọn thành công', 'Cập nhật lựa chọn', {timeOut: 3000});
     });
@@ -289,7 +311,7 @@ export class ProductDetailComponent implements OnInit {
 
   savePrice(price: any): void {
     this.toast.info('Đang lưu giá...', 'Lưu giá', {timeOut: 3000});
-    this.productService.updatePrice(price).subscribe(data => {
+    this.productService.updatePrice(price).subscribe(() => {
       this.toast.clear();
       this.toast.success('Lưu giá thành công', 'Lưu giá', {timeOut: 3000});
     });
@@ -335,7 +357,10 @@ export class ProductDetailComponent implements OnInit {
     return this.stores.find(store => store.StoreID === id)?.StoreName;
   }
 
-  test($event: any) {
-    console.log($event);
+  addTechInfoLine(): void {
+    this.techInfoLines.push({key: this.techKey, value: this.techValue});
+    this.techKey = '';
+    this.techValue = '';
+    this.product.InformationTech = this.product.InformationTech + this.techInfoToHtml();
   }
 }
