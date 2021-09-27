@@ -163,35 +163,42 @@ a {
   width: 100%;
   border: 1px solid $color-gray-l5;
 
-  tr {
-    height: 42px;
+  thead {
+    background-color: $color-orange-l1;
+    color: $color-white-l1;
 
-    &:first-child {
-      background-color: $color-orange-l1;
-      color: $color-white-l1;
-    }
+    tr {
+      height: 42px;
 
-    &:not(:first-child) {
-      border-bottom: 1px solid $color-gray-l5;
-    }
-
-    th {
-      white-space: nowrap;
-      overflow: hidden;
-      padding: 0 15px;
-    }
-
-    td {
-      padding: 0 15px;
+      th {
+        white-space: nowrap;
+        overflow: hidden;
+        padding: 0 15px;
+      }
     }
   }
 
-  &.even-separate {
+  tbody {
     tr {
-      &:nth-child(2n + 3) {
-        background: $color-gray-l7;
+      height: 42px;
+      border-bottom: 1px solid $color-gray-l5;
+
+      td {
+        padding: 0 15px;
       }
     }
+
+  }
+
+  &.even-separate {
+    tbody {
+      tr {
+        &:nth-child(even) {
+          background: $color-gray-l7;
+        }
+      }
+    }
+
   }
 }
 
