@@ -184,7 +184,9 @@ a {
       border-bottom: 1px solid $color-gray-l5;
 
       td {
+        width: 50%;
         padding: 0 15px;
+        border-right: 1px solid $color-gray-l5;
       }
     }
 
