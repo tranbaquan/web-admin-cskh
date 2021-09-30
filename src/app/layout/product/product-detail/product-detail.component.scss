@@ -111,8 +111,8 @@
   }
 }
 
-.buttoncss{
-  float:right;
+.buttoncss {
+  float: right;
   width: 32px;
   margin-right: 2px;
 }
@@ -125,4 +125,16 @@
       }
     }
   }
+}
+
+.level-0 {
+  background-color: $color-gray-l3;
+}
+
+.level-1 {
+  background-color: $color-gray-l5;
+}
+
+.level-2 {
+  background-color: $color-gray-l7;
 }

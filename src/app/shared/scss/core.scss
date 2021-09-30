@@ -146,6 +146,11 @@ a {
     background: transparent;
     box-shadow: none;
   }
+
+  &.bg-red {
+    background: $color-red-l3;
+    color: $color-white-l1;
+  }
 }
 
 .core-select {
@@ -157,6 +162,11 @@ a {
   border-radius: 2px;
   outline: 0;
   background: $color-white-l1;
+
+  option {
+    height: 32px;
+    line-height: 32px;
+  }
 }
 
 .core-table {
@@ -223,4 +233,15 @@ body.core-modal-show {
   &.core-fade {
     opacity: 1;
   }
+}
+
+
+.mat-option {
+  font-size: 13px;
+  height: 32px !important;
+  line-height: 32px;
+}
+
+.mat-option-text {
+  line-height: 32px;
 }

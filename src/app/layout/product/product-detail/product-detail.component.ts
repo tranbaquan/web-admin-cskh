@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {faCameraRetro, faPlus, faSave, faEdit, faTrash} from '@fortawesome/free-solid-svg-icons';
+import {faCameraRetro, faEdit, faPlus, faSave, faTrash} from '@fortawesome/free-solid-svg-icons';
 import {faTimesCircle} from '@fortawesome/free-regular-svg-icons';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ProductResponseModel, Specific} from '../../../shared/model/response/product-response.model';
@@ -12,6 +12,9 @@ import {SpecificService} from './specific.service';
 import {Pagination} from '../../../shared/model/pagination';
 import {ToastrService} from 'ngx-toastr';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
+import {Observable} from 'rxjs';
+import {map, startWith, tap} from 'rxjs/operators';
+import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-product-detail',
@@ -32,7 +35,9 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
 
   product: ProductResponseModel;
   producers: any[];
-  productTypes: any;
+  producersAsync: Observable<any[]>;
+  productTypesAsync: Observable<any[]>;
+  productTypes: any[];
   addSpecFormGroup: FormGroup;
   user: any;
   editingSpecItem: Specific;
@@ -42,7 +47,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
   currentPage: number;
   pageSize: number;
   isCreated: boolean;
-  producerCode: string;
   newSpec1: string;
   newSpec2: string;
   newSpec3: string;
@@ -50,6 +54,8 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
   techInfoLines: any[];
   techKey: string;
   techValue: string;
+  producerFormControl: FormControl;
+  productTypeFormControl: FormControl;
 
 
   constructor(private route: ActivatedRoute,
@@ -60,6 +66,8 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
               private toast: ToastrService,
               private domSanitizer: DomSanitizer,
               private router: Router) {
+    this.producerFormControl = new FormControl();
+    this.productTypeFormControl = new FormControl();
     this.product = this.route.snapshot.data.product;
     this.validateProduct();
     this.producers = this.route.snapshot.data.producers;
@@ -77,9 +85,46 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     this.productService.getAllStores().subscribe(response => {
       this.stores = response.data.data;
     });
+    this.producersAsync = this.producerFormControl.valueChanges.pipe(
+      startWith(''),
+      tap(value => {
+        const obj = this.producers.find(producer => producer.Code === value);
+        this.product.ListProduction = [obj];
+        // TODO create if not found
+        console.log(this.product.ListProduction);
+      }),
+      map(value => this.filterProducer(value))
+    );
+
+    this.productTypesAsync = this.productTypeFormControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this.filterProductType(value))
+    );
   }
 
   ngAfterViewInit(): void {
+  }
+
+  filterProducer(value: any): any[] {
+    if (!value) {
+      return this.producers;
+    }
+    const filterValue = value.toLowerCase();
+    return this.producers.filter(producer => producer.Code?.toLowerCase().includes(filterValue));
+  }
+
+  //
+  // toLowercase(value: string): string {
+  //   return value.toLowerCase().replace(/\s/g, '');
+  // }
+
+  filterProductType(value: string): any[] {
+    if (!value || typeof value !== 'string') {
+      return this.productTypes;
+    }
+
+    const filterValue = value.toLowerCase();
+    return this.productTypes.filter(type => type.NameType?.toLowerCase().includes(filterValue));
   }
 
   getProductInfo(): void {
@@ -98,7 +143,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
       this.isCreated = true;
       this.product = new ProductResponseModel();
     }
-    this.producerCode = this.product.ListProduction[0]?.Code;
+    this.producerFormControl.setValue(this.product.ListProduction[0]?.Code);
   }
 
   updatePagination(): void {
@@ -170,7 +215,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
       product.ImagesPath = '';
     }
 
-    this.productService.updateProduct(product).subscribe(data => {
+    this.productService.updateProduct(product).subscribe(() => {
       this.toast.clear();
       this.toast.success('Cập nhật thành công', 'Cập nhật', {timeOut: 3000});
       this.getProductInfo();
@@ -288,7 +333,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
   deleteSpec(): void {
     this.toast.info('Đang xóa lựa chọn...', 'Xóa lựa chọn', {timeOut: 3000});
     this.closeModal('edit-spec-item-modal');
-    this.specService.deleteSpec(this.editingSpecItem.SpecID).subscribe(data => {
+    this.specService.deleteSpec(this.editingSpecItem.SpecID).subscribe(() => {
       this.addSpecFormGroup.reset();
       this.toast.clear();
       this.toast.success('Xóa lựa chọn thành công', 'Xóa lựa chọn', {timeOut: 3000});
@@ -299,11 +344,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
   onPageChange(page: number): void {
     this.currentPage = page;
     this.updatePagination();
-  }
-
-  producerChange(): void {
-    const obj = this.producers.find(producer => producer.Code === this.producerCode);
-    this.product.ListProduction = [obj];
   }
 
   savePrice(price: any): void {
@@ -326,10 +366,10 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
 
   specRelationshipChange($event: Event, childId: number, parentId: number): void {
     if (($event.target as HTMLInputElement).checked) {
-      this.specService.createRelationship(parentId, childId).subscribe(data => {
+      this.specService.createRelationship(parentId, childId).subscribe(() => {
       });
     } else {
-      this.specService.deleteRelationship(parentId, childId).subscribe(data => {
+      this.specService.deleteRelationship(parentId, childId).subscribe(() => {
       });
     }
 
@@ -368,5 +408,14 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     this.product.InformationTech = this.product.InformationTech + this.techInfoToHtml(this.techKey, this.techValue);
     this.techKey = '';
     this.techValue = '';
+  }
+
+  getProductType(typeId: number): string {
+    return this.productTypes.find(type => type.TypeProductID === typeId)?.NameType;
+  }
+
+  productTypeSelected($event: MatAutocompleteSelectedEvent): void {
+    this.product.TypeProductID = $event.option.value.TypeProductID;
+    this.productTypeFormControl.reset();
   }
 }

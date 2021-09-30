@@ -21,21 +21,50 @@
       </div>
       <div class="input">
         <label>Loại sản phẩm</label>
-        <select id="product-type" [(ngModel)]="product.TypeProductID" appSelect>
-          <option *ngFor="let type of productTypes" [value]="type.TypeProductID">{{type.NameType}}</option>
-        </select>
+        <mat-chip-list #chipList>
+          <mat-chip *ngIf="product.TypeProductID" [selectable]="false" [removable]="true"
+                    (removed)="product.TypeProductID = null">
+            {{getProductType(product.TypeProductID)}}
+            <button matChipRemove style="border: none; background: transparent; margin: 0 8px 8px 0;">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+          <input *ngIf="!product.TypeProductID" placeholder="Loại sản phẩm"
+                 [matAutocomplete]="productTypeAuto"
+                 [matChipInputFor]="chipList"
+                 [formControl]="productTypeFormControl" appInput>
+          <mat-autocomplete #productTypeAuto="matAutocomplete" (optionSelected)="productTypeSelected($event)">
+            <mat-option *ngFor="let type of productTypesAsync | async" [value]="type">
+              <span>{{'&nbsp;'.repeat(type.level * 3) + type.NameType}}</span>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-chip-list>
+        <!--        <select id="product-type" [(ngModel)]="product.TypeProductID" appSelect>-->
+        <!--          <option *ngFor="let type of productTypes" [value]="type.TypeProductID">-->
+        <!--            <span>{{'&nbsp;'.repeat(type.level * 3) + type.NameType}}</span>-->
+        <!--          </option>-->
+        <!--        </select>-->
       </div>
       <div class="input-group">
         <div class="input">
           <label>Mã sản phẩm</label>
-          <input type="text" placeholder="Mã sản phẩm" [required]="true" [(ngModel)]="product.Code" appInput>
+          <input type="text" placeholder="Mã sản phẩm" [required]="true" [disabled]="true" [(ngModel)]="product.Code"
+                 appInput>
         </div>
         <div class="input">
           <label>Hãng sản xuất</label>
-          <select id="producers" placeholder="Hãng sản xuất" [(ngModel)]="producerCode" appSelect
-                  (ngModelChange)="producerChange()">
-            <option *ngFor="let producer of producers" [value]="producer.Code">{{producer.NameProduction}}</option>
-          </select>
+          <!--          <div>-->
+          <input type="text" placeholder="Hãng sản xuất" [formControl]="producerFormControl" [matAutocomplete]="auto"
+                 appInput>
+          <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
+            <mat-option *ngFor="let producer of producersAsync | async"
+                        [value]="producer.Code">{{producer.Code}}</mat-option>
+          </mat-autocomplete>
+          <!--          </div>-->
+          <!--          <select id="producers" placeholder="Hãng sản xuất" [(ngModel)]="producerCode" appSelect-->
+          <!--                  (ngModelChange)="producerChange()">-->
+          <!--            <option *ngFor="let producer of producers" [value]="producer.Code">{{producer.NameProduction}}</option>-->
+          <!--          </select>-->
         </div>
       </div>
       <div class="input-group">
@@ -242,12 +271,12 @@
         <td>{{product.DiscountProvider}}</td>
         <td>{{product.MinQuantity}}</td>
         <td style="min-width: 70px;">
-          <button appIconButton background="bg-orange" (click)="deletePrice(price)" class="buttoncss">
+          <button appIconButton background="bg-red" (click)="deletePrice(price)" class="buttoncss">
             <fa-icon [icon]="faTrash"></fa-icon>
           </button>
           <button appIconButton background="bg-orange" (click)="savePrice(price)" class="buttoncss">
             <fa-icon [icon]="faSave"></fa-icon>
-          </button>         
+          </button>
         </td>
       </tr>
       <tr *ngIf="!product.ListPrices || product.ListPrices.length == 0">

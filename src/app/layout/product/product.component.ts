@@ -8,7 +8,7 @@ import {Pagination} from '../../shared/model/pagination';
 import {CategoryService} from '../category/category.service';
 import {CategoryResponseModel} from '../../shared/model/response/category-response.model';
 import {HttpParams} from '@angular/common/http';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 
 @Component({
   selector: 'app-product',
@@ -36,7 +36,10 @@ export class ProductComponent implements OnInit {
   pagination: Pagination<ProductResponseModel>;
   loading: boolean;
 
-  constructor(private productService: ProductService, private categoryService: CategoryService, private router: Router) {
+  constructor(private productService: ProductService,
+              private categoryService: CategoryService,
+              private route: ActivatedRoute,
+              private router: Router) {
     const display = localStorage.getItem('product:display') as ProductDisplay;
     this.display = display ? display : 'grid';
     this.page = 1;
@@ -45,11 +48,25 @@ export class ProductComponent implements OnInit {
     this.categories = [];
     this.searchQuery = '';
     this.pagination = new Pagination<ProductResponseModel>();
+
   }
 
   ngOnInit(): void {
-    this.getProducts();
-    this.getParentCategories();
+    this.route.queryParams.subscribe((params: any) => {
+      this.init(params.category);
+    });
+  }
+
+  init(parentCategory: string): void {
+    if (parentCategory === 'all') {
+      this.getProducts();
+      this.getParentCategories();
+    } else {
+      this.categoryService.getCategoryById(Number(parentCategory)).subscribe(data => {
+        this.currentCategory = data;
+        this.updateCategory(this.currentCategory);
+      });
+    }
   }
 
   getProducts(): void {
@@ -112,7 +129,9 @@ export class ProductComponent implements OnInit {
   }
 
   createProduct(): void {
-    this.router.navigate(['product', 'create']).then(() => {
+    this.router.navigate(['product', 'create'], {
+      queryParams: {category: this.currentCategory ? this.currentCategory.TypeProductID : 'all'}
+    }).then(() => {
     });
   }
 }
