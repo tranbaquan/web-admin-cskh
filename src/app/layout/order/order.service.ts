@@ -6,7 +6,7 @@ import {Pagination} from '../../shared/model/pagination';
 import {OrderResponseModel} from '../../shared/model/response/order-response.model';
 import {map} from 'rxjs/operators';
 import {OrderStatusModel} from '../../shared/model/order-status.model';
-import {OrderDetail} from "../../shared/model/order-detail.model";
+import {OrderDetail} from '../../shared/model/order-detail.model';
 
 @Injectable({
   providedIn: 'root'
@@ -73,7 +73,7 @@ export class OrderService {
     return this.http.post(url, orderDetail);
   }
 
- 
+
   getStatusByOrder(order: OrderResponseModel): OrderStatusModel {
     if (order) {
       const state = this.orderStatusState.find(item => item.isAccept === order.IsAccept && item.statusId === order.StatusID);
