@@ -44,9 +44,7 @@ export class LayoutComponent implements OnInit {
     }
   }
 
-  redirectTo(path: string): void {
-    this.router.navigate([path]).then(() => {
-      this.isMenuShow = false;
-    });
+  closeMenu(): void {
+    this.isMenuShow = false;
   }
 }

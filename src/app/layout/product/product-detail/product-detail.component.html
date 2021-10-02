@@ -2,13 +2,21 @@
   <div class="form">
     <div class="form-group">
       <div class="image-preview">
-        <img *ngIf="product.ImagesPath" [src]="getUrl(product)" [alt]="product.NameProduct">
+        <img class="main-img" *ngIf="product.ImagesPath" [src]="getImageUrl(product, 0)" [alt]="product.NameProduct">
+        <div *ngIf="product.ImagesPath?.length > 1" class="sub-images">
+          <ng-container *ngFor="let image of product.ImagesPath; index as index">
+            <div class="sub-img" *ngIf="index != 0">
+              <img [src]="getImageUrl(product, index)" [alt]="product.NameProduct">
+            </div>
+          </ng-container>
+        </div>
       </div>
       <div class="upload-group">
         <button appIconButton background="bg-orange" (click)="openFileDialog()">
           <fa-icon [icon]="faCameraRetro"></fa-icon>
         </button>
-        <input #fileUpload type="file" [hidden]="true" accept="image/*" (change)="onFileSelected($event)">
+        <input #fileUpload type="file" [hidden]="true" accept="image/*" [multiple]="true"
+               (change)="onFileSelected($event)">
         <div>Nhập / thay hình sản phẩm</div>
       </div>
     </div>
@@ -21,21 +29,64 @@
       </div>
       <div class="input">
         <label>Loại sản phẩm</label>
-        <select id="product-type" [(ngModel)]="product.TypeProductID" appSelect>
-          <option *ngFor="let type of productTypes" [value]="type.TypeProductID">{{type.NameType}}</option>
-        </select>
+        <mat-chip-list #productTypeChipList>
+          <mat-chip *ngIf="product.TypeProductID" [selectable]="false" [removable]="true"
+                    (removed)="product.TypeProductID = null">
+            {{getProductType(product.TypeProductID)}}
+            <button matChipRemove style="border: none; background: transparent; margin: 0 8px 8px 0;">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+          <input *ngIf="!product.TypeProductID" placeholder="Loại sản phẩm"
+                 [matAutocomplete]="productTypeAuto"
+                 [matChipInputFor]="productTypeChipList"
+                 [formControl]="productTypeFormControl" appInput>
+          <mat-autocomplete #productTypeAuto="matAutocomplete" (optionSelected)="productTypeSelected($event)"
+                            autoActiveFirstOption>
+            <mat-option *ngFor="let type of productTypesAsync | async" [value]="type">
+              <span>{{'&nbsp;'.repeat(type.level * 3) + type.NameType}}</span>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-chip-list>
+        <!--        <select id="product-type" [(ngModel)]="product.TypeProductID" appSelect>-->
+        <!--          <option *ngFor="let type of productTypes" [value]="type.TypeProductID">-->
+        <!--            <span>{{'&nbsp;'.repeat(type.level * 3) + type.NameType}}</span>-->
+        <!--          </option>-->
+        <!--        </select>-->
       </div>
       <div class="input-group">
         <div class="input">
           <label>Mã sản phẩm</label>
-          <input type="text" placeholder="Mã sản phẩm" [required]="true" [(ngModel)]="product.Code" appInput>
+          <input type="text" placeholder="Mã sản phẩm" [required]="true" [disabled]="true" [(ngModel)]="product.Code"
+                 appInput>
         </div>
         <div class="input">
           <label>Hãng sản xuất</label>
-          <select id="producers" placeholder="Hãng sản xuất" [(ngModel)]="producerCode" appSelect
-                  (ngModelChange)="producerChange()">
-            <option *ngFor="let producer of producers" [value]="producer.Code">{{producer.NameProduction}}</option>
-          </select>
+          <!--          <input type="text" placeholder="Hãng sản xuất" [formControl]="producerFormControl" [matAutocomplete]="auto"-->
+          <!--                 appInput>-->
+          <mat-chip-list #producerChipList>
+            <mat-chip *ngIf="product.ListProduction[0]" [selectable]="false" [removable]="true"
+                      (removed)="product.ListProduction = []">
+              {{product.ListProduction[0].NameProduction}}
+              <button matChipRemove style="border: none; background: transparent; margin: 0 8px 8px 0;">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+            <input *ngIf="!product.ListProduction[0]" placeholder="Hãng sản xuất"
+                   [matAutocomplete]="producerAuto"
+                   [matChipInputFor]="producerChipList"
+                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                   [matChipInputAddOnBlur]="true"
+                   (matChipInputTokenEnd)="addProducer($event)"
+                   [formControl]="producerFormControl" appInput>
+            <mat-autocomplete #producerAuto="matAutocomplete" autoActiveFirstOption
+                              (optionSelected)="producerSelected($event)">
+              <mat-option *ngFor="let producer of producersAsync | async"
+                          [value]="producer">
+                {{producer.NameProduction}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-chip-list>
         </div>
       </div>
       <div class="input-group">
@@ -87,7 +138,12 @@
       <ng-container *ngIf="product.ListSpec1.length != 0">
         <div class="input">
           <label>Tên đặc tả</label>
-          <input type="text" appInput [(ngModel)]="product.ListSpec1[0].SpecName">
+          <div class="has-delete">
+            <input type="text" appInput [(ngModel)]="product.ListSpec1[0].SpecName" width="320">
+            <button appIconButton [size]="32" background="bg-red" (click)="deleteMainSpec(2)">
+              <fa-icon [icon]="faTrash"></fa-icon>
+            </button>
+          </div>
         </div>
         <div class="input">
           <label>Giá trị</label>
@@ -95,7 +151,7 @@
             <ng-container *ngFor="let spec of product.ListSpec1; index as index">
               <div class="spec-item"
                    (click)="openModalEditSpecItem('edit-spec-item-modal', spec, product.ListSpec1, [])"
-                   *ngIf="index != 0">
+                   *ngIf="spec.ParentID">
                 {{spec.SpecName}}
               </div>
               <!--              <input *ngIf="index != 0" type="text" appInput [width]="70" [value]="spec.SpecName">-->
@@ -115,7 +171,12 @@
       <ng-container *ngIf="product.ListSpec2.length != 0">
         <div class="input">
           <label>Tên đặc tả</label>
-          <input type="text" appInput [(ngModel)]="product.ListSpec2[0].SpecName">
+          <div class="has-delete">
+            <input type="text" appInput [(ngModel)]="product.ListSpec2[0].SpecName" width="320">
+            <button appIconButton [size]="32" background="bg-red" (click)="deleteMainSpec(2)">
+              <fa-icon [icon]="faTrash"></fa-icon>
+            </button>
+          </div>
         </div>
         <div class="input">
           <label>Giá trị</label>
@@ -123,7 +184,7 @@
             <ng-container *ngFor="let spec of product.ListSpec2; index as index">
               <div class="spec-item"
                    (click)="openModalEditSpecItem('edit-spec-item-modal', spec, product.ListSpec2, product.ListSpec1)"
-                   *ngIf="index != 0">
+                   *ngIf="spec.ParentID">
                 {{spec.SpecName}}
               </div>
               <!--              <input *ngIf="index != 0" type="text" appInput [width]="70" [value]="spec.SpecName">-->
@@ -143,7 +204,12 @@
       <ng-container *ngIf="product.ListSpec3.length != 0">
         <div class="input">
           <label>Tên đặc tả</label>
-          <input type="text" appInput [(ngModel)]="product.ListSpec3[0].SpecName">
+          <div class="has-delete">
+            <input type="text" appInput [(ngModel)]="product.ListSpec3[0].SpecName" width="320">
+            <button appIconButton [size]="32" background="bg-red" (click)="deleteMainSpec(3)">
+              <fa-icon [icon]="faTrash"></fa-icon>
+            </button>
+          </div>
         </div>
         <div class="input">
           <label>Giá trị</label>
@@ -151,7 +217,7 @@
             <ng-container *ngFor="let spec of product.ListSpec3; index as index">
               <div class="spec-item"
                    (click)="openModalEditSpecItem('edit-spec-item-modal', spec, product.ListSpec3, product.ListSpec2)"
-                   *ngIf="index != 0">
+                   *ngIf="spec.ParentID">
                 {{spec.SpecName}}
               </div>
             </ng-container>
@@ -218,11 +284,11 @@
     <table appTable [isEvenSeparate]="true">
       <thead>
       <tr>
-        <th *ngIf="product.ListSpec1.length != 0">{{product.ListSpec1[0]?.SpecName}}</th>
-        <th *ngIf="product.ListSpec2.length != 0">{{product.ListSpec2[0]?.SpecName}}</th>
-        <th *ngIf="product.ListSpec3.length != 0">{{product.ListSpec3[0]?.SpecName}}</th>
-        <th>Kho</th>
-        <th>Đơn vị</th>
+        <th style="min-width: 100px" *ngIf="product.ListSpec1.length != 0">{{product.ListSpec1[0]?.SpecName}}</th>
+        <th style="min-width: 100px" *ngIf="product.ListSpec2.length != 0">{{product.ListSpec2[0]?.SpecName}}</th>
+        <th style="min-width: 100px" *ngIf="product.ListSpec3.length != 0">{{product.ListSpec3[0]?.SpecName}}</th>
+        <th style="min-width: 100px">Kho</th>
+        <th style="min-width: 100px">Đơn vị</th>
         <th style="min-width: 150px">Giá</th>
         <th>Chiết khấu</th>
         <th>Tối thiểu</th>
@@ -231,23 +297,26 @@
       </thead>
       <tbody>
       <tr *ngFor="let price of pagination.data">
-        <td *ngIf="product.ListSpec1.length != 0">{{findSpecName(product.ListSpec1, price.SpecID1)}}</td>
-        <td *ngIf="product.ListSpec2.length != 0">{{findSpecName(product.ListSpec2, price.SpecID2)}}</td>
-        <td *ngIf="product.ListSpec3.length != 0">{{findSpecName(product.ListSpec3, price.SpecID3)}}</td>
-        <td>{{getStoreName(price.StoreID)}}</td>
-        <td>{{product.Unit}}</td>
+        <td style="min-width: 100px"
+            *ngIf="product.ListSpec1.length != 0">{{findSpecName(product.ListSpec1, price.SpecID1)}}</td>
+        <td style="min-width: 100px"
+            *ngIf="product.ListSpec2.length != 0">{{findSpecName(product.ListSpec2, price.SpecID2)}}</td>
+        <td style="min-width: 100px"
+            *ngIf="product.ListSpec3.length != 0">{{findSpecName(product.ListSpec3, price.SpecID3)}}</td>
+        <td style="min-width: 100px">{{getStoreName(price.StoreID)}}</td>
+        <td style="min-width: 100px">{{product.Unit}}</td>
         <td style="min-width: 150px">
           <input type="text" min="0" [(ngModel)]="price.Prices" appInput>
         </td>
         <td>{{product.DiscountProvider}}</td>
         <td>{{product.MinQuantity}}</td>
         <td style="min-width: 70px;">
-          <button appIconButton background="bg-orange" (click)="deletePrice(price)" class="buttoncss">
+          <button appIconButton background="bg-red" (click)="deletePrice(price)" class="buttoncss">
             <fa-icon [icon]="faTrash"></fa-icon>
           </button>
           <button appIconButton background="bg-orange" (click)="savePrice(price)" class="buttoncss">
             <fa-icon [icon]="faSave"></fa-icon>
-          </button>         
+          </button>
         </td>
       </tr>
       <tr *ngIf="!product.ListPrices || product.ListPrices.length == 0">
@@ -363,7 +432,7 @@
     <div class="modal-form" *ngIf="editingSpecItem">
       <div class="input">
         <label>Mã lựa chọn</label>
-        <input [required]="true" type="text" appInput [(ngModel)]="editingSpecItem.Code">
+        <input [disabled]="true" [required]="true" type="text" appInput [(ngModel)]="editingSpecItem.Code">
       </div>
       <div class="input">
         <label>Tên lựa chọn</label>
@@ -371,7 +440,7 @@
       </div>
       <div class="input">
         <label>Trạng thái</label>
-        <select [required]="true" [(ngModel)]="editingSpecItem.Status" appSelect>
+        <select [disabled]="true" [required]="true" [(ngModel)]="editingSpecItem.Status" appSelect>
           <option [value]="1">Kích hoạt</option>
           <option [value]="0">Hủy kích hoạt</option>
         </select>

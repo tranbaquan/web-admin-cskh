@@ -20,6 +20,9 @@ import {ModalBodyComponent} from './component/modal/modal-body/modal-body.compon
 import {ModalFooterComponent} from './component/modal/modal-footer/modal-footer.component';
 import {ToastrModule} from 'ngx-toastr';
 import {PricePipe} from './pipe/price.pipe';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   imports: [
@@ -30,7 +33,10 @@ import {PricePipe} from './pipe/price.pipe';
     ReactiveFormsModule,
     FontAwesomeModule,
     CKEditorModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    MatAutocompleteModule,
+    MatChipsModule,
+    MatIconModule
   ],
   declarations: [
     InputDirective,
@@ -75,7 +81,10 @@ import {PricePipe} from './pipe/price.pipe';
     ModalHeaderComponent,
     ModalBodyComponent,
     ModalFooterComponent,
-    ToastrModule
+    ToastrModule,
+    MatAutocompleteModule,
+    MatChipsModule,
+    MatIconModule
   ]
 })
 export class SharedModule {
