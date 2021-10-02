@@ -139,7 +139,10 @@
         <div class="input">
           <label>Tên đặc tả</label>
           <div class="has-delete">
-            <input type="text" appInput [(ngModel)]="product.ListSpec1[0].SpecName" width="320">
+            <div class="spec-item" style="flex: 1" (click)="openModalEditSpec('edit-spec-modal', product.ListSpec1[0])">
+              {{product.ListSpec1[0].SpecName}}
+            </div>
+            <!--            <input type="text" appInput [(ngModel)]="product.ListSpec1[0].SpecName" width="320">-->
             <button appIconButton [size]="32" background="bg-red" (click)="deleteMainSpec(2)">
               <fa-icon [icon]="faTrash"></fa-icon>
             </button>
@@ -172,7 +175,10 @@
         <div class="input">
           <label>Tên đặc tả</label>
           <div class="has-delete">
-            <input type="text" appInput [(ngModel)]="product.ListSpec2[0].SpecName" width="320">
+            <!--            <input type="text" appInput [(ngModel)]="product.ListSpec2[0].SpecName" width="320">-->
+            <div class="spec-item" style="flex: 1" (click)="openModalEditSpec('edit-spec-modal', product.ListSpec2[0])">
+              {{product.ListSpec2[0].SpecName}}
+            </div>
             <button appIconButton [size]="32" background="bg-red" (click)="deleteMainSpec(2)">
               <fa-icon [icon]="faTrash"></fa-icon>
             </button>
@@ -205,7 +211,10 @@
         <div class="input">
           <label>Tên đặc tả</label>
           <div class="has-delete">
-            <input type="text" appInput [(ngModel)]="product.ListSpec3[0].SpecName" width="320">
+            <!--            <input type="text" appInput [(ngModel)]="product.ListSpec3[0].SpecName" width="320">-->
+            <div class="spec-item" style="flex: 1" (click)="openModalEditSpec('edit-spec-modal', product.ListSpec3[0])">
+              {{product.ListSpec3[0].SpecName}}
+            </div>
             <button appIconButton [size]="32" background="bg-red" (click)="deleteMainSpec(3)">
               <fa-icon [icon]="faTrash"></fa-icon>
             </button>
@@ -331,6 +340,7 @@
 </div>
 
 <app-modal id="add-spec-modal" [width]="500" [contentTemplate]="addSpecModal"></app-modal>
+<app-modal id="edit-spec-modal" [width]="500" [contentTemplate]="editSpecModal"></app-modal>
 <app-modal id="edit-spec-item-modal" [width]="500" [contentTemplate]="editSpecItemModal"></app-modal>
 <app-modal id="add-spec-item-modal" [width]="500" [contentTemplate]="addSpecItemModal"></app-modal>
 
@@ -367,13 +377,53 @@
   <app-modal-footer>
     <div class="right-section">
       <div class="btn-group">
-        <button appButton background="bg-gray" (click)="closeModal('add-spec-modal')">Đóng</button>
+        <button appButton background="bg-gray" (click)="closeModal('edit-spec-modal')">Đóng</button>
         <button appButton background="bg-orange" (click)="addSpec()">Lưu lại</button>
       </div>
     </div>
   </app-modal-footer>
 </ng-template>
 
+<ng-template #editSpecModal>
+  <app-modal-header>
+    <div class="modal-title">
+      <div class="title">Sửa đặc tả</div>
+    </div>
+    <div>
+      <button appIconButton background="bg-transparent" (click)="closeModal('edit-spec-modal')">
+        <fa-icon size="lg" [icon]="faTimesCircle"></fa-icon>
+      </button>
+    </div>
+  </app-modal-header>
+  <app-modal-body>
+    <div class="modal-form">
+      <div class="input">
+        <label>Mã đặc tả</label>
+        <input [required]="true" [disabled]="true" [(ngModel)]="editingSpecItem.Code" placeholder="Mã đặc tả"
+               type="text" appInput>
+      </div>
+      <div class="input">
+        <label>Tên đặc tả</label>
+        <input [required]="true" [(ngModel)]="editingSpecItem.SpecName" placeholder="Tên đặc tả" type="text" appInput>
+      </div>
+      <div class="input">
+        <label>Trạng thái</label>
+        <select [required]="true" [disabled]="true" [(ngModel)]="editingSpecItem.Status" appSelect>
+          <option [value]="1">Kích hoạt</option>
+          <option [value]="0">Hủy kích hoạt</option>
+        </select>
+      </div>
+    </div>
+  </app-modal-body>
+  <app-modal-footer>
+    <div class="right-section">
+      <div class="btn-group">
+        <button appButton background="bg-gray" (click)="closeModal('edit-spec-modal')">Đóng</button>
+        <button appButton background="bg-orange" (click)="updateSpec()">Lưu lại</button>
+      </div>
+    </div>
+  </app-modal-footer>
+</ng-template>
 
 <ng-template #addSpecItemModal>
   <app-modal-header>

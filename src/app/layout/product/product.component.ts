@@ -119,7 +119,9 @@ export class ProductComponent implements OnInit {
   }
 
   viewDetail(product: ProductResponseModel): void {
-    this.router.navigate(['product', product.ProductID]).then(() => {
+    this.router.navigate(['product', product.ProductID], {
+      queryParams: {category: this.currentCategory ? this.currentCategory.TypeProductID : 'all'}
+    }).then(() => {
     });
   }
 
