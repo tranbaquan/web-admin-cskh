@@ -451,22 +451,10 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     this.producerFormControl.reset();
   }
 
-  deleteMainSpec(specNumber: number): void {
-    let spec: any;
-    switch (specNumber) {
-      case 1:
-        spec = this.product.ListSpec1[0];
-        break;
-      case 2:
-        spec = this.product.ListSpec2[0];
-        break;
-      case 3:
-        spec = this.product.ListSpec3[0];
-        break;
-    }
-
+  deleteMainSpec(): void {
+    this.closeModal('edit-spec-modal');
     this.toast.info('Đang xóa đặc tả...', 'Xóa đặc tả', {timeOut: 3000});
-    this.specService.deleteSpec(spec.SpecID).subscribe(() => {
+    this.specService.deleteSpec(this.editingSpecItem.SpecID).subscribe(() => {
       this.toast.clear();
       this.toast.success('Xóa đặc tả thành công', 'Xóa đặc tả', {timeOut: 3000});
       this.getProductInfo();
