@@ -284,11 +284,11 @@
     <table appTable [isEvenSeparate]="true">
       <thead>
       <tr>
-        <th *ngIf="product.ListSpec1.length != 0">{{product.ListSpec1[0]?.SpecName}}</th>
-        <th *ngIf="product.ListSpec2.length != 0">{{product.ListSpec2[0]?.SpecName}}</th>
-        <th *ngIf="product.ListSpec3.length != 0">{{product.ListSpec3[0]?.SpecName}}</th>
-        <th>Kho</th>
-        <th>Đơn vị</th>
+        <th style="min-width: 100px" *ngIf="product.ListSpec1.length != 0">{{product.ListSpec1[0]?.SpecName}}</th>
+        <th style="min-width: 100px" *ngIf="product.ListSpec2.length != 0">{{product.ListSpec2[0]?.SpecName}}</th>
+        <th style="min-width: 100px" *ngIf="product.ListSpec3.length != 0">{{product.ListSpec3[0]?.SpecName}}</th>
+        <th style="min-width: 100px">Kho</th>
+        <th style="min-width: 100px">Đơn vị</th>
         <th style="min-width: 150px">Giá</th>
         <th>Chiết khấu</th>
         <th>Tối thiểu</th>
@@ -297,11 +297,14 @@
       </thead>
       <tbody>
       <tr *ngFor="let price of pagination.data">
-        <td *ngIf="product.ListSpec1.length != 0">{{findSpecName(product.ListSpec1, price.SpecID1)}}</td>
-        <td *ngIf="product.ListSpec2.length != 0">{{findSpecName(product.ListSpec2, price.SpecID2)}}</td>
-        <td *ngIf="product.ListSpec3.length != 0">{{findSpecName(product.ListSpec3, price.SpecID3)}}</td>
-        <td>{{getStoreName(price.StoreID)}}</td>
-        <td>{{product.Unit}}</td>
+        <td style="min-width: 100px"
+            *ngIf="product.ListSpec1.length != 0">{{findSpecName(product.ListSpec1, price.SpecID1)}}</td>
+        <td style="min-width: 100px"
+            *ngIf="product.ListSpec2.length != 0">{{findSpecName(product.ListSpec2, price.SpecID2)}}</td>
+        <td style="min-width: 100px"
+            *ngIf="product.ListSpec3.length != 0">{{findSpecName(product.ListSpec3, price.SpecID3)}}</td>
+        <td style="min-width: 100px">{{getStoreName(price.StoreID)}}</td>
+        <td style="min-width: 100px">{{product.Unit}}</td>
         <td style="min-width: 150px">
           <input type="text" min="0" [(ngModel)]="price.Prices" appInput>
         </td>
