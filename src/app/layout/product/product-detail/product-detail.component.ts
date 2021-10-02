@@ -13,7 +13,7 @@ import {Pagination} from '../../../shared/model/pagination';
 import {ToastrService} from 'ngx-toastr';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 import {Observable} from 'rxjs';
-import {map, startWith, tap} from 'rxjs/operators';
+import {map, startWith} from 'rxjs/operators';
 import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {ENTER} from '@angular/cdk/keycodes';
@@ -81,7 +81,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     this.stores = [];
     this.techInfoLines = [];
     this.updatePagination();
-    console.log(this.producers);
   }
 
   ngOnInit(): void {
@@ -247,7 +246,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     this.toast.info('Đang tạo đặc tả...', 'Tạo đặc tả', {timeOut: 3000});
     this.closeModal('add-spec-modal');
     const value = this.addSpecFormGroup.getRawValue();
-    console.log(value);
     if (!this.product.ListSpec1 || this.product.ListSpec1.length === 0) {
       value.TypeSpec = 1;
       this.product.ListSpec1 = [value];
@@ -491,5 +489,27 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     this.productService.createProducer(producer).subscribe(response => {
       this.product.ListProduction = [response.data];
     });
+  }
+
+  updateSpec(): void {
+    this.closeModal('edit-spec-modal');
+    this.editingSpecItem.UserCreated = this.user.UserCreated;
+    this.editingSpecItem.UserUpdated = this.user.Code;
+    this.toast.info('Đang cập nhật đặc tả...', 'Cập nhật đặc tả', {timeOut: 3000});
+    this.specService.updateSpec(this.editingSpecItem).subscribe(() => {
+      this.productService.getPrices(this.product.ProductID, this.user.Code).subscribe(() => {
+        this.toast.clear();
+        this.toast.success('Cập nhật đặc tả thành công', 'Cập nhật đặc tả', {timeOut: 3000});
+        this.getProductInfo();
+      });
+    }, () => {
+      this.toast.clear();
+      this.toast.error('Cập nhật đặc tả thất bại', 'Cập nhật đặc tả', {timeOut: 3000});
+    });
+  }
+
+  openModalEditSpec(modalId: string, specific: Specific): void {
+    this.openModal(modalId);
+    this.editingSpecItem = specific;
   }
 }
