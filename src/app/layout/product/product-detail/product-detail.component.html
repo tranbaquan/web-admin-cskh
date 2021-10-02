@@ -143,9 +143,6 @@
               {{product.ListSpec1[0].SpecName}}
             </div>
             <!--            <input type="text" appInput [(ngModel)]="product.ListSpec1[0].SpecName" width="320">-->
-            <button appIconButton [size]="32" background="bg-red" (click)="deleteMainSpec(2)">
-              <fa-icon [icon]="faTrash"></fa-icon>
-            </button>
           </div>
         </div>
         <div class="input">
@@ -179,9 +176,6 @@
             <div class="spec-item" style="flex: 1" (click)="openModalEditSpec('edit-spec-modal', product.ListSpec2[0])">
               {{product.ListSpec2[0].SpecName}}
             </div>
-            <button appIconButton [size]="32" background="bg-red" (click)="deleteMainSpec(2)">
-              <fa-icon [icon]="faTrash"></fa-icon>
-            </button>
           </div>
         </div>
         <div class="input">
@@ -215,9 +209,6 @@
             <div class="spec-item" style="flex: 1" (click)="openModalEditSpec('edit-spec-modal', product.ListSpec3[0])">
               {{product.ListSpec3[0].SpecName}}
             </div>
-            <button appIconButton [size]="32" background="bg-red" (click)="deleteMainSpec(3)">
-              <fa-icon [icon]="faTrash"></fa-icon>
-            </button>
           </div>
         </div>
         <div class="input">
@@ -416,6 +407,9 @@
     </div>
   </app-modal-body>
   <app-modal-footer>
+    <div class="left-section">
+      <button appButton background="bg-red" (click)="deleteMainSpec()">Xóa</button>
+    </div>
     <div class="right-section">
       <div class="btn-group">
         <button appButton background="bg-gray" (click)="closeModal('edit-spec-modal')">Đóng</button>
