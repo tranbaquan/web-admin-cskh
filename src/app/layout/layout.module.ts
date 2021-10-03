@@ -10,6 +10,7 @@ import { OrderDetailComponent } from './order/order-detail/order-detail.componen
 import { OrderStatusComponent } from './order/order-status/order-status.component';
 import {FormsModule} from '@angular/forms';
 import { ProductTypeComponent } from './product-type/product-type.component';
+import {TreeviewModule} from 'ngx-treeview';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { ProductTypeComponent } from './product-type/product-type.component';
     LayoutRoutingModule,
     SharedModule,
     FormsModule,
+    TreeviewModule.forRoot(),
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,

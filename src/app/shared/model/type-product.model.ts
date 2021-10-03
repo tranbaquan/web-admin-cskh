@@ -12,4 +12,5 @@ export class TypeProductModel {
   UserCreated: string;
   UserUpdated: string;
   listChildren: TypeProductModel[] = [];
+  level: number;
 }

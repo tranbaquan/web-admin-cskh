@@ -13,6 +13,7 @@ import {OrderDetailComponent} from './order/order-detail/order-detail.component'
 import {OrderResponseModel} from '../shared/model/response/order-response.model';
 import {OrderDetailResolver} from './order/order-detail/order-detail.resolver';
 import {ProductResponseModel} from '../shared/model/response/product-response.model';
+import {ProductTypeComponent} from "./product-type/product-type.component";
 
 const routes: Routes = [
   {
@@ -65,6 +66,11 @@ const routes: Routes = [
         resolve: {
           order: OrderDetailResolver
         }
+      },
+      {
+        path: 'type-product',
+        pathMatch: 'full',
+        component: ProductTypeComponent
       }
     ]
   }
