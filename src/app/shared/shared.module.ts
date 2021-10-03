@@ -24,6 +24,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatCurrencyFormatModule} from 'mat-currency-format';
 
 @NgModule({
   imports: [
@@ -38,7 +39,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatAutocompleteModule,
     MatChipsModule,
     MatIconModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatCurrencyFormatModule
   ],
   declarations: [
     InputDirective,
@@ -87,7 +89,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatAutocompleteModule,
     MatChipsModule,
     MatIconModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatCurrencyFormatModule
   ]
 })
 export class SharedModule {

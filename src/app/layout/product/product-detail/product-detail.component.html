@@ -10,6 +10,15 @@
             </div>
           </ng-container>
         </div>
+        <!--        <div class="gallery">-->
+        <!--          <ng-container *ngFor="let image of product.ImagesPath; index as index">-->
+        <!--            <div class="gallery-cell"></div>-->
+        <!--            <div class="gallery-cell"></div>-->
+        <!--            <div class="gallery-cell"></div>-->
+        <!--            <div class="gallery-cell"></div>-->
+        <!--            <div class="gallery-cell"></div>-->
+        <!--          </ng-container>-->
+        <!--        </div>-->
       </div>
       <div class="upload-group">
         <button appIconButton background="bg-orange" (click)="openFileDialog()">
@@ -245,7 +254,9 @@
       <div class="input-group">
         <div class="input">
           <label>Giá</label>
-          <input type="number" [min]="0" appInput [(ngModel)]="product.AmountSale">
+          <input type="text" [min]="0" appInput mvndrMatCurrencyFormat
+                 [allowNegative]="false" [currencyCode]="'VND'" [value]="product.AmountSale"
+                 (blur)="updateProductAmountSale($event)">
         </div>
         <div class="input">
           <label>Chiết khấu</label>
@@ -274,8 +285,15 @@
       </button>
     </div>
     <div class="form-group">
-      <button *ngIf="!isCreated" background="bg-orange" appButton (click)="saveChange()">Lưu thay đổi</button>
-      <button *ngIf="isCreated" background="bg-orange" appButton (click)="createProduct()">Tạo sản phẩm</button>
+      <div style="display: flex; gap: 10px">
+        <button style="flex: 1" routerLink="../" [queryParams]="{category: category}">Về danh sách</button>
+        <button style="flex: 1" *ngIf="!isCreated" background="bg-orange" appButton (click)="saveChange()">Lưu thay
+          đổi
+        </button>
+        <button style="flex: 1" *ngIf="isCreated" background="bg-orange" appButton (click)="createProduct()">Tạo sản
+          phẩm
+        </button>
+      </div>
     </div>
   </div>
 
@@ -306,20 +324,19 @@
         <td style="min-width: 100px">{{getStoreName(price.StoreID)}}</td>
         <td style="min-width: 100px">{{product.Unit}}</td>
         <td style="min-width: 150px">
-          <span *ngIf="!price.editing">{{price.Prices | vnd}}</span>
-          <input *ngIf="price.editing" type="text" min="0" [(ngModel)]="price.Prices" appInput>
+          <input type="text" min="0" appInput mvndrMatCurrencyFormat
+                 [allowNegative]="false" [currencyCode]="'VND'" [value]="price.Prices"
+                 (blur)="updatePrice(price, $event)">
         </td>
         <td>{{product.DiscountProvider}}</td>
         <td>{{product.MinQuantity}}</td>
         <td style="min-width: 70px">
           <div class="icon-group">
-            <button  *ngIf="!price.editing" appIconButton background="bg-orange" (click)="price.editing = true">
-              <fa-icon [icon]="faEdit"></fa-icon>
-            </button>
-            <button *ngIf="price.editing" appIconButton background="bg-orange" (click)="savePrice(price)">
+            <button appIconButton background="bg-orange" (click)="savePrice(price)">
               <fa-icon [icon]="faSave"></fa-icon>
             </button>
-            <button appIconButton background="bg-red" matTooltip="Nhấn 2 lần để xóa" [matTooltipPosition]="'above'" (dblclick)="deletePrice(price)">
+            <button appIconButton background="bg-red" matTooltip="Nhấn 2 lần để xóa" [matTooltipPosition]="'above'"
+                    (dblclick)="deletePrice(price)">
               <fa-icon [icon]="faTrash"></fa-icon>
             </button>
           </div>
