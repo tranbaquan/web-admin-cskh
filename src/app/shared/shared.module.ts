@@ -23,6 +23,7 @@ import {PricePipe} from './pipe/price.pipe';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import {MatIconModule} from '@angular/material/icon';
     ToastrModule.forRoot(),
     MatAutocompleteModule,
     MatChipsModule,
-    MatIconModule
+    MatIconModule,
+    MatTooltipModule
   ],
   declarations: [
     InputDirective,
@@ -84,7 +86,8 @@ import {MatIconModule} from '@angular/material/icon';
     ToastrModule,
     MatAutocompleteModule,
     MatChipsModule,
-    MatIconModule
+    MatIconModule,
+    MatTooltipModule
   ]
 })
 export class SharedModule {
