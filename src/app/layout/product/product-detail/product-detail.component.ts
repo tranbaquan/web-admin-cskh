@@ -59,6 +59,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
   producerFormControl: FormControl;
   productTypeFormControl: FormControl;
   readonly separatorKeysCodes = [ENTER] as const;
+  category: string;
 
   constructor(private route: ActivatedRoute,
               private modalService: ModalService,
@@ -81,6 +82,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     this.stores = [];
     this.techInfoLines = [];
     this.updatePagination();
+    this.category = route.snapshot.queryParamMap.get('category');
   }
 
   ngOnInit(): void {
@@ -374,7 +376,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
       this.toast.clear();
       this.toast.error('Lưu giá thất bại', 'Lưu giá', {timeOut: 3000});
     }, () => {
-      price.editing = false;
     });
   }
 
@@ -501,5 +502,13 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
   openModalEditSpec(modalId: string, specific: Specific): void {
     this.openModal(modalId);
     this.editingSpecItem = specific;
+  }
+
+  updateProductAmountSale($event: FocusEvent): void {
+    this.product.AmountSale = Number(($event.target as HTMLInputElement).value);
+  }
+
+  updatePrice(price: any, $event: FocusEvent): void {
+    price.Prices = Number(($event.target as HTMLInputElement).value);
   }
 }
