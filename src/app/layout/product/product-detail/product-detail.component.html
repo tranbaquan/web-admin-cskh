@@ -306,17 +306,23 @@
         <td style="min-width: 100px">{{getStoreName(price.StoreID)}}</td>
         <td style="min-width: 100px">{{product.Unit}}</td>
         <td style="min-width: 150px">
-          <input type="text" min="0" [(ngModel)]="price.Prices" appInput>
+          <span *ngIf="!price.editing">{{price.Prices | vnd}}</span>
+          <input *ngIf="price.editing" type="text" min="0" [(ngModel)]="price.Prices" appInput>
         </td>
         <td>{{product.DiscountProvider}}</td>
         <td>{{product.MinQuantity}}</td>
-        <td style="min-width: 70px;">
-          <button appIconButton background="bg-red" (click)="deletePrice(price)" class="buttoncss">
-            <fa-icon [icon]="faTrash"></fa-icon>
-          </button>
-          <button appIconButton background="bg-orange" (click)="savePrice(price)" class="buttoncss">
-            <fa-icon [icon]="faSave"></fa-icon>
-          </button>
+        <td style="min-width: 70px">
+          <div class="icon-group">
+            <button  *ngIf="!price.editing" appIconButton background="bg-orange" (click)="price.editing = true">
+              <fa-icon [icon]="faEdit"></fa-icon>
+            </button>
+            <button *ngIf="price.editing" appIconButton background="bg-orange" (click)="savePrice(price)">
+              <fa-icon [icon]="faSave"></fa-icon>
+            </button>
+            <button appIconButton background="bg-red" matTooltip="Nhấn 2 lần để xóa" [matTooltipPosition]="'above'" (dblclick)="deletePrice(price)">
+              <fa-icon [icon]="faTrash"></fa-icon>
+            </button>
+          </div>
         </td>
       </tr>
       <tr *ngIf="!product.ListPrices || product.ListPrices.length == 0">

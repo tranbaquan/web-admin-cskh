@@ -141,10 +141,13 @@
   }
 }
 
-.buttoncss {
-  float: right;
-  width: 32px;
-  margin-right: 2px;
+.icon-group {
+  display: flex;
+  min-width: 70px;
+  gap: 5px;
+  height: 100%;
+  align-items: center;
+  justify-content: right;
 }
 
 .tech-info-table {

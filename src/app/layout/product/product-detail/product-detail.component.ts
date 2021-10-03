@@ -373,6 +373,8 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     }, () => {
       this.toast.clear();
       this.toast.error('Lưu giá thất bại', 'Lưu giá', {timeOut: 3000});
+    }, () => {
+      price.editing = false;
     });
   }
 
