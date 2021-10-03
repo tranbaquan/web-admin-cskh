@@ -26,7 +26,7 @@ import {TreeviewModule} from 'ngx-treeview';
   imports: [
     LayoutRoutingModule,
     SharedModule,
-    FormsModule
+    FormsModule,
     TreeviewModule.forRoot(),
   ],
   schemas: [
