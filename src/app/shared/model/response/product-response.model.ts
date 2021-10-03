@@ -14,7 +14,7 @@ export class ProductResponseModel {
   DateProduction: Date;
   DateExpired: Date;
   Status: number;
-  ImagesPath: string[] | string;
+  ImagesPath: string[];
   IsHome: boolean;
   IsStandard: boolean;
   IsBestSell: boolean;
@@ -49,7 +49,7 @@ export class ProductResponseModel {
     this.DateProduction = new Date();
     this.DateExpired = new Date();
     this.Status = 0;
-    this.ImagesPath = '';
+    this.ImagesPath = [];
     this.IsHome = false;
     this.IsStandard = false;
     this.IsBestSell = false;

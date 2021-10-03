@@ -11,4 +11,5 @@ export class CategoryResponseModel {
   TypeProductID: number;
   UserCreated: string;
   UserUpdated: string;
+  level: number;
 }

@@ -26,10 +26,4 @@ export class CategoryComponent implements OnInit {
   getUrl(category: CategoryResponseModel): string {
     return environment.storageUrl + category.ImagesPath.substr(1);
   }
-
-
-  redirectTo(path: string): void {
-    this.router.navigate([path]).then(() => {
-    });
-  }
 }

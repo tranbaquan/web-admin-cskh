@@ -5,6 +5,7 @@ import {environment} from '../../../environments/environment';
 import {Pagination} from '../../shared/model/pagination';
 import {ProductResponseModel} from '../../shared/model/response/product-response.model';
 import {map} from 'rxjs/operators';
+import {ProducerResponseModel} from '../../shared/model/response/producer-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -55,6 +56,12 @@ export class ProductService {
     return this.http.get(url, {headers}).pipe(
       map((response: any) => response.data.data)
     );
+  }
+
+  createProducer(producer: ProducerResponseModel): Observable<any> {
+    const url = this.baseUrl + '/api/production/create';
+
+    return this.http.post(url, producer);
   }
 
   updateProduct(product: ProductResponseModel): Observable<any> {
