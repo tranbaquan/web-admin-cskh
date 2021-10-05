@@ -1,6 +1,7 @@
 <div class="helios-gallery" [style.width.px]="width" [style.height.px]="height">
   <div *ngIf="imagesUrl.length > 0" class="image-preview">
-    <img [src]="getImageUrl(previewImage)" alt="">
+    <img [src]="getImageUrl(previewImage)" alt="" [style.max-height.px]="height - sliderHeight - 20"
+         [style.max-width.px]="width - 20">
     <div class="upload">
       <input #fileUpload type="file" [hidden]="true" accept="image/*" [multiple]="false"
              (change)="onFileSelected($event)">
@@ -10,7 +11,8 @@
       </button>
     </div>
     <div class="remove">
-      <button appIconButton background="bg-red" (click)="removeImage()" matTooltip="Xóa ảnh này" matTooltipPosition="above">
+      <button appIconButton background="bg-red" (click)="removeImage()" matTooltip="Xóa ảnh này"
+              matTooltipPosition="above">
         <fa-icon [icon]="faTrashAlt"></fa-icon>
       </button>
     </div>
@@ -19,10 +21,11 @@
     <span>Không tìm thấy ảnh</span>
   </div>
   <div class="gallery-slider" #slider [style.height.px]="sliderHeight">
-    <div class="image" *ngFor="let url of imagesUrl; index as index" (click)="changePreviewImage(url, index)"
+    <div class="image" *ngFor="let url of imagesUrl; index as index"
+         (click)="changePreviewImage(url, index)"
          [class.active]="url === previewImage">
-      <img [src]="getImageUrl(url)" alt="" [style.width.px]="imageSize" [style.min-width.px]="imageSize"
-           [style.min-height.px]="imageSize" [style.height.px]="imageSize">
+      <img [src]="getImageUrl(url)" alt="" [style.width.px]="imageSize-4" [style.min-width.px]="imageSize-4"
+           [style.min-height.px]="imageSize-4" [style.height.px]="imageSize-4">
     </div>
     <div *ngIf="imagesUrl.length > 5" class="move-btn left-btn" [style.bottom.px]="sliderHeight / 2 - 14">
       <button appIconButton background="bg-transparent" (click)="moveLeft()">
