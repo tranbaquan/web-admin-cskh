@@ -25,6 +25,7 @@ import {MatChipsModule} from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatCurrencyFormatModule} from 'mat-currency-format';
+import { GallerySliderComponent } from './component/gallery-slider/gallery-slider.component';
 
 @NgModule({
   imports: [
@@ -54,7 +55,8 @@ import {MatCurrencyFormatModule} from 'mat-currency-format';
     ModalComponent,
     ModalHeaderComponent,
     ModalBodyComponent,
-    ModalFooterComponent
+    ModalFooterComponent,
+    GallerySliderComponent
   ],
   providers: [
     UserService,
@@ -90,7 +92,8 @@ import {MatCurrencyFormatModule} from 'mat-currency-format';
     MatChipsModule,
     MatIconModule,
     MatTooltipModule,
-    MatCurrencyFormatModule
+    MatCurrencyFormatModule,
+    GallerySliderComponent
   ]
 })
 export class SharedModule {
