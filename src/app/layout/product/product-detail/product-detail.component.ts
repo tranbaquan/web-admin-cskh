@@ -59,6 +59,8 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
   producerFormControl: FormControl;
   productTypeFormControl: FormControl;
   readonly separatorKeysCodes = [ENTER] as const;
+  category: string;
+  imagePrefix = environment.storageUrl;
 
   constructor(private route: ActivatedRoute,
               private modalService: ModalService,
@@ -81,6 +83,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     this.stores = [];
     this.techInfoLines = [];
     this.updatePagination();
+    this.category = route.snapshot.queryParamMap.get('category');
   }
 
   ngOnInit(): void {
@@ -167,7 +170,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
   }
 
   onFileSelected($event: Event): void {
-    this.product.ImagesPath = [];
     const files = ($event.target as HTMLInputElement)?.files;
     for (let i = 0; i < files.length; i++) {
       const formData = new FormData();
@@ -175,12 +177,17 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
 
       this.fileUploadService.updateImage(formData).subscribe(data => {
         this.product.ImagesPath.push(data.data);
+        this.product.ImagesPath = Array.from(this.product.ImagesPath);
       });
     }
   }
 
   getImageUrl(product: ProductResponseModel, index: number): string {
     return environment.storageUrl + product.ImagesPath[index]?.substr(1);
+  }
+
+  getImagesUrl(images: string[]): string[] {
+    return images.map(image => environment.storageUrl + image.substr(1));
   }
 
   findSpecName(specs: Specific[], specId: number): string {
@@ -373,6 +380,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     }, () => {
       this.toast.clear();
       this.toast.error('Lưu giá thất bại', 'Lưu giá', {timeOut: 3000});
+    }, () => {
     });
   }
 
@@ -499,5 +507,28 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
   openModalEditSpec(modalId: string, specific: Specific): void {
     this.openModal(modalId);
     this.editingSpecItem = specific;
+  }
+
+  updateProductAmountSale($event: FocusEvent): void {
+    this.product.AmountSale = Number(($event.target as HTMLInputElement).value);
+  }
+
+  updatePrice(price: any, $event: FocusEvent): void {
+    price.Prices = Number(($event.target as HTMLInputElement).value);
+  }
+
+  imagePathChange($event: { file: File; index: number }): void {
+    const formData = new FormData();
+    formData.set('', $event.file);
+
+    this.fileUploadService.updateImage(formData).subscribe(data => {
+      this.product.ImagesPath[$event.index] = data.data;
+      this.product.ImagesPath = Array.from(this.product.ImagesPath);
+    });
+  }
+
+  removeImage($event: number): void {
+    this.product.ImagesPath.splice($event, 1);
+    this.product.ImagesPath = Array.from(this.product.ImagesPath);
   }
 }

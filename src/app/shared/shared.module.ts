@@ -23,6 +23,9 @@ import {PricePipe} from './pipe/price.pipe';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatCurrencyFormatModule} from 'mat-currency-format';
+import { GallerySliderComponent } from './component/gallery-slider/gallery-slider.component';
 
 @NgModule({
   imports: [
@@ -36,7 +39,9 @@ import {MatIconModule} from '@angular/material/icon';
     ToastrModule.forRoot(),
     MatAutocompleteModule,
     MatChipsModule,
-    MatIconModule
+    MatIconModule,
+    MatTooltipModule,
+    MatCurrencyFormatModule
   ],
   declarations: [
     InputDirective,
@@ -50,7 +55,8 @@ import {MatIconModule} from '@angular/material/icon';
     ModalComponent,
     ModalHeaderComponent,
     ModalBodyComponent,
-    ModalFooterComponent
+    ModalFooterComponent,
+    GallerySliderComponent
   ],
   providers: [
     UserService,
@@ -84,7 +90,10 @@ import {MatIconModule} from '@angular/material/icon';
     ToastrModule,
     MatAutocompleteModule,
     MatChipsModule,
-    MatIconModule
+    MatIconModule,
+    MatTooltipModule,
+    MatCurrencyFormatModule,
+    GallerySliderComponent
   ]
 })
 export class SharedModule {

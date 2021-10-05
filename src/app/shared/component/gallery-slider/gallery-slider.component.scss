@@ -1,0 +1,101 @@
+@import 'src/app/shared/scss/core-variables';
+
+.helios-gallery {
+  width: 100%;
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+
+  .image-preview {
+    padding: 10px;
+    display: flex;
+    flex: 1;
+    position: relative;
+
+    img {
+      object-fit: scale-down;
+      margin: auto;
+    }
+
+    .upload {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      opacity: 0.5;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    .remove {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      opacity: 0.5;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  .no-image-view {
+    flex: 1;
+    display: flex;
+    align-items: center;
+
+    span {
+      margin: auto;
+    }
+  }
+
+  .gallery-slider {
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    flex-wrap: nowrap;
+    transition: all 0.4s ease-in-out;
+
+    .move-btn {
+      position: absolute;
+      z-index: 2;
+      opacity: 0.75;
+
+      &:hover {
+        opacity: 1;
+      }
+
+      &.left-btn {
+        left: 0;
+      }
+
+      &.right-btn {
+        right: 0;
+      }
+    }
+
+    .image {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      flex: 1 0 20%;
+      flex-basis: 20%;
+      transition: all 0.4s ease-in-out;
+      cursor: pointer;
+
+      &.active {
+        border: 2px solid $color-orange-l1;
+      }
+
+      img {
+        transition: all 0.4s ease-in-out;
+        object-fit: cover;
+      }
+    }
+  }
+}
