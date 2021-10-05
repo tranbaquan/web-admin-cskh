@@ -2,23 +2,17 @@
   <div class="form">
     <div class="form-group">
       <div class="image-preview">
-        <img class="main-img" *ngIf="product.ImagesPath" [src]="getImageUrl(product, 0)" [alt]="product.NameProduct">
-        <div *ngIf="product.ImagesPath?.length > 1" class="sub-images">
-          <ng-container *ngFor="let image of product.ImagesPath; index as index">
-            <div class="sub-img" *ngIf="index != 0">
-              <img [src]="getImageUrl(product, index)" [alt]="product.NameProduct">
-            </div>
-          </ng-container>
-        </div>
-        <!--        <div class="gallery">-->
+        <!--        <img class="main-img" *ngIf="product.ImagesPath" [src]="getImageUrl(product, 0)" [alt]="product.NameProduct">-->
+        <!--        <div *ngIf="product.ImagesPath?.length > 1" class="sub-images">-->
         <!--          <ng-container *ngFor="let image of product.ImagesPath; index as index">-->
-        <!--            <div class="gallery-cell"></div>-->
-        <!--            <div class="gallery-cell"></div>-->
-        <!--            <div class="gallery-cell"></div>-->
-        <!--            <div class="gallery-cell"></div>-->
-        <!--            <div class="gallery-cell"></div>-->
+        <!--            <div class="sub-img" *ngIf="index != 0">-->
+        <!--              <img [src]="getImageUrl(product, index)" [alt]="product.NameProduct">-->
+        <!--            </div>-->
         <!--          </ng-container>-->
         <!--        </div>-->
+        <app-gallery-slider [urlPrefix]="imagePrefix" [imagesUrl]="product.ImagesPath" [height]="400"
+                            [sliderHeight]="70" [imageSize]="60" (fileChange)="imagePathChange($event)" (imageRemove)="removeImage($event)">
+        </app-gallery-slider>
       </div>
       <div class="upload-group">
         <button appIconButton background="bg-orange" (click)="openFileDialog()">

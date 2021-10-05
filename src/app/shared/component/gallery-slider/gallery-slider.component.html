@@ -1,0 +1,38 @@
+<div class="helios-gallery" [style.width.px]="width" [style.height.px]="height">
+  <div *ngIf="imagesUrl.length > 0" class="image-preview">
+    <img [src]="getImageUrl(previewImage)" alt="">
+    <div class="upload">
+      <input #fileUpload type="file" [hidden]="true" accept="image/*" [multiple]="false"
+             (change)="onFileSelected($event)">
+      <button appIconButton background="bg-orange" (click)="openFileDialog()" matTooltip="Thay đổi ảnh"
+              matTooltipPosition="above">
+        <fa-icon [icon]="faCameraRetro"></fa-icon>
+      </button>
+    </div>
+    <div class="remove">
+      <button appIconButton background="bg-red" (click)="removeImage()" matTooltip="Xóa ảnh này" matTooltipPosition="above">
+        <fa-icon [icon]="faTrashAlt"></fa-icon>
+      </button>
+    </div>
+  </div>
+  <div *ngIf="imagesUrl.length == 0" class="no-image-view">
+    <span>Không tìm thấy ảnh</span>
+  </div>
+  <div class="gallery-slider" #slider [style.height.px]="sliderHeight">
+    <div class="image" *ngFor="let url of imagesUrl; index as index" (click)="changePreviewImage(url, index)"
+         [class.active]="url === previewImage">
+      <img [src]="getImageUrl(url)" alt="" [style.width.px]="imageSize" [style.min-width.px]="imageSize"
+           [style.min-height.px]="imageSize" [style.height.px]="imageSize">
+    </div>
+    <div *ngIf="imagesUrl.length > 5" class="move-btn left-btn" [style.bottom.px]="sliderHeight / 2 - 14">
+      <button appIconButton background="bg-transparent" (click)="moveLeft()">
+        <fa-icon [icon]="faChevronLeft" size="sm"></fa-icon>
+      </button>
+    </div>
+    <div *ngIf="imagesUrl.length > 5" class="move-btn right-btn" [style.bottom.px]="sliderHeight / 2 - 14">
+      <button appIconButton background="bg-transparent" (click)="moveRight()">
+        <fa-icon [icon]="faChevronRight" size="sm"></fa-icon>
+      </button>
+    </div>
+  </div>
+</div>
