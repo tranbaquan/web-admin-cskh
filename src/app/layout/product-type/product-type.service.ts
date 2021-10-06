@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {TreeviewItem} from 'ngx-treeview';
 import {environment} from '../../../environments/environment';
 import {TypeProductModel} from '../../shared/model/type-product.model';
+import {TypeProductUpdateModel} from '../../shared/model/response/type-product-update.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,10 +25,18 @@ export class ProductTypeService {
     return this.http.get(url, {headers, params});
   }
 
-  updateTypeProduct(typeProduct: TypeProductModel): void {
+  updateTypeProduct(typeProductUpdate: TypeProductUpdateModel): Observable<any> {
     const url = this.baseUrl + '/api/typeproduct/update';
-    this.http.put(url, typeProduct)
-      .subscribe(data => {
-    });
+    return this.http.put(url, typeProductUpdate);
+  }
+
+  createTypeProduct(typeProductUpdate: TypeProductUpdateModel): Observable<any> {
+    const url = this.baseUrl + '/api/typeproduct/create';
+    return this.http.post(url, typeProductUpdate);
+  }
+
+  deleteTypeProduct(productTypeID: number): Observable<any> {
+    const url = this.baseUrl + '/api/typeproduct/delete/' + productTypeID;
+    return this.http.post(url, null);
   }
 }
