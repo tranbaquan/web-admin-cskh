@@ -1,7 +1,5 @@
 import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {faCameraRetro, faChevronLeft, faChevronRight, faTrashAlt} from '@fortawesome/free-solid-svg-icons';
-import {ProductResponseModel} from '../../model/response/product-response.model';
-import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-gallery-slider',
