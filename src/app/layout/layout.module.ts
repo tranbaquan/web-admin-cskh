@@ -9,6 +9,8 @@ import {OrderComponent} from './order/order.component';
 import {OrderDetailComponent} from './order/order-detail/order-detail.component';
 import {OrderStatusComponent} from './order/order-status/order-status.component';
 import {FormsModule} from '@angular/forms';
+import { ProductTypeComponent } from './product-type/product-type.component';
+import {TreeviewModule} from 'ngx-treeview';
 
 @NgModule({
   declarations: [
@@ -18,12 +20,14 @@ import {FormsModule} from '@angular/forms';
     ProductDetailComponent,
     OrderComponent,
     OrderDetailComponent,
-    OrderStatusComponent
+    OrderStatusComponent,
+    ProductTypeComponent
   ],
   imports: [
     LayoutRoutingModule,
     SharedModule,
-    FormsModule
+    FormsModule,
+    TreeviewModule.forRoot(),
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,

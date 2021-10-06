@@ -1,0 +1,36 @@
+@import "src/app/shared/scss/core-variables";
+label {
+  margin-bottom: 0;
+  cursor: pointer;
+}
+
+.bi {
+  cursor: pointer;
+  margin-right: 0.3rem;
+}
+
+.treeView-label {
+  padding: 3px 0px 3px 3px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.treeView-label:hover {
+  width: 95%;
+  border-radius: 2px;
+  background-color: $color-gray-l7;
+}
+
+.button-bottom {
+  button {
+    margin-right: 10px;
+  }
+}
+
+.img-modal {
+    width: 100%;
+}
+
+.margin-mid {
+  margin: auto;
+}
+
