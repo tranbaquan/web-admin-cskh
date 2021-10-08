@@ -43,7 +43,7 @@
         <tbody>
         <tr class="col" *ngFor="let item of listOrder">
           <td style="width: 15%"><a (click)="gotoDetail(item.ExportID)">{{item.Code}}</a></td>
-          <td style="width: 15%">{{item.DateApprove | date:'yyyy-mm-dd hh:mm'}}</td>
+          <td style="width: 15%">{{item.DateCreated | date:'yyyy-MM-dd H:mm'}}</td>
           <td style="width: 15%">{{item.NameCustomer}}</td>
           <td style="width: 25%">
             <div class="row">
@@ -54,7 +54,7 @@
             </div>
           </td>
           <td style="width: 15%">{{item.UserCreated}}</td>
-          <td style="width: 15%">{{item.DateCreated | date:'yyyy-mm-dd hh:mm'}}</td>
+          <td style="width: 15%">{{item.DateCreated | date:'yyyy-MM-dd H:mm'}}</td>
         </tr>
         </tbody>
       </table>
@@ -81,7 +81,7 @@
   <app-modal-footer>
     <div class="left-section">
       <h5>Đơn hàng: {{selectedOrder.Code}}</h5>
-      <span>Đặt ngày: {{selectedOrder.DateCreated | date:'yyyy-mm-dd hh:mm'}} &middot; {{getStatusLabel(selectedOrder)}}</span>
+      <span>Đặt ngày: {{selectedOrder.DateCreated | date:'yyyy-MM-dd H:mm'}} &middot; {{getStatusLabel(selectedOrder)}}</span>
     </div>
     <div class="right-section">
       <div class="btn-group">
