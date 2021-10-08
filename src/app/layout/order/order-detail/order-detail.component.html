@@ -9,7 +9,7 @@
       <div style="justify-content: space-between" class="display-inline">
         <div class="status-info">
           <h5>Đơn hàng: {{order.Code}}</h5>
-          <p class="label">Đặt ngày: {{order.DateCreated | date:'yyyy-mm-dd hh:mm'}}</p>
+          <p class="label">Đặt ngày: {{order.DateCreated | date:'yyyy-MM-dd H:mm'}}</p>
         </div>
         <div class="status-action">
    <!--       <button><fa-icon [icon]="faWindowClose"></fa-icon> Hủy</button>-->
@@ -31,7 +31,7 @@
           <div class="col-6">
             <div class="form-group my-2">
               <label>Ngày xuất</label>
-              <input type="text" class="form-control"  [value]="order.DateExport | date:'yyyy-mm-dd hh:mm'" disabled>
+              <input type="text" class="form-control"  [value]="order.DateExport | date:'yyyy-MM-dd H:mm'" disabled>
             </div>
             <div class="form-group my-2">
               <label>Kho hàng</label>
@@ -179,7 +179,7 @@
   <app-modal-body>
     <div class="my-3">
       <h5>Đơn hàng: {{order.Code}}</h5>
-      <p class="label">Đặt ngày: {{order.DateCreated | date:'yyyy-mm-dd hh:mm'}}</p>
+      <p class="label">Đặt ngày: {{order.DateCreated | date:'yyyy-MM-dd H:mm'}}</p>
     </div>
 
     <form [formGroup]="priceForm" class="modal-form">
