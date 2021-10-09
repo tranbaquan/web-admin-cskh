@@ -9,10 +9,10 @@ import {OrderComponent} from './order/order.component';
 import {OrderDetailComponent} from './order/order-detail/order-detail.component';
 import {OrderStatusComponent} from './order/order-status/order-status.component';
 import {FormsModule} from '@angular/forms';
-import { ProductTypeComponent } from './product-type/product-type.component';
+import {ProductTypeComponent} from './product-type/product-type.component';
 import {TreeviewModule} from 'ngx-treeview';
-import { UserComponent } from './user/user.component';
-import { CustomerComponent } from './customer/customer.component';
+import {UserComponent} from './user/user.component';
+import {CustomerComponent} from './customer/customer.component';
 
 @NgModule({
   declarations: [
