@@ -8,12 +8,12 @@ import {ProductDetailResolver} from './product/product-detail/product-detail.res
 import {ProducersResolver} from './product/product-detail/producers.resolver';
 import {OrderComponent} from './order/order.component';
 import {ProductTypeResolver} from './product/product-detail/product-type.resolver';
-import {OrderDetail} from '../shared/model/order-detail.model';
 import {OrderDetailComponent} from './order/order-detail/order-detail.component';
-import {OrderResponseModel} from '../shared/model/response/order-response.model';
 import {OrderDetailResolver} from './order/order-detail/order-detail.resolver';
-import {ProductResponseModel} from '../shared/model/response/product-response.model';
-import {ProductTypeComponent} from "./product-type/product-type.component";
+import {ProductTypeComponent} from './product-type/product-type.component';
+import {UserComponent} from './user/user.component';
+import {CustomerComponent} from './customer/customer.component';
+import {CompanyResolver, StoreResolver} from './customer/customer.resolver';
 
 const routes: Routes = [
   {
@@ -71,6 +71,20 @@ const routes: Routes = [
         path: 'type-product',
         pathMatch: 'full',
         component: ProductTypeComponent
+      },
+      {
+        path: 'user',
+        pathMatch: 'full',
+        component: UserComponent
+      },
+      {
+        path: 'customer',
+        pathMatch: 'full',
+        component: CustomerComponent,
+        resolve: {
+          stores: StoreResolver,
+          companies: CompanyResolver
+        }
       }
     ]
   }

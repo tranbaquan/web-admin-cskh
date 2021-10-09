@@ -36,7 +36,8 @@
         <li class="item" [routerLink]="['/product']" [queryParams]="{category: 'all'}" (click)="closeMenu()">Quản lý sản phẩm</li>
         <li class="item" (click)="closeMenu()">Quản lý kho</li>
         <li class="item" [routerLink]="['/order']" (click)="closeMenu()">Quản lý đơn hàng</li>
-        <li class="item" (click)="closeMenu()">Quản lý khách hàng</li>
+        <li class="item" [routerLink]="['/user']" (click)="closeMenu()">Quản lý tài khoản</li>
+        <li class="item"  [routerLink]="['/customer']" (click)="closeMenu()">Quản lý khách hàng</li>
         <li class="item" (click)="closeMenu()">Thống kê</li>
       </ul>
     </div>

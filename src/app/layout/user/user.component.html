@@ -1,0 +1,124 @@
+<div>
+  <div class="action-bar">
+    <div class="category-name">Danh sách tài khoản</div>
+    <div class="action-group">
+      <fa-icon *ngIf="loading" [icon]="faSpinner" [spin]="true"></fa-icon>
+      <div class="search-bar">
+        <input type="text" appInput [width]="300" [(ngModel)]="searchQuery">
+        <button appButton [width]="50" background="bg-dark">
+          <fa-icon [icon]="faSearch"></fa-icon>
+        </button>
+      </div>
+
+      <button appButton background="bg-orange" (click)="openModal('create-user-modal')">
+        <fa-icon size="sm" [icon]="faPlus"></fa-icon>
+        <span>Tạo tài khoản</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <div>
+      <label class="label">Hiển thị:&nbsp;</label>
+      <label class="value">{{users.length}}/{{pagination.totalItem}} tài khoản
+        (từ {{(pagination.page - 1) * pagination.size}} - {{(pagination.page - 1) * pagination.size + users.length}})
+      </label>
+    </div>
+    <div class="filter-group">
+      <!--      <div class="label w-100">Lọc theo:</div>-->
+      <!--      <div class="w-100">Sản phẩm</div>-->
+      <!--      <div class="w-100">Giá</div>-->
+      <!--      <div class="w-100">Hãng</div>-->
+    </div>
+  </div>
+
+  <div>
+    <table appTable [isEvenSeparate]="true">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Tên đầy đủ</th>
+        <th>Loại tài khoản</th>
+        <th>Email</th>
+        <th>Trạng thái</th>
+        <th>Tài khoản tạo</th>
+        <th>Ngày tạo</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <th>ID</th>
+        <th>Tên đầy đủ</th>
+        <th>Loại tài khoản</th>
+        <th>Email</th>
+        <th>Trạng thái</th>
+        <th>Tài khoản tạo</th>
+        <th>Ngày tạo</th>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <div class="filter-bar">
+    <div>
+      <label class="label">Hiển thị:&nbsp;</label>
+      <label class="value">{{users.length}}/{{pagination.totalItem}} tài khoản
+        (từ {{(pagination.page - 1) * pagination.size}} - {{(pagination.page - 1) * pagination.size + users.length}})
+      </label>
+    </div>
+    <div class="filter-group">
+      <!--      <div class="label w-100">Lọc theo:</div>-->
+      <!--      <div class="w-100">Sản phẩm</div>-->
+      <!--      <div class="w-100">Giá</div>-->
+      <!--      <div class="w-100">Hãng</div>-->
+    </div>
+  </div>
+
+  <div class="paging">
+    <app-pagination [pagination]="pagination" (pageChange)="onPageChange($event)"></app-pagination>
+  </div>
+</div>
+
+<app-modal id="create-user-modal" [width]="500" [contentTemplate]="createUserModal"></app-modal>
+
+
+<ng-template #createUserModal>
+  <app-modal-header>
+    <div class="modal-title">
+      <div class="title">Tạo tài khoản</div>
+    </div>
+    <div>
+      <button appIconButton background="bg-transparent" (click)="closeModal('create-user-modal')">
+        <fa-icon size="lg" [icon]="faTimesCircle"></fa-icon>
+      </button>
+    </div>
+  </app-modal-header>
+  <app-modal-body>
+    <form [formGroup]="createUserFormGroup" class="modal-form">
+      <div class="input">
+          <label>Tên tài khoản</label>
+        <input [required]="true" placeholder="Tên tài khoản" type="text" appInput>
+      </div>
+      <div class="input">
+        <label>Email</label>
+        <input [required]="true" placeholder="Email" type="email" appInput>
+      </div>
+      <div class="input">
+        <label>Loại tài khoản</label>
+        <select [required]="true" appSelect>
+          <option [value]="1">Tài khoản cho web</option>
+          <option [value]="0">Tài khoản cho app</option>
+        </select>
+      </div>
+    </form>
+  </app-modal-body>
+  <app-modal-footer>
+    <div class="right-section">
+      <div class="btn-group">
+        <button appButton background="bg-gray" (click)="closeModal('create-user-modal')">Đóng</button>
+        <button appButton background="bg-orange" (click)="createUser()">Tạo tài khoản</button>
+      </div>
+    </div>
+  </app-modal-footer>
+</ng-template>
