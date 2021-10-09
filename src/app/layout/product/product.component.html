@@ -32,7 +32,8 @@
     <div class="action-group">
       <fa-icon *ngIf="loading" [icon]="faSpinner" [spin]="true"></fa-icon>
       <div class="search-bar">
-        <input type="text" appInput [width]="300" [(ngModel)]="searchQuery">
+        <input type="text" appInput [width]="300" [(ngModel)]="searchQuery"
+               (keyup.enter)="searchProduct(searchQuery, currentCategory?.TypeProductID)">
         <button appButton [width]="50" background="bg-dark"
                 (click)="searchProduct(searchQuery, currentCategory?.TypeProductID)">
           <fa-icon [icon]="faSearch"></fa-icon>
@@ -48,7 +49,7 @@
 
   <div class="filter-bar">
     <div>
-      <label class="label">Hiển thị:'&nbsp;'</label>
+      <label class="label">Hiển thị:&nbsp</label>
       <label class="value">{{products.length}}/{{pagination.totalItem}} sản phẩm
         (từ {{(pagination.page - 1) * pagination.size}} - {{(pagination.page - 1) * pagination.size + products.length}})
       </label>
@@ -96,7 +97,7 @@
 
   <div class="filter-bar">
     <div>
-      <label class="label">Hiển thị:'&nbsp;'</label>
+      <label class="label">Hiển thị:&nbsp</label>
       <label class="value">{{products.length}}/{{pagination.totalItem}} sản phẩm
         (từ {{(pagination.page - 1) * pagination.size}} - {{(pagination.page - 1) * pagination.size + products.length}})
       </label>

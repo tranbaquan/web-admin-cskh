@@ -1,0 +1,74 @@
+@import "src/app/shared/scss/core-variables";
+
+.action-bar {
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid $color-gray-l5;
+
+  .category-name {
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .action-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    .search-bar {
+      display: inline-flex;
+      justify-content: center;
+      border: 1px solid $color-gray-l5;
+
+      .core-input {
+        border-radius: 0;
+        border: none;
+      }
+    }
+  }
+}
+
+.filter-bar {
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid $color-gray-l5;
+  align-items: center;
+
+  .label {
+    color: $color-orange-l1;
+    font-weight: 500;
+  }
+
+  .value {
+    color: $color-gray-l1;
+    font-weight: 500;
+  }
+
+  .filter-group {
+    display: flex;
+    align-items: center;
+
+    .w-100 {
+      width: 100px;
+    }
+
+    .display {
+
+      fa-icon {
+        color: $color-gray-l5;
+
+        &:not(:last-child) {
+          margin-right: 5px;
+        }
+
+        &.active {
+          color: $color-black-l2;
+        }
+      }
+    }
+  }
+}

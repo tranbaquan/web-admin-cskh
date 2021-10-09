@@ -11,6 +11,8 @@ import {OrderStatusComponent} from './order/order-status/order-status.component'
 import {FormsModule} from '@angular/forms';
 import { ProductTypeComponent } from './product-type/product-type.component';
 import {TreeviewModule} from 'ngx-treeview';
+import { UserComponent } from './user/user.component';
+import { CustomerComponent } from './customer/customer.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import {TreeviewModule} from 'ngx-treeview';
     OrderComponent,
     OrderDetailComponent,
     OrderStatusComponent,
-    ProductTypeComponent
+    ProductTypeComponent,
+    UserComponent,
+    CustomerComponent
   ],
   imports: [
     LayoutRoutingModule,

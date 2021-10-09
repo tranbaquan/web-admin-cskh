@@ -151,6 +151,11 @@ a {
     background: $color-red-l3;
     color: $color-white-l1;
   }
+
+}
+
+button[disabled] {
+  cursor: not-allowed;
 }
 
 .core-select {
@@ -242,4 +247,12 @@ body.core-modal-show {
 
 .mat-option-text {
   line-height: 32px;
+}
+
+.mat-hint {
+  color: $color-red-l3;
+}
+
+textarea {
+  padding: 10px 15px;
 }

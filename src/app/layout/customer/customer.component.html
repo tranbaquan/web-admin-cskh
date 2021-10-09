@@ -1,0 +1,369 @@
+<div>
+  <div class="action-bar">
+    <div class="category-name">Danh sách khách hàng</div>
+    <div class="action-group">
+      <fa-icon *ngIf="loading" [icon]="faSpinner" [spin]="true"></fa-icon>
+      <div class="search-bar">
+        <input type="text" appInput [width]="300" [(ngModel)]="searchQuery" (keyup.enter)="searchCustomer()">
+        <button appButton [width]="50" background="bg-dark" (click)="searchCustomer()">
+          <fa-icon [icon]="faSearch"></fa-icon>
+        </button>
+      </div>
+
+      <button appButton background="bg-orange" (click)="openModal('create-customer-modal')">
+        <fa-icon size="sm" [icon]="faPlus"></fa-icon>
+        <span>Thêm khách hàng</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="main-content">
+
+    <div class="filter-bar">
+      <div>
+        <label class="label">Hiển thị:&nbsp;</label>
+        <label class="value">{{customers.length}}/{{pagination.totalItem}} khách hàng
+          (từ {{(pagination.page - 1) * pagination.size}}
+          - {{(pagination.page - 1) * pagination.size + customers.length}})
+        </label>
+      </div>
+      <div class="filter-group">
+<!--        <div class="group">-->
+<!--          <label>Loại khách hàng:</label>-->
+<!--          <select appSelect [(ngModel)]="customerTypeSearch" (ngModelChange)="searchCustomerByType()">-->
+<!--            <option [value]="0">Tất cả</option>-->
+<!--            <option [value]="1">Khách hàng</option>-->
+<!--            <option [value]="2">Đại lý</option>-->
+<!--          </select>-->
+<!--        </div>-->
+      </div>
+    </div>
+
+    <div>
+      <table appTable [isEvenSeparate]="true">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th style="min-width: 100px">Tên khách hàng</th>
+          <!--          <th>Nhóm khách hàng</th>-->
+          <th style="min-width: 100px">Công ty</th>
+          <th style="min-width: 100px">Tên kho</th>
+          <th style="min-width: 100px">Số điện thoại</th>
+          <th style="min-width: 100px">Địa chỉ</th>
+          <th style="min-width: 100px">Mô tả</th>
+          <th style="min-width: 100px">Tài khoản tạo</th>
+          <th style="min-width: 120px">Ngày tạo</th>
+          <th style="min-width: 70px"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let customer of customers">
+          <td>{{customer.CustomerID}}</td>
+          <td style="min-width: 100px">{{customer.NameCustomer}}</td>
+          <!--          <th>{{customer.GroupCustomerID}}</th>-->
+          <td style="min-width: 100px">{{getCompanyName(customer.CompanyID)}}</td>
+          <td style="min-width: 100px">{{getStoreName(customer.StoreID)}}</td>
+          <td style="min-width: 100px">{{customer.Phone}}</td>
+          <td style="min-width: 100px">{{customer.Address}}</td>
+          <td style="min-width: 100px">{{customer.Description}}</td>
+          <td style="min-width: 100px">{{customer.UserCreated}}</td>
+          <td style="min-width: 120px">{{customer.DateCreated | date: 'dd/MM/yyyy'}}</td>
+          <td style="min-width: 70px">
+            <div class="icon-group">
+              <button appIconButton background="bg-orange" (click)="openEditModal(customer)">
+                <fa-icon [icon]="faEdit"></fa-icon>
+              </button>
+              <button appIconButton background="bg-red" matTooltip="Nhấn 2 lần để xóa" [matTooltipPosition]="'above'"
+                      (dblclick)="deleteCustomer(customer)">
+                <fa-icon [icon]="faTrashAlt"></fa-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+    <div class="filter-bar">
+      <div>
+        <label class="label">Hiển thị:&nbsp;</label>
+        <label class="value">{{customers.length}}/{{pagination.totalItem}} khách hàng
+          (từ {{(pagination.page - 1) * pagination.size}}
+          - {{(pagination.page - 1) * pagination.size + customers.length}})
+        </label>
+      </div>
+      <div class="filter-group">
+      </div>
+    </div>
+
+    <div class="paging">
+      <app-pagination [pagination]="pagination" (pageChange)="onPageChange($event)"></app-pagination>
+    </div>
+  </div>
+</div>
+
+<app-modal id="create-customer-modal" [width]="600" [contentTemplate]="createCustomerModal"></app-modal>
+<app-modal id="update-customer-modal" [width]="600" [contentTemplate]="updateCustomerModal"></app-modal>
+
+<ng-template #createCustomerModal>
+  <app-modal-header>
+    <div class="modal-title">
+      <div class="title">Tạo tài khoản</div>
+    </div>
+    <div>
+      <button appIconButton background="bg-transparent" (click)="closeModal('create-customer-modal')">
+        <fa-icon size="lg" [icon]="faTimesCircle"></fa-icon>
+      </button>
+    </div>
+  </app-modal-header>
+  <app-modal-body>
+    <form [formGroup]="createCustomerFormGroup" class="modal-form">
+      <div class="input-group">
+        <div class="almost modal-form">
+          <div class="input">
+            <label class="required">Tên khách hàng</label>
+            <input formControlName="NameCustomer" placeholder="Tên khách hàng" type="text" appInput>
+            <mat-hint *ngIf="!isCreateValidField('NameCustomer')">Tên khách hàng không được rỗng.</mat-hint>
+          </div>
+          <div class="input">
+            <label>Ngày sinh</label>
+            <input formControlName="Birthday" placeholder="mm/dd/yyyy" type="date" appInput>
+          </div>
+          <div class="input">
+            <label class="required">Số điện thoại</label>
+            <input formControlName="Phone" placeholder="Số điện thoại" type="tel" appInput>
+            <mat-hint *ngIf="!isCreateValidField('Phone')">Số điện thoại phải có 10 hoặc 11 kí tự.</mat-hint>
+          </div>
+        </div>
+        <div class="image">
+          <img [src]="getImageUrl(newCustomer.Avatar)" alt="">
+          <div class="upload">
+            <input #fileUpload type="file" [hidden]="true" accept="image/*" [multiple]="false"
+                   (change)="onFileSelected($event, 'create')">
+            <button appIconButton background="bg-orange" (click)="openFileDialog('create')" matTooltip="Thay đổi ảnh"
+                    matTooltipPosition="above">
+              <fa-icon [icon]="faCameraRetro"></fa-icon>
+            </button>
+          </div>
+          <div class="remove">
+            <button appIconButton background="bg-red" (click)="removeImage('create')" matTooltip="Xóa ảnh này"
+                    matTooltipPosition="above">
+              <fa-icon [icon]="faTrashAlt"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="input">
+        <label class="required">Tên tài khoản</label>
+        <input formControlName="Code" placeholder="Tên tài khoản" type="text" appInput>
+        <mat-hint *ngIf="!isCreateValidField('Code')">Tên tài khoản không được rỗng.</mat-hint>
+      </div>
+      <div class="input">
+        <label class="required">Mật khẩu</label>
+        <input formControlName="Password" placeholder="Mật khẩu" type="password" appInput>
+        <mat-hint *ngIf="!isCreateValidField('Password')">Mật khẩu phải có ít nhất 8 kí tự, số, ký tự và kí tự đặc biệt.</mat-hint>
+      </div>
+      <div class="input-group">
+        <div class="input almost">
+          <label>Công ty</label>
+          <select appSelect formControlName="CompanyID">
+            <option *ngFor="let company of companies" [value]="company.CompanyID">{{company.CompanyName}}</option>
+          </select>
+        </div>
+        <div class="input" style="width: 180px">
+          <label>Chức vụ</label>
+          <select formControlName="Position" appSelect>
+            <option [value]="1">Giám đốc</option>
+            <option [value]="2">Kế toán</option>
+            <option [value]="3">Mua hàng</option>
+          </select>
+        </div>
+      </div>
+      <div class="input-group">
+        <div class="input almost">
+          <label class="required">Loại khách hàng</label>
+          <select formControlName="TypeCustomerID" appSelect>
+            <option [value]="1">Khách hàng</option>
+            <option [value]="2">Đại lý</option>
+          </select>
+          <mat-hint *ngIf="!isCreateValidField('TypeCustomerID')">Loại khách hàng không được rỗng.</mat-hint>
+        </div>
+        <div class="input" style="width: 180px;">
+          <label class="required">Kho</label>
+          <select formControlName="StoreID" appSelect>
+            <option *ngFor="let store of stores" [value]="store.StoreID">{{store.StoreName}}</option>
+          </select>
+          <mat-hint *ngIf="!isCreateValidField('StoreID')">Kho không được rỗng.</mat-hint>
+        </div>
+        <!--        <div class="input almost">-->
+        <!--          <label>Nhóm khách hàng</label>-->
+        <!--          <select [required]="true" appSelect>-->
+        <!--            <option [value]="0">Khách hàng</option>-->
+        <!--          </select>-->
+        <!--        </div>-->
+      </div>
+      <div class="input almost">
+        <label>Tên người bán</label>
+        <select appSelect>
+          <option [value]="0"></option>
+        </select>
+      </div>
+      <div class="input almost">
+        <label>Mã số thuế</label>
+        <input formControlName="TaxCode" placeholder="Mã số thuế" type="text" appInput>
+      </div>
+      <div class="input">
+        <label>Địa chỉ</label>
+        <input formControlName="Address" placeholder="Địa chỉ" type="text" appInput>
+      </div>
+      <div class="input">
+        <label>Mô tả</label>
+        <textarea formControlName="Description" placeholder="Mô tả"></textarea>
+      </div>
+    </form>
+  </app-modal-body>
+  <app-modal-footer>
+    <div class="right-section">
+      <div class="btn-group">
+        <button appButton background="bg-gray" (click)="closeModal('create-customer-modal')">Đóng</button>
+        <button appButton background="bg-orange" [disabled]="createCustomerFormGroup.invalid"
+                (click)="createCustomer()">
+          Tạo tài khoản
+        </button>
+      </div>
+    </div>
+  </app-modal-footer>
+</ng-template>
+
+
+<ng-template #updateCustomerModal>
+  <app-modal-header>
+    <div class="modal-title">
+      <div class="title">Cập nhật tài khoản</div>
+    </div>
+    <div>
+      <button appIconButton background="bg-transparent" (click)="closeModal('update-customer-modal')">
+        <fa-icon size="lg" [icon]="faTimesCircle"></fa-icon>
+      </button>
+    </div>
+  </app-modal-header>
+  <app-modal-body>
+    <form [formGroup]="updateCustomerFormGroup" class="modal-form">
+      <div class="input-group">
+        <div class="almost modal-form">
+          <div class="input">
+            <label class="required">Tên khách hàng</label>
+            <input formControlName="NameCustomer" placeholder="Tên khách hàng" type="text" appInput>
+            <mat-hint *ngIf="!isUpdateValidField('NameCustomer')">Tên khách hàng không được rỗng.</mat-hint>
+          </div>
+          <div class="input">
+            <label>Ngày sinh</label>
+            <input formControlName="Birthday" placeholder="mm/dd/yyyy" type="date" appInput>
+          </div>
+          <div class="input">
+            <label class="required">Số điện thoại</label>
+            <input formControlName="Phone" placeholder="Số điện thoại" type="tel" appInput>
+            <mat-hint *ngIf="!isUpdateValidField('Phone')">Số điện thoại phải có 10 hoặc 11 kí tự.</mat-hint>
+          </div>
+        </div>
+        <div class="image">
+          <img [src]="getImageUrl(editingCustomer.Avatar)" alt="">
+          <div class="upload">
+            <input #updateFileUpload type="file" [hidden]="true" accept="image/*" [multiple]="false"
+                   (change)="onFileSelected($event, 'update')">
+            <button appIconButton background="bg-orange" (click)="openFileDialog('update')" matTooltip="Thay đổi ảnh"
+                    matTooltipPosition="above">
+              <fa-icon [icon]="faCameraRetro"></fa-icon>
+            </button>
+          </div>
+          <div class="remove">
+            <button appIconButton background="bg-red" (click)="removeImage('update')" matTooltip="Xóa ảnh này"
+                    matTooltipPosition="above">
+              <fa-icon [icon]="faTrashAlt"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="input">
+        <label class="required">Tên tài khoản</label>
+        <input formControlName="Code" placeholder="Tên tài khoản" type="text" appInput>
+        <mat-hint *ngIf="!isUpdateValidField('Code')">Tên tài khoản không được rỗng.</mat-hint>
+      </div>
+      <div class="input">
+        <label class="required">Mật khẩu</label>
+        <input formControlName="Password" placeholder="Mật khẩu" type="password" appInput>
+        <mat-hint *ngIf="!isUpdateValidField('Password')">Mật khẩu phải có ít nhất 8 kí tự, số, ký tự và kí tự đặc biệt.</mat-hint>
+      </div>
+      <div class="input-group">
+        <div class="input almost">
+          <label>Công ty</label>
+          <select appSelect formControlName="CompanyID">
+            <option *ngFor="let company of companies" [value]="company.CompanyID">{{company.CompanyName}}</option>
+          </select>
+        </div>
+        <div class="input" style="width: 180px">
+          <label>Chức vụ</label>
+          <select formControlName="Position" appSelect>
+            <option [value]="1">Giám đốc</option>
+            <option [value]="2">Kế toán</option>
+            <option [value]="3">Mua hàng</option>
+          </select>
+        </div>
+      </div>
+      <div class="input-group">
+        <div class="input almost">
+          <label class="required">Loại khách hàng</label>
+          <select formControlName="TypeCustomerID" appSelect>
+            <option [value]="1">Khách hàng</option>
+            <option [value]="2">Đại lý</option>
+          </select>
+          <mat-hint *ngIf="!isUpdateValidField('TypeCustomerID')">Loại khách hàng không được rỗng.</mat-hint>
+        </div>
+        <div class="input" style="width: 180px;">
+          <label class="required">Kho</label>
+          <select formControlName="StoreID" appSelect>
+            <option *ngFor="let store of stores" [value]="store.StoreID">{{store.StoreName}}</option>
+          </select>
+          <mat-hint *ngIf="!isUpdateValidField('StoreID')">Kho không được rỗng.</mat-hint>
+        </div>
+        <!--        <div class="input almost">-->
+        <!--          <label>Nhóm khách hàng</label>-->
+        <!--          <select [required]="true" appSelect>-->
+        <!--            <option [value]="0">Khách hàng</option>-->
+        <!--          </select>-->
+        <!--        </div>-->
+      </div>
+      <div class="input almost">
+        <label>Tên người bán</label>
+        <select appSelect>
+          <option [value]="0"></option>
+        </select>
+      </div>
+      <div class="input almost">
+        <label>Mã số thuế</label>
+        <input formControlName="TaxCode" placeholder="Mã số thuế" type="text" appInput>
+      </div>
+      <div class="input">
+        <label>Địa chỉ</label>
+        <input formControlName="Address" placeholder="Địa chỉ" type="text" appInput>
+      </div>
+      <div class="input">
+        <label>Mô tả</label>
+        <textarea formControlName="Description" placeholder="Mô tả"></textarea>
+      </div>
+    </form>
+  </app-modal-body>
+  <app-modal-footer>
+    <div class="right-section">
+      <div class="btn-group">
+        <button appButton background="bg-gray" (click)="closeModal('update-customer-modal')">Đóng</button>
+        <button appButton background="bg-orange" [disabled]="updateCustomerFormGroup.invalid"
+                (click)="updateCustomer()">
+          Cập nhật tài khoản
+        </button>
+      </div>
+    </div>
+  </app-modal-footer>
+</ng-template>
+

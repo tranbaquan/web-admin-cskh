@@ -26,6 +26,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatCurrencyFormatModule} from 'mat-currency-format';
 import { GallerySliderComponent } from './component/gallery-slider/gallery-slider.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 @NgModule({
   imports: [
@@ -41,7 +42,8 @@ import { GallerySliderComponent } from './component/gallery-slider/gallery-slide
     MatChipsModule,
     MatIconModule,
     MatTooltipModule,
-    MatCurrencyFormatModule
+    MatCurrencyFormatModule,
+    MatFormFieldModule
   ],
   declarations: [
     InputDirective,
@@ -93,7 +95,8 @@ import { GallerySliderComponent } from './component/gallery-slider/gallery-slide
     MatIconModule,
     MatTooltipModule,
     MatCurrencyFormatModule,
-    GallerySliderComponent
+    GallerySliderComponent,
+    MatFormFieldModule
   ]
 })
 export class SharedModule {
