@@ -57,7 +57,7 @@ export class OrderDetailComponent implements OnInit {
 
   getListStores(): void {
     this.listStores = [];
-    this.storeService.getAllStore()
+    this.storeService.getAllStores()
       .subscribe(data => {
         this.listStores = data.data.data.map(obj => Object.assign(new StoreResponseModel(), obj));
       });

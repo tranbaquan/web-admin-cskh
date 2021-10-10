@@ -13,6 +13,7 @@ import {ProductTypeComponent} from './product-type/product-type.component';
 import {TreeviewModule} from 'ngx-treeview';
 import {UserComponent} from './user/user.component';
 import {CustomerComponent} from './customer/customer.component';
+import { StoreComponent } from './store/store.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import {CustomerComponent} from './customer/customer.component';
     OrderStatusComponent,
     ProductTypeComponent,
     UserComponent,
-    CustomerComponent
+    CustomerComponent,
+    StoreComponent
   ],
   imports: [
     LayoutRoutingModule,

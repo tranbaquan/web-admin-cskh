@@ -63,10 +63,10 @@ export class CustomerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getCustomer();
+    this.getCustomers();
   }
 
-  getCustomer(): void {
+  getCustomers(): void {
     this.loading = true;
     this.customerService.getCustomers(this.page, this.size).subscribe(data => {
       this.pagination = data;
@@ -78,7 +78,8 @@ export class CustomerComponent implements OnInit {
   }
 
   onPageChange(page: number): void {
-
+    this.page = page;
+    this.getCustomers();
   }
 
   openModal(id: string): void {
@@ -111,7 +112,7 @@ export class CustomerComponent implements OnInit {
     }, () => {
       this.toastService.error('Tạo khách hàng thất bại', 'Tạo khách hàng', {timeOut: 3000});
     }, () => {
-      this.getCustomer();
+      this.getCustomers();
       this.initCreateForm();
       this.newCustomer = new CustomerResponseModel();
     });
@@ -212,7 +213,7 @@ export class CustomerComponent implements OnInit {
     }, () => {
       this.toastService.error('Xóa khách hàng thất bại', 'Xóa khách hàng', {timeOut: 3000});
     }, () => {
-      this.getCustomer();
+      this.getCustomers();
     });
   }
 
@@ -230,7 +231,7 @@ export class CustomerComponent implements OnInit {
     }, () => {
       this.toastService.error('Cập nhật khách hàng thất bại', 'Cập nhật khách hàng', {timeOut: 3000});
     }, () => {
-      this.getCustomer();
+      this.getCustomers();
       this.editingCustomer = new CustomerResponseModel();
     });
   }

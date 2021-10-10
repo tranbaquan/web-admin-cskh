@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {Observable} from "rxjs";
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class StoreService {
     this.baseUrl = environment.apiBaseUrl;
   }
 
-  getAllStore(): Observable<any> {
+  getAllStores(): Observable<any> {
     const url = this.baseUrl + '/api/Stores/getAllStore';
     const headers = new HttpHeaders().append('page', '1').append('limit', '1000');
     return this.http.get(url, {headers});

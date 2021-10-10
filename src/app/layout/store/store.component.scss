@@ -1,0 +1,153 @@
+@import "src/app/shared/scss/core-variables";
+
+.action-bar {
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid $color-gray-l5;
+
+  .category-name {
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .action-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    .search-bar {
+      display: inline-flex;
+      justify-content: center;
+      border: 1px solid $color-gray-l5;
+
+      .core-input {
+        border-radius: 0;
+        border: none;
+      }
+    }
+  }
+}
+
+.filter-bar {
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid $color-gray-l5;
+  align-items: center;
+
+  .label {
+    color: $color-orange-l1;
+    font-weight: 500;
+    margin-right: 5px;
+  }
+
+  .value {
+    color: $color-gray-l1;
+    font-weight: 500;
+  }
+
+  .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: nowrap;
+
+    .group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: nowrap;
+      align-items: center;
+
+      label {
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input-group {
+  display: flex;
+  gap: 10px;
+  flex-wrap: nowrap;
+
+  .almost {
+    flex: 1;
+  }
+
+  .image {
+    width: 150px;
+    height: 188px;
+    position: relative;
+
+    img {
+      width: 150px;
+      height: 188px;
+      object-fit: cover;
+      border: 1px solid $color-gray-l5;
+    }
+
+    .upload {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+
+    .remove {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+    }
+  }
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  label {
+    font-weight: 500;
+  }
+
+  .input-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  &.checkbox {
+    flex: 1;
+  }
+}
+
+.required {
+  &:after {
+    content: " *";
+    color: $color-red-l3;
+  }
+}
+
+
+.icon-group {
+  display: flex;
+  min-width: 70px;
+  gap: 5px;
+  height: 100%;
+  align-items: center;
+  justify-content: right;
+}
