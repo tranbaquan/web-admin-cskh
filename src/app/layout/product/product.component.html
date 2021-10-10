@@ -1,11 +1,16 @@
 <div>
   <div class="slider">
-    <div class="action">
-      <button appIconButton background="bg-orange">
+    <div class="action-left">
+      <button appIconButton background="bg-orange" (click)="scrollLeft()">
         <fa-icon [icon]="faAngleLeft"></fa-icon>
       </button>
     </div>
-    <div class="preview">
+    <div class="action-right">
+      <button appIconButton background="bg-orange" (click)="scrollRight()">
+        <fa-icon [icon]="faAngleRight"></fa-icon>
+      </button>
+    </div>
+    <div class="preview" #categorySlider>
       <div class="category parent" *ngIf="!currentCategory">
         <input type="radio" id="0" name="category" [checked]="true">
         <label>Tất cả</label>
@@ -19,11 +24,6 @@
                [checked]="false">
         <label (click)="updateCategory(category)">{{category.NameType}}</label>
       </div>
-    </div>
-    <div class="action">
-      <button appIconButton background="bg-orange">
-        <fa-icon [icon]="faAngleRight"></fa-icon>
-      </button>
     </div>
   </div>
 

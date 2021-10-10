@@ -2,12 +2,24 @@
 
 .slider {
   border-bottom: 1px solid $color-gray-l5;
-  display: flex;
-  align-items: center;
-  padding: 20px 0;
-  flex-wrap: nowrap;
+  padding: 20px 40px;
+  position: relative;
   white-space: nowrap;
-  overflow: hidden;
+  transition: all 0.4s ease-in-out;
+
+  .action-left {
+    position: absolute;
+    left: 10px;
+    top: 22.5px;
+    z-index: 2;
+  }
+
+  .action-right {
+    position: absolute;
+    right: 10px;
+    top: 22.5px;
+    z-index: 2;
+  }
 
   .preview {
     flex: 1;
@@ -15,6 +27,12 @@
     align-items: center;
     margin: 0 10px;
     flex-wrap: nowrap;
+    overflow-x: scroll;
+    transition: all 0.4s ease-in-out;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     .category {
 
