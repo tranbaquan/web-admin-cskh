@@ -78,8 +78,15 @@
 
   /* css dropdown sort */
 
+  .inline {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
+
   .status-input {
     border-radius: 7px 0px 0px 7px;
+    border-right: none;
   }
 
   .status-button {

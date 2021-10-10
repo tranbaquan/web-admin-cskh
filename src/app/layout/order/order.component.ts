@@ -116,7 +116,7 @@ export class OrderComponent implements OnInit {
     this.router.navigate(['order', orderId]);
   }
 
-  openStatusMadal(order: OrderResponseModel): void {
+  openStatusModal(order: OrderResponseModel): void {
     this.selectedOrder = order;
     this.modalService.open('status-modal');
   }
