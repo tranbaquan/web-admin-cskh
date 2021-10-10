@@ -1,0 +1,193 @@
+<div>
+  <div class="action-bar">
+    <div class="category-name">Danh sách khách hàng</div>
+    <div class="action-group">
+      <fa-icon *ngIf="loading" [icon]="faSpinner" [spin]="true"></fa-icon>
+      <div class="search-bar">
+        <input type="text" appInput [width]="300" [(ngModel)]="searchQuery" (keyup.enter)="searchStore()">
+        <button appButton [width]="50" background="bg-dark" (click)="searchStore()">
+          <fa-icon [icon]="faSearch"></fa-icon>
+        </button>
+      </div>
+
+      <button appButton background="bg-orange" (click)="openModal('create-store-modal')">
+        <fa-icon size="sm" [icon]="faPlus"></fa-icon>
+        <span>Thêm kho</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="main-content">
+
+    <div class="filter-bar">
+      <div>
+        <label class="label">Hiển thị:</label>
+        <label class="value">{{stores.length}}/{{pagination.totalItem}} kho
+          (từ {{(pagination.page - 1) * pagination.size}}
+          - {{(pagination.page - 1) * pagination.size + stores.length}})
+        </label>
+      </div>
+      <div class="filter-group">
+        <!--        <div class="group">-->
+        <!--          <label>Loại khách hàng:</label>-->
+        <!--          <select appSelect [(ngModel)]="customerTypeSearch" (ngModelChange)="searchCustomerByType()">-->
+        <!--            <option [value]="0">Tất cả</option>-->
+        <!--            <option [value]="1">Khách hàng</option>-->
+        <!--            <option [value]="2">Đại lý</option>-->
+        <!--          </select>-->
+        <!--        </div>-->
+      </div>
+    </div>
+
+    <div>
+      <table appTable [isEvenSeparate]="true">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th style="min-width: 100px">Tên kho</th>
+          <th style="min-width: 100px">Mô tả</th>
+          <th style="min-width: 100px">Trạng thái</th>
+          <th style="min-width: 120px">Tài khoản tạo</th>
+          <th style="min-width: 120px">Ngày tạo</th>
+          <th style="min-width: 70px"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let store of stores">
+          <td>{{store.StoreID}}</td>
+          <td style="min-width: 100px">{{store.StoreName}}</td>
+          <td style="min-width: 100px">{{store.Description}}</td>
+          <td style="min-width: 100px">{{store.Status ? 'Sẵn sàng' : 'Không sẵn sàng'}}</td>
+          <td style="min-width: 100px">{{store.UserCreated}}</td>
+          <td style="min-width: 120px">{{store.DateCreated | date: 'dd/MM/yyyy'}}</td>
+          <td style="min-width: 70px">
+            <div class="icon-group">
+              <button appIconButton background="bg-orange" (click)="openEditModal(store)">
+                <fa-icon [icon]="faEdit"></fa-icon>
+              </button>
+              <button appIconButton background="bg-red" matTooltip="Nhấn 2 lần để xóa" [matTooltipPosition]="'above'"
+                      (dblclick)="deleteStore(store)">
+                <fa-icon [icon]="faTrashAlt"></fa-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+    <div class="filter-bar">
+      <div>
+        <label class="label">Hiển thị:</label>
+        <label class="value">{{stores.length}}/{{pagination.totalItem}} kho
+          (từ {{(pagination.page - 1) * pagination.size}}
+          - {{(pagination.page - 1) * pagination.size + stores.length}})
+        </label>
+      </div>
+      <div class="filter-group">1
+      </div>
+    </div>
+
+    <div class="paging">
+      <app-pagination [pagination]="pagination" (pageChange)="onPageChange($event)"></app-pagination>
+    </div>
+  </div>
+</div>
+
+<app-modal id="create-store-modal" [width]="600" [contentTemplate]="createStoreModal"></app-modal>
+<app-modal id="update-store-modal" [width]="600" [contentTemplate]="updateStoreModal"></app-modal>
+
+<ng-template #createStoreModal>
+  <app-modal-header>
+    <div class="modal-title">
+      <div class="title">Tạo kho</div>
+    </div>
+    <div>
+      <button appIconButton background="bg-transparent" (click)="closeModal('create-store-modal')">
+        <fa-icon size="lg" [icon]="faTimesCircle"></fa-icon>
+      </button>
+    </div>
+  </app-modal-header>
+  <app-modal-body>
+    <form [formGroup]="createStoreFormGroup" class="modal-form">
+      <div class="input">
+        <label class="required">Mã kho</label>
+        <input formControlName="Code" placeholder="Mã kho" type="text" appInput>
+        <mat-hint *ngIf="!isCreateValidField('Code')">Mã kho không được rỗng.</mat-hint>
+      </div>
+      <div class="input">
+        <label class="required">Tên kho</label>
+        <input formControlName="StoreName" placeholder="Tên kho" type="text" appInput>
+        <mat-hint *ngIf="!isCreateValidField('StoreName')">Tên kho không được rỗng.</mat-hint>
+      </div>
+      <div class="input">
+        <label class="required">Trạng thái</label>
+        <select appSelect formControlName="Status">
+          <option [value]="0">Không sẵn sàng</option>
+          <option [value]="1">Sẵn sàng</option>
+        </select>
+      </div>
+      <div class="input">
+        <label>Mô tả</label>
+        <textarea formControlName="Description" placeholder="Mô tả"></textarea>
+      </div>
+    </form>
+  </app-modal-body>
+  <app-modal-footer>
+    <div class="right-section">
+      <div class="btn-group">
+        <button appButton background="bg-gray" (click)="closeModal('create-store-modal')">Đóng</button>
+        <button appButton background="bg-orange" [disabled]="createStoreFormGroup.invalid"
+                (click)="createStore()">
+          Tạo kho
+        </button>
+      </div>
+    </div>
+  </app-modal-footer>
+</ng-template>
+
+<ng-template #updateStoreModal>
+  <app-modal-header>
+    <div class="modal-title">
+      <div class="title">Cập nhật kho</div>
+    </div>
+    <div>
+      <button appIconButton background="bg-transparent" (click)="closeModal('update-store-modal')">
+        <fa-icon size="lg" [icon]="faTimesCircle"></fa-icon>
+      </button>
+    </div>
+  </app-modal-header>
+  <app-modal-body>
+    <form [formGroup]="updateStoreFormGroup" class="modal-form">
+      <div class="input">
+        <label class="required">Tên kho</label>
+        <input formControlName="StoreName" placeholder="Tên kho" type="text" appInput>
+        <mat-hint *ngIf="!isUpdateValidField('StoreName')">Tên kho không được rỗng.</mat-hint>
+      </div>
+      <div class="input">
+        <label class="required">Trạng thái</label>
+        <select appSelect formControlName="Status">
+          <option [value]="0">Không sẵn sàng</option>
+          <option [value]="1">Sẵn sàng</option>
+        </select>
+      </div>
+      <div class="input">
+        <label>Mô tả</label>
+        <textarea formControlName="Description" placeholder="Mô tả"></textarea>
+      </div>
+    </form>
+  </app-modal-body>
+  <app-modal-footer>
+    <div class="right-section">
+      <div class="btn-group">
+        <button appButton background="bg-gray" (click)="closeModal('update-store-modal')">Đóng</button>
+        <button appButton background="bg-orange" [disabled]="updateStoreFormGroup.invalid"
+                (click)="updateStore()">
+          Cập nhật kho
+        </button>
+      </div>
+    </div>
+  </app-modal-footer>
+</ng-template>
+
