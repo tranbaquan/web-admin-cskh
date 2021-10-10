@@ -1,0 +1,170 @@
+<div>
+  <div class="action-bar">
+    <div class="category-name">Danh sách công ty</div>
+    <div class="action-group">
+      <fa-icon *ngIf="loading" [icon]="faSpinner" [spin]="true"></fa-icon>
+      <button appButton background="bg-orange" (click)="openModal('create-company-modal')">
+        <fa-icon size="sm" [icon]="faPlus"></fa-icon>
+        <span>Tạo công ty</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <div>
+      <label class="label">Hiển thị:&nbsp;</label>
+      <label class="value">{{listCompany.length}}/{{pagination.totalItem}} tài khoản
+        (từ {{(pagination.page - 1) * pagination.size}} - {{(pagination.page - 1) * pagination.size + listCompany.length}})
+      </label>
+    </div>
+    <div class="filter-group">
+      <!--      <div class="label w-100">Lọc theo:</div>-->
+      <!--      <div class="w-100">Sản phẩm</div>-->
+      <!--      <div class="w-100">Giá</div>-->
+      <!--      <div class="w-100">Hãng</div>-->
+    </div>
+  </div>
+
+  <div>
+    <table appTable [isEvenSeparate]="true">
+      <thead>
+      <tr>
+        <th style="min-width: 100px">Id</th>
+        <th style="min-width: 100px">Tên công ty</th>
+        <th style="min-width: 100px">Địa chỉ</th>
+        <th style="min-width: 100px">TaxCode</th>
+        <th style="min-width: 100px">BankOpen</th>
+        <th style="min-width: 100px">Người tạo</th>
+        <th style="min-width: 120px">Ngày tạo</th>
+        <th style="min-width: 70px"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of listCompany">
+        <td>{{item.CompanyID}}</td>
+        <td style="min-width: 100px">{{item.CompanyName}}</td>
+        <td style="min-width: 100px">{{item.CompanyAddress}}</td>
+        <td style="min-width: 100px">{{item.TaxCode}}</td>
+        <td style="min-width: 100px">{{item.BankOpen}}</td>
+        <td style="min-width: 100px">{{item.UserCreated}}</td>
+        <td style="min-width: 100px">{{item.DateCreated | date:'yyyy-MM-dd H:mm'}}</td>
+        <td style="min-width: 70px">
+          <div class="icon-group">
+            <button appIconButton background="bg-orange" (click)="openEditCompany(item)">
+              <fa-icon [icon]="faEdit"></fa-icon>
+            </button>
+            <button appIconButton background="bg-red"  (click)="deleteCompany(item.CompanyName, item.CompanyID)">
+              <fa-icon [icon]="faTrashAlt"></fa-icon>
+            </button>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="paging">
+    <app-pagination [pagination]="pagination" (pageChange)="onPageChange($event)"></app-pagination>
+  </div>
+</div>
+
+<app-modal id="create-company-modal" [width]="500" [contentTemplate]="createCompanyModal"></app-modal>
+<app-modal id="update-company-modal" [width]="500" [contentTemplate]="updateCompanyModal"></app-modal>
+
+
+<ng-template #createCompanyModal>
+  <app-modal-header>
+    <div class="modal-title">
+      <div class="title">Tạo công ty</div>
+    </div>
+    <div>
+      <button appIconButton background="bg-transparent" (click)="closeModal('create-company-modal')">
+        <fa-icon size="lg" [icon]="faTimesCircle"></fa-icon>
+      </button>
+    </div>
+  </app-modal-header>
+  <app-modal-body>
+    <form [formGroup]="createCompanyFormGroup" class="modal-form">
+      <div class="input">
+        <label>Code <span style="color: red">*</span></label>
+        <input formControlName="companyCode" placeholder="Code" type="text" appInput>
+      </div>
+      <div class="input">
+        <label>Tên công ty <span style="color: red">*</span></label>
+        <input formControlName="companyName" placeholder="Tên công ty" type="text" appInput>
+      </div>
+      <div class="input">
+        <label>Địa chỉ</label>
+        <input formControlName="companyAddress" placeholder="Địa chỉ" type="text" appInput>
+      </div>
+      <div class="input">
+        <label>Tax <span style="color: red">*</span></label>
+        <input formControlName="taxCode" placeholder="TaxCode" type="text" appInput>
+      </div>
+      <div class="input">
+        <label>Mã ngân hàng</label>
+        <input formControlName="bankCode" placeholder="CodeBank" type="text" appInput>
+      </div>
+      <div class="input">
+        <label>Địa chỉ ngân hàng</label>
+        <input formControlName="bankOpen" placeholder="TaxCode" type="text" appInput>
+      </div>
+
+    </form>
+  </app-modal-body>
+  <app-modal-footer>
+    <div class="right-section">
+      <div class="btn-group">
+        <button appButton background="bg-gray" (click)="closeModal('create-company-modal')">Đóng</button>
+        <button appButton background="bg-orange" (click)="createCompany()">Tạo công ty</button>
+      </div>
+    </div>
+  </app-modal-footer>
+</ng-template>
+
+<ng-template #updateCompanyModal>
+  <app-modal-header>
+    <div class="modal-title">
+      <div class="title">Chỉnh sửa công ty</div>
+    </div>
+    <div>
+      <button appIconButton background="bg-transparent" (click)="closeUpdateModal()">
+        <fa-icon size="lg" [icon]="faTimesCircle"></fa-icon>
+      </button>
+    </div>
+  </app-modal-header>
+  <app-modal-body>
+      <div class="input">
+        <label>Code <span style="color: red">*</span></label>
+        <input placeholder="Code" [(ngModel)]="selectedCompany.CompanyCode" type="text" appInput>
+      </div>
+      <div class="input">
+        <label>Tên công ty <span style="color: red">*</span></label>
+        <input placeholder="Tên công ty" type="text" [(ngModel)]="selectedCompany.CompanyName" appInput>
+      </div>
+      <div class="input">
+        <label>Địa chỉ</label>
+        <input placeholder="Địa chỉ" type="text" [(ngModel)]="selectedCompany.CompanyAddress" appInput>
+      </div>
+      <div class="input">
+        <label>Tax <span style="color: red">*</span></label>
+        <input placeholder="TaxCode" type="text" [(ngModel)]="selectedCompany.TaxCode" appInput>
+      </div>
+      <div class="input">
+        <label>Mã ngân hàng</label>
+        <input placeholder="CodeBank" type="text" [(ngModel)]="selectedCompany.CodeBank" appInput>
+      </div>
+      <div class="input">
+        <label>Địa chỉ ngân hàng</label>
+        <input placeholder="TaxCode" type="text" [(ngModel)]="selectedCompany.BankOpen" appInput>
+      </div>
+  </app-modal-body>
+  <app-modal-footer>
+    <div class="right-section">
+      <div class="btn-group">
+        <button appButton background="bg-gray" (click)="closeUpdateModal()">Đóng</button>
+        <button appButton background="bg-orange" (click)="updateCompany()">Lưu</button>
+      </div>
+    </div>
+  </app-modal-footer>
+</ng-template>
