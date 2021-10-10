@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {faAngleLeft, faAngleRight, faSearch, faPlus, faBars, faTh, faStar, faSpinner} from '@fortawesome/free-solid-svg-icons';
 import {faEye} from '@fortawesome/free-regular-svg-icons';
 import {ProductService} from './product.service';
@@ -35,6 +35,8 @@ export class ProductComponent implements OnInit {
   categories: CategoryResponseModel[];
   pagination: Pagination<ProductResponseModel>;
   loading: boolean;
+
+  @ViewChild('categorySlider') categorySlider: ElementRef;
 
   constructor(private productService: ProductService,
               private categoryService: CategoryService,
@@ -135,6 +137,26 @@ export class ProductComponent implements OnInit {
       queryParams: {category: this.currentCategory ? this.currentCategory.TypeProductID : 'all'}
     }).then(() => {
     });
+  }
+
+  scrollLeft(): void {
+    const slider = this.categorySlider.nativeElement as HTMLElement;
+    const newPoint = slider.scrollLeft - 200;
+    if (newPoint < 0) {
+      slider.scrollTo({left: 0, behavior: 'smooth'});
+    } else {
+      slider.scrollTo({left: newPoint, behavior: 'smooth'});
+    }
+  }
+
+  scrollRight(): void {
+    const slider = this.categorySlider.nativeElement as HTMLElement;
+    const newPoint = slider.scrollLeft + 200;
+    if (newPoint > slider.scrollWidth) {
+      slider.scrollTo({left: slider.scrollWidth, behavior: 'smooth'});
+    } else {
+      slider.scrollTo({left: newPoint, behavior: 'smooth'});
+    }
   }
 }
 
