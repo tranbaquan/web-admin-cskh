@@ -88,9 +88,17 @@ export class ProductComponent implements OnInit {
     if (categoryType) {
       params = params.append('typeProductID', categoryType.toString());
     }
+
     this.productService.getProducts(this.page, this.size, params).subscribe(data => {
       this.pagination = data;
       this.products = data.data;
+      if (this.pagination.totalItem > 0 && this.pagination.data.length === 0) {
+        this.page = 1;
+        this.productService.getProducts(this.page, this.size, params).subscribe(newData => {
+          this.pagination = newData;
+          this.products = newData.data;
+        });
+      }
     }, () => {
     }, () => {
       this.loading = false;
