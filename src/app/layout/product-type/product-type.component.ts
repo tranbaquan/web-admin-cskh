@@ -9,6 +9,7 @@ import {faTimesCircle} from '@fortawesome/free-solid-svg-icons';
 import {TypeProductUpdateModel} from '../../shared/model/response/type-product-update.model';
 import {environment} from '../../../environments/environment';
 import {FileUploadService} from '../product/product-detail/file-upload.service';
+import {ToastrService} from 'ngx-toastr';
 
 
 @Component({
@@ -46,7 +47,8 @@ export class ProductTypeComponent implements OnInit {
   constructor(private productTypeService: ProductTypeService,
               public i18n: TreeviewI18n,
               private fileUploadService: FileUploadService,
-              private modalService: ModalService) {
+              private modalService: ModalService,
+              private toastService: ToastrService) {
     this.user = JSON.parse(localStorage.getItem('user:info'));
   }
 
@@ -157,6 +159,8 @@ export class ProductTypeComponent implements OnInit {
         .subscribe(data => {
           this.closeModal();
           window.location.reload();
+        }, error => {
+          this.toastService.warning(error.error.message, 'Cập nhật thất bại!');
         });
     }, 1000);
   }
@@ -166,16 +170,21 @@ export class ProductTypeComponent implements OnInit {
       .subscribe(data => {
         this.closeModal();
         window.location.reload();
-      });
+      },
+        error => {
+          this.toastService.warning(error.error.message, 'Xóa thất bại!');
+        });
   }
 
   creatTypeProduct(): void {
     let imagePath = '';
-    const formData = new FormData();
-    formData.set('', this.imgToUpload);
-    this.fileUploadService.updateImage(formData).subscribe(res => {
-      imagePath = res.data;
-    });
+    if (this.imgToUpload) {
+      const formData = new FormData();
+      formData.set('', this.imgToUpload);
+      this.fileUploadService.updateImage(formData).subscribe(res => {
+        imagePath = res.data;
+      });
+    }
 
     setTimeout(() => {
       const modal = this.parseProductTypeUpdateModal(this.selectedItem);
@@ -186,6 +195,8 @@ export class ProductTypeComponent implements OnInit {
         .subscribe(data => {
           this.closeModal();
           window.location.reload();
+        }, error => {
+          this.toastService.warning(error.error.message, 'Tạo thất bại!');
         });
     }, 1000);
   }
