@@ -241,8 +241,8 @@
         <div class="input">
           <label>Giá</label>
           <input type="text" [min]="0" appInput mvndrMatCurrencyFormat
-                 [allowNegative]="false" [currencyCode]="'VND'" [value]="product.AmountSale"
-                 (blur)="updateProductAmountSale($event)">
+                 [allowNegative]="false" [currencyCode]="'VND'" [value]="product.AmountSaleMuilti"
+                 (blur)="updateProductAmountSaleMulti($event)">
         </div>
         <div class="input">
           <label>Chiết khấu</label>
