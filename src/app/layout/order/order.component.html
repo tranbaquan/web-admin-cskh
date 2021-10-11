@@ -14,7 +14,10 @@
   <div class="order-content">
     <div class="row my-2">
       <div class="col-5 d-flex flex-row">
-        <label><span class="label-orange">Hiển thị:</span> {{pagination.data ? pagination.data.length : 0}}/{{pagination.totalItem ? pagination.totalItem : 0}} đơn hàng</label>
+        <label>
+          <span class="label-orange">Hiển thị:</span> {{pagination.data ? pagination.data.length : 0}}/{{pagination.totalItem ? pagination.totalItem : 0}} đơn hàng
+          (từ {{(pagination.page - 1) * pagination.size}} - {{(pagination.page - 1) * pagination.size + listOrder.length}})
+        </label>
       </div>
       <div class="col-7 d-flex flex-row-reverse">
         <div class="dropdown-sort">
@@ -29,9 +32,9 @@
       </div>
     </div>
     <div class="py-2">
-      <table class="table">
-        <thead class="table-head">
-          <tr class="col">
+      <table appTable [isEvenSeparate]="true">
+        <thead>
+          <tr>
             <th style="width: 15%">Mã đơn hàng</th>
             <th style="width: 15%">Ngày xuất</th>
             <th style="width: 15%">Tên khách hàng</th>
@@ -41,14 +44,14 @@
          </tr>
         </thead>
         <tbody>
-        <tr class="col" *ngFor="let item of listOrder">
+        <tr *ngFor="let item of listOrder">
           <td style="width: 15%"><a (click)="gotoDetail(item.ExportID)">{{item.Code}}</a></td>
           <td style="width: 15%">{{item.DateCreated | date:'yyyy-MM-dd H:mm'}}</td>
           <td style="width: 15%">{{item.NameCustomer}}</td>
           <td style="width: 25%">
-            <div class="row">
+            <div class="inline">
               <input class="status-input" type="text" appInput [width]="150" [value]="getStatusLabel(item)" disabled>
-              <button class="status-button" (click)="openStatusMadal(item)" appButton [width]="30">
+              <button class="status-button" (click)="openStatusModal(item)" appIconButton>
                 <fa-icon [icon]="faEllipsisH"></fa-icon>
               </button>
             </div>

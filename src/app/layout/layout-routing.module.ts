@@ -15,6 +15,7 @@ import {UserComponent} from './user/user.component';
 import {CustomerComponent} from './customer/customer.component';
 import {CompanyResolver, StoreResolver} from './customer/customer.resolver';
 import {CompanyComponent} from "./company/company.component";
+import {StoreComponent} from './store/store.component';
 
 const routes: Routes = [
   {
@@ -91,6 +92,11 @@ const routes: Routes = [
         path: 'company',
         pathMatch: 'full',
         component: CompanyComponent
+      },
+      {
+        path: 'store',
+        pathMatch: 'full',
+        component: StoreComponent
       }
     ]
   }

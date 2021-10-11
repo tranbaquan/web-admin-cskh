@@ -509,8 +509,8 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     this.editingSpecItem = specific;
   }
 
-  updateProductAmountSale($event: FocusEvent): void {
-    this.product.AmountSale = Number(($event.target as HTMLInputElement).value);
+  updateProductAmountSaleMulti($event: FocusEvent): void {
+    this.product.AmountSaleMuilti = Number(($event.target as HTMLInputElement).value);
   }
 
   updatePrice(price: any, $event: FocusEvent): void {
