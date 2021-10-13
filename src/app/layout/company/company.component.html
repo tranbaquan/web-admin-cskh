@@ -87,11 +87,13 @@
     <form [formGroup]="createCompanyFormGroup" class="modal-form">
       <div class="input">
         <label>Code <span style="color: red">*</span></label>
-        <input formControlName="companyCode" placeholder="Code" type="text" appInput>
+        <input [class]="codeError ? 'invalid-feild' : ''" formControlName="companyCode" placeholder="Code" type="text" appInput (change)="validateCode($event)">
+        <mat-hint *ngIf="codeError" >{{codeError}}</mat-hint>
       </div>
       <div class="input">
         <label>Tên công ty <span style="color: red">*</span></label>
-        <input formControlName="companyName" placeholder="Tên công ty" type="text" appInput>
+        <input [class]="nameError ? 'invalid-feild' : ''" formControlName="companyName" placeholder="Tên công ty" type="text" appInput (change)="validateName($event)">
+        <mat-hint *ngIf="nameError" >{{nameError}}</mat-hint>
       </div>
       <div class="input">
         <label>Địa chỉ</label>
@@ -99,7 +101,8 @@
       </div>
       <div class="input">
         <label>Tax <span style="color: red">*</span></label>
-        <input formControlName="taxCode" placeholder="TaxCode" type="text" appInput>
+        <input [class]="taxError ? 'invalid-feild' : ''" formControlName="taxCode" placeholder="TaxCode" type="text" appInput (change)="validateTax($event)">
+        <mat-hint *ngIf="taxError" >{{taxError}}</mat-hint>
       </div>
       <div class="input">
         <label>Mã ngân hàng</label>
@@ -136,11 +139,13 @@
   <app-modal-body>
       <div class="input">
         <label>Code <span style="color: red">*</span></label>
-        <input placeholder="Code" [(ngModel)]="selectedCompany.CompanyCode" type="text" appInput>
+        <input [class]="codeError ? 'invalid-feild' : ''" placeholder="Code" [(ngModel)]="selectedCompany.CompanyCode" type="text" appInput (change)="validateCode($event)">
+        <mat-hint *ngIf="codeError" >{{codeError}}</mat-hint>
       </div>
       <div class="input">
         <label>Tên công ty <span style="color: red">*</span></label>
-        <input placeholder="Tên công ty" type="text" [(ngModel)]="selectedCompany.CompanyName" appInput>
+        <input [class]="nameError ? 'invalid-feild' : ''" placeholder="Tên công ty" type="text" [(ngModel)]="selectedCompany.CompanyName" appInput (change)="validateName($event)">
+        <mat-hint *ngIf="nameError" >{{nameError}}</mat-hint>
       </div>
       <div class="input">
         <label>Địa chỉ</label>
@@ -148,7 +153,8 @@
       </div>
       <div class="input">
         <label>Tax <span style="color: red">*</span></label>
-        <input placeholder="TaxCode" type="text" [(ngModel)]="selectedCompany.TaxCode" appInput>
+        <input [class]="taxError ? 'invalid-feild' : ''" placeholder="TaxCode" type="text" [(ngModel)]="selectedCompany.TaxCode" appInput (change)="validateTax($event)">
+        <mat-hint *ngIf="taxError" >{{taxError}}</mat-hint>
       </div>
       <div class="input">
         <label>Mã ngân hàng</label>

@@ -6,7 +6,6 @@ import {CompanyResponseModel} from '../../shared/model/response/company-response
 import {CompanyService} from './company.service';
 import {ModalService} from '../../shared/component/modal/modal.service';
 import {ToastrService} from 'ngx-toastr';
-import {catchError} from "rxjs/operators";
 
 @Component({
   selector: 'app-company',
@@ -30,6 +29,10 @@ export class CompanyComponent implements OnInit {
   createCompanyFormGroup: FormGroup;
   page: number;
   size: number;
+
+  codeError: string;
+  nameError: string;
+  taxError: string;
 
   constructor(private companyService: CompanyService,
               private modalService: ModalService,
@@ -81,7 +84,46 @@ export class CompanyComponent implements OnInit {
   }
 
   openModal(id: string): void {
+    this.taxError = '';
+    this.nameError = '';
+    this.codeError = '';
     this.modalService.open(id);
+  }
+
+  validateCode($event): void {
+    this.codeError = '';
+    if (!$event.target.value.trim()) {
+      this.codeError = 'chưa nhập Code';
+    }
+  }
+
+  validateName($event): void {
+    this.nameError = '';
+    if (!$event.target.value.trim()) {
+      this.nameError = 'chưa nhập tên công ty';
+    }
+  }
+
+  validateTax($event): void {
+    this.taxError = '';
+    if (!$event.target.value.trim()) {
+      this.taxError = 'chưa nhập Tax';
+    }
+  }
+
+  validate(model: CompanyResponseModel): void {
+    this.taxError = '';
+    this.nameError = '';
+    this.codeError = '';
+    if (!model.CompanyCode.trim()) {
+      this.codeError = 'chưa nhập Code';
+    }
+    if (!model.CompanyName.trim()) {
+      this.nameError = 'chưa nhập tên công ty';
+    }
+    if (!model.TaxCode.trim()) {
+      this.taxError = 'chưa nhập Tax';
+    }
   }
 
   createCompany(): void {
@@ -95,6 +137,10 @@ export class CompanyComponent implements OnInit {
     if (this.user) {
       company.UserCreated = this.user.Code;
       company.UserCreated = this.user.Code;
+    }
+    this.validate(company);
+    if (this.codeError || this.taxError || this.nameError) {
+      return;
     }
     this.companyService.createCompany(company)
       .subscribe(data => {
@@ -126,6 +172,10 @@ export class CompanyComponent implements OnInit {
     }
     if (this.user) {
       this.selectedCompany.UserUpdated = this.user.Code;
+    }
+    this.validate(this.selectedCompany);
+    if (this.codeError || this.taxError || this.nameError) {
+      return;
     }
     this.companyService.updateCompany(this.selectedCompany)
       .subscribe(data => {
