@@ -6,11 +6,11 @@ import {OrderService} from '../order.service';
 import {ModalService} from '../../../shared/component/modal/modal.service';
 import {OrderDetail} from '../../../shared/model/order-detail.model';
 import {FormControl, FormGroup} from '@angular/forms';
-import {OrderStatusModel} from '../../../shared/model/order-status.model';
 import {finalize} from 'rxjs/operators';
 import {StoreService} from '../../../shared/service/store.service';
 import {StoreResponseModel} from '../../../shared/model/response/store-response.model';
 import { ViewportScroller } from '@angular/common';
+import {ToastrService} from 'ngx-toastr';
 
 
 @Component({
@@ -44,7 +44,8 @@ export class OrderDetailComponent implements OnInit {
               private orderService: OrderService,
               private modalService: ModalService,
               private storeService: StoreService,
-              private viewportScroller: ViewportScroller) {
+              private viewportScroller: ViewportScroller,
+              private toastService: ToastrService) {
     this.isLoadingUpdate = false;
   }
 
@@ -112,7 +113,7 @@ export class OrderDetailComponent implements OnInit {
     });
   }
 
-  saveOrder(): void {
+  async saveOrder(): Promise<any> {
     const order = Object.assign({} as OrderResponseModel, this.order);
     order.StoreID = this.orderDetailForm.get('store').value;
     order.NameCustomer = this.orderDetailForm.get('customerName').value;
@@ -122,6 +123,26 @@ export class OrderDetailComponent implements OnInit {
     order.Message = this.orderDetailForm.get('message').value;
     order.Description = this.orderDetailForm.get('description').value;
     order.AddressReceive = this.orderDetailForm.get('address').value;
+
+    // update order info
+    const res = await this.updateOrderInfo(order);
+    if (!res) {
+      return;
+    }
+    // updates status
+    const orderStatusModal = this.orderService.getStatusByStatusId(Number(this.orderDetailForm.get('status').value));
+    if (orderStatusModal) {
+      this.orderService.updateOrderStatus(order.ExportID, orderStatusModal.statusId, orderStatusModal.isAccept)
+        .subscribe(data => {
+        }, error => {
+          this.toastService.warning(error.error.message, 'Cập nhật trạng thái thất bại!');
+        });
+    }
+    window.location.reload();
+  }
+
+  updateOrderInfo(order: OrderResponseModel): boolean {
+    const result = false;
     this.isLoadingUpdate = true;
     this.orderService.updateOrder(order)
       .pipe(
@@ -129,16 +150,11 @@ export class OrderDetailComponent implements OnInit {
           this.isLoadingUpdate = false;
         })
       ).subscribe(data => {
+    }, error => {
+      this.toastService.warning(error.error.message, 'Lưu thất bại!');
+      return result;
     });
-
-    // updates status
-    const orderStatusModal = this.orderService.getStatusByStatusId(Number(this.orderDetailForm.get('status').value));
-    if (orderStatusModal) {
-      this.orderService.updateOrderStatus(order.ExportID, orderStatusModal.statusId, orderStatusModal.isAccept)
-        .subscribe(data => {
-        });
-    }
-    window.location.reload();
+    return true;
   }
 
   changePrice(): void {
