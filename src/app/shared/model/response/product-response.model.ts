@@ -11,6 +11,7 @@ export class ProductResponseModel {
   AmountPromotion: number;
   FIFO: number;
   Description: string;
+  ShortDescription: string;
   DateProduction: Date;
   DateExpired: Date;
   Status: number;
@@ -45,6 +46,7 @@ export class ProductResponseModel {
     this.AmountSaleMuilti = 0;
     this.AmountPromotion = 0;
     this.FIFO = 0;
+    this.ShortDescription = '';
     this.Description = '';
     this.DateProduction = new Date();
     this.DateExpired = new Date();
