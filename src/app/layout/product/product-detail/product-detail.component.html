@@ -251,8 +251,15 @@
       </div>
     </div>
     <div class="form-group">
-      <div class="group-title">Mô tả</div>
-      <ckeditor [(ngModel)]="product.Description"></ckeditor>
+      <div class="group-title">Thông tin chi tiết</div>
+      <div class="input">
+        <label>Mô tả</label>
+        <ckeditor [(ngModel)]="product.ShortDescription"></ckeditor>
+      </div>
+      <div class="input">
+        <label>Chi tiết</label>
+        <ckeditor [(ngModel)]="product.Description"></ckeditor>
+      </div>
     </div>
     <div class="form-group">
       <div class="group-title">Thông số kỹ thuật</div>
