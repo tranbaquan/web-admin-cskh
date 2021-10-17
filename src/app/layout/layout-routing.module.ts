@@ -14,8 +14,9 @@ import {ProductTypeComponent} from './product-type/product-type.component';
 import {UserComponent} from './user/user.component';
 import {CustomerComponent} from './customer/customer.component';
 import {CompanyResolver, StoreResolver} from './customer/customer.resolver';
-import {CompanyComponent} from "./company/company.component";
+import {CompanyComponent} from './company/company.component';
 import {StoreComponent} from './store/store.component';
+import {NewsComponent} from './news/news.component';
 
 const routes: Routes = [
   {
@@ -92,6 +93,11 @@ const routes: Routes = [
         path: 'company',
         pathMatch: 'full',
         component: CompanyComponent
+      },
+      {
+        path: 'news',
+        pathMatch: 'full',
+        component: NewsComponent
       },
       {
         path: 'store',

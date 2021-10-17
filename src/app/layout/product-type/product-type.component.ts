@@ -166,14 +166,16 @@ export class ProductTypeComponent implements OnInit {
   }
 
   deleteTypeProduct(): void {
-    this.productTypeService.deleteTypeProduct(this.selectedItem.TypeProductID)
-      .subscribe(data => {
-        this.closeModal();
-        window.location.reload();
-      },
-        error => {
-          this.toastService.warning(error.error.message, 'Xóa thất bại!');
-        });
+    if (window.confirm('Xác nhận xóa')) {
+      this.productTypeService.deleteTypeProduct(this.selectedItem.TypeProductID)
+        .subscribe(data => {
+            this.closeModal();
+            window.location.reload();
+          },
+          error => {
+            this.toastService.warning(error.error.message, 'Xóa thất bại!');
+          });
+    }
   }
 
   creatTypeProduct(): void {

@@ -126,7 +126,7 @@
           </div>
           <div class="row" *ngIf="!selectedItem.ImagesPath || isChangeImg">
             <div class="col-8">
-              <input type="file" (change)="handleFileInput($event)">
+              <input type="file" (change)="handleFileInput($event)" accept="image/*">
             </div>
             <div *ngIf="!isCreateNew && selectedItem.ImagesPath" class="col-4">
               <button appButton background="bg-orange" (click)="skipChangeImg()">Bỏ qua</button>

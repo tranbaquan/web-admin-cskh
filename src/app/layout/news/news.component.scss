@@ -1,19 +1,11 @@
 @import "src/app/shared/scss/core-variables";
-.order-page {
-  .block-left {
-
-  }
+.news-page {
 
   .search-bar {
     .core-input {
       border-radius: 0;
       border: 1px solid $color-gray-l5;
     }
-  }
-
-  .block-right {
-    position:  absolute;
-    right: 0;
   }
 
   .label-orange {
@@ -23,11 +15,6 @@
 
   .dropdown-sort {
     padding-left: 20px;
-  }
-
-  .table-head {
-    color: #FFFFFF;
-    background-color: $color-orange-l1;
   }
 
   /* css dropdown sort */
@@ -43,7 +30,13 @@
 
   .dropdown {
     position: relative;
-    display: inline-block;
+    display: inline-flex;
+    word-break: keep-all;
+  }
+
+  .dropdown select {
+    padding-top: 1px;
+    border: none;
   }
 
   .dropdown-content {
@@ -74,25 +67,44 @@
 
   /* css dropdown sort */
 
-  .inline {
-    display: flex;
-    align-items: center;
-    flex-wrap: nowrap;
+  .new-img {
+    max-width: 100%;
+    object-fit: contain;
   }
 
-  .status-input {
-    border-radius: 7px 0px 0px 7px;
-    border-right: none;
+  .img-padding {
+    padding-top: 5px;
+    padding-bottom: 5px;
   }
 
-  .status-button {
-    background-color: $color-orange-l1;
-    color: #FFFFFF;
-    border-radius: 0px 7px 7px 0px;
+ /* table td {
+    vertical-align: top !important;
+  }*/
+
+  .text-content {
+    word-break: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+  /*  line-height: 16px; !* fallback *!
+    max-height: 32px; !* fallback *!*/
+    -webkit-line-clamp: 7; /* number of lines to show */
+    -webkit-box-orient: vertical;
   }
 
-  .spinner-loading {
-    text-align: center;
-    margin-top: 30px;
+  .cursor-pointer {
+    cursor: pointer;
   }
+
+}
+.img-modal {
+  width: 100%;
+}
+
+.button-bottom button {
+  margin-right: 10px;
+}
+
+.invalid-feild {
+  border: 1px solid #E02E2E;
 }
