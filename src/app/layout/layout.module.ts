@@ -15,6 +15,7 @@ import {UserComponent} from './user/user.component';
 import {CustomerComponent} from './customer/customer.component';
 import { CompanyComponent } from './company/company.component';
 import { StoreComponent } from './store/store.component';
+import { NewsComponent } from './news/news.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { StoreComponent } from './store/store.component';
     UserComponent,
     CustomerComponent,
     CompanyComponent,
-    StoreComponent
+    StoreComponent,
+    NewsComponent,
   ],
   imports: [
     LayoutRoutingModule,

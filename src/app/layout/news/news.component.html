@@ -1,0 +1,165 @@
+<div class="news-page">
+  <div class="row my-3 py-2 title">
+    <div class="col-6 block-left">
+      <h5 class="font-weight-bold">QUẢN LÝ TIN TỨC</h5>
+    </div>
+    <div class="col-6 d-flex flex-row-reverse search-bar">
+      <button style="margin-left: 10px; height: 32px; padding-top: 6px" appButton background="bg-orange" (click)="openModalCreate()">
+        <fa-icon size="sm" [icon]="faPlus"></fa-icon>
+        <span>Thêm mới</span>
+      </button>
+      <button appButton [width]="50" background="bg-dark" (click)="searchNew()">
+        <fa-icon [icon]="faSearch"></fa-icon>
+      </button>
+      <input type="text" appInput [width]="300" [(ngModel)]="keySearch" (keyup.enter)="searchNew()">
+    </div>
+  </div>
+  <hr>
+  <div class="my-3">
+    <div class="row my-2">
+      <div class="col-5 d-flex flex-row">
+        <label *ngIf="pagination.data">
+          <span class="label-orange">Hiển thị:</span> {{pagination.data ? pagination.data.length : 0}}/{{pagination.totalItem ? pagination.totalItem : 0}}
+          (từ {{(pagination.page - 1) * pagination.size}} - {{(pagination.page - 1) * pagination.size + pagination.data.length}})
+        </label>
+      </div>
+      <div class="col-7 d-flex flex-row-reverse">
+        <div class="dropdown-sort" *ngIf="listTypeNew">
+          <div class="dropdown">
+            <label class="label-orange">Type: </label>
+            <select class="form-select" [(ngModel)]="type" (change)="searchNew()">
+              <option *ngFor="let item of listTypeNew; let i = index" [value]="item.TypeNewsID" [selected]="i === 0">{{item.TypeNewsName}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="dropdown-sort">
+          <div class="dropdown">
+            <label class="label-orange">Status: </label>
+            <select class="" [(ngModel)]="status" (change)="searchNew()">
+              <option value=100 selected >Tất cả</option>
+              <option value=1 >Active</option>
+              <option value=0 >DeActive</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="my-3">
+    <table appTable >
+      <thead>
+        <tr>
+          <th style="width: 20%">Image</th>
+          <th style="width: 25%">Tiêu đề</th>
+          <th style="width: 30%">Mô tả</th>
+          <th style="width: 10%">Trạng thái</th>
+          <th style="width: 15%">Ngày tạo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of pagination.data" class="tr-padding">
+          <td><div class="img-padding">
+              <img (click)="openModalUpdate(item)" class="new-img cursor-pointer"  [src]="getImageUrl(item.ImagesPath)">
+            </div></td>
+          <td><p (click)="openModalUpdate(item)" class="text-content cursor-pointer">{{item.Title}}</p></td>
+          <td><p class="text-content">{{item.ShortDescription}}</p></td>
+          <td>{{item.Status === 0 ? 'DeActive' : 'Active'}}</td>
+          <td>{{item.DateCreated | date:'yyyy-MM-dd'}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="isLoading" class="spinner-loading">
+      <fa-icon [icon]="faSpinner" [spin]="true"></fa-icon>
+    </div>
+    <div class="my-3" *ngIf="!isLoading && (!pagination.data || pagination.data.length === 0)">
+      <p>Không tìm thấy dữ liệu</p>
+    </div>
+    <div class="paging" *ngIf="pagination.data">
+      <app-pagination [pagination]="pagination" (pageChange)="onPageChange($event)"></app-pagination>
+    </div>
+  </div>
+</div>
+
+<app-modal id="new-modal" [width]="800" [contentTemplate]="newModal"></app-modal>
+<ng-template #newModal>
+  <app-modal-header>
+    <div class="modal-title">
+      <div class="title">{{isCreateNew ? 'Tạo mới' : 'Chi tiết'}}</div>
+    </div>
+    <div>
+      <button appIconButton background="bg-transparent" (click)="closeModal()">
+        <fa-icon size="lg" [icon]="faTimesCircle"></fa-icon>
+      </button>
+    </div>
+  </app-modal-header>
+  <app-modal-body>
+    <div class="row">
+      <div class="col-4">
+        <div class="form-group my-2">
+          <label>Image<span style="color: red">*</span></label>
+          <div *ngIf="selectedItem.ImagesPath" class="row mt-2">
+            <div class="">
+              <img class="img-modal" [src]="getImageUrl(selectedItem.ImagesPath)">
+            </div>
+            <div class="my-3 text-center">
+              <button appButton background="bg-orange" (click)="openFileDialog()">Đổi ảnh</button>
+            </div>
+            <input #fileUpload type="file" [hidden]="true" accept="image/*"
+                   (change)="onFileSelected($event)">
+          </div>
+          <div class="row" *ngIf="!selectedItem.ImagesPath">
+            <div class="col-8">
+              <input #fileUpload type="file" accept="image/*"
+                     (change)="onFileSelected($event)">
+            </div>
+          </div>
+          <mat-hint *ngIf="errorImage" >{{errorImage}}</mat-hint>
+        </div>
+      </div>
+      <div class="col-8">
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group my-2">
+              <label>Title<span style="color: red">*</span></label>
+              <input type="text" [class]="errorTitle ? 'invalid-feild' : ''" placeholder="Title" class="form-control" [(ngModel)]="selectedItem.Title" (change)="validateTitle()">
+              <mat-hint *ngIf="errorTitle" >{{errorTitle}}</mat-hint>
+            </div>
+            <div class="form-group my-2">
+              <label>Type<span style="color: red">*</span></label>
+              <select class="form-select" [class]="errorType ? 'invalid-feild' : ''" [(ngModel)]="selectedItem.TypeNewsID" (change)="validateType()">
+                <option *ngFor="let item of listTypeNew" [value]="item.TypeNewsID">{{item.TypeNewsName}}</option>
+              </select>
+              <mat-hint *ngIf="errorType" >{{errorType}}</mat-hint>
+            </div>
+            <div class="form-group my-2">
+              <label>Mô tả<span style="color: red">*</span></label>
+              <textarea class="form-control" [class]="errorShortDes ? 'invalid-feild' : ''" rows="7" [(ngModel)]="selectedItem.ShortDescription" (ngModelChange)="validateShortDes()"></textarea>
+              <mat-hint *ngIf="validateShortDes()" >{{errorShortDes}}</mat-hint>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label">Status</label>
+              <input type="checkbox" ng-model="checkboxModel" class="form-check-input" ng-true-value="1" ng-false-value="0" [(ngModel)]="selectedItem.Status">
+            </div>
+            <div class="form-group my-2">
+              <label>Order</label>
+              <input type="number" class="form-control" [(ngModel)]="selectedItem.Order">
+            </div>
+            <div>
+              <label>Nội dung</label>
+              <ckeditor [(ngModel)]="selectedItem.Description"></ckeditor>
+            </div>
+          </div>
+        </div>
+        <div class="my-3 button-bottom">
+          <button *ngIf="!isCreateNew" (click)="updateNew()" appButton background="bg-orange" [disabled]="isUpdate" >
+            <fa-icon *ngIf="isUpdate" [icon]="faSpinner"></fa-icon>
+            {{!isUpdate ? 'Lưu': ''}}
+          </button>
+          <button *ngIf="!isCreateNew" (click)="deleteNew(selectedItem.NewsID)" appButton background="bg-orange" [disabled]="isUpdate">Xóa</button>
+          <button *ngIf="isCreateNew" (click)="createNew()" appButton background="bg-orange" [disabled]="isUpdate">Tạo</button>
+        </div>
+      </div>
+    </div>
+
+  </app-modal-body>
+</ng-template>
