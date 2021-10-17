@@ -11,7 +11,7 @@
           <h5>Đơn hàng: {{order.Code}}</h5>
           <p class="label">Đặt ngày: {{order.DateCreated | date:'yyyy-MM-dd H:mm'}}</p>
         </div>
-        <div class="status-action">
+        <div class="status-action" *ngIf="checkPrice()">
    <!--       <button><fa-icon [icon]="faWindowClose"></fa-icon> Hủy</button>-->
           <button appButton background="bg-orange" (click)="gotoPriceSection()"><fa-icon [icon]="faFilePdf"></fa-icon> Báo giá</button>
         </div>

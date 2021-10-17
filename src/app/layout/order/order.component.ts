@@ -46,7 +46,7 @@ export class OrderComponent implements OnInit {
     this.pagination = new Pagination<OrderResponseModel>();
 
     this.orderStatusState = [
-      new OrderStatusModel(0, 100, 100, 'Tất cả'),
+      new OrderStatusModel(0, 100, 100, 'Đặt hàng'),
       new OrderStatusModel(1, 0, 2, 'Chờ báo giá'),
       new OrderStatusModel(2, 0, 3, 'Đã báo giá'),
       new OrderStatusModel(3, 0, 0, 'Chờ phê duyệt'),

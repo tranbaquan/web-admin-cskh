@@ -14,7 +14,7 @@
   <div class="order-content">
     <div class="row my-2">
       <div class="col-5 d-flex flex-row">
-        <label>
+        <label *ngIf="pagination.data">
           <span class="label-orange">Hiển thị:</span> {{pagination.data ? pagination.data.length : 0}}/{{pagination.totalItem ? pagination.totalItem : 0}} đơn hàng
           (từ {{(pagination.page - 1) * pagination.size}} - {{(pagination.page - 1) * pagination.size + listOrder.length}})
         </label>
@@ -89,7 +89,7 @@
     <div class="right-section">
       <div class="btn-group">
         <button appButton background="bg-orange" (click)="closeModal('status-modal')"><fa-icon [icon]="faWindowClose"></fa-icon>Hủy</button>
-        <button appButton background="bg-orange"><fa-icon [icon]="faClone"></fa-icon>Duyệt</button>
+        <!--<button appButton background="bg-orange"><fa-icon [icon]="faClone"></fa-icon>Duyệt</button>-->
       </div>
     </div>
   </app-modal-footer>

@@ -201,4 +201,14 @@ export class OrderDetailComponent implements OnInit {
   gotoPriceSection(): void {
     this.viewportScroller.scrollToAnchor('productList');
   }
+
+  checkPrice(): boolean {
+    let result = false;
+    this.order.listOrderDetail.forEach(item => {
+      if (item.Amount === 0) {
+        result = true;
+      }
+    });
+    return result;
+  }
 }
