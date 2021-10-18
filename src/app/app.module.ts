@@ -8,7 +8,9 @@ import {LoginPageComponent} from './login-page/login-page.component';
 import {SharedModule} from './shared/shared.module';
 import {LayoutModule} from './layout/layout.module';
 import {NotFoundPageComponent} from './not-found-page/not-found-page.component';
-import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,8 @@ import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-b
     SharedModule,
     LayoutModule,
     BrowserModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [],
   bootstrap: [AppComponent]

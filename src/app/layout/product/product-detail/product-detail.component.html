@@ -265,7 +265,17 @@
       <div class="group-title">Thông số kỹ thuật</div>
       <div class="tech-info-table">
         <table class="core-table even-separate">
-          <tbody [innerHTML]="trustHtml(product.InformationTech)">
+<!--          <tbody [innerHTML]="product.InformationTech | escapeHtml">-->
+<!--          </tbody>-->
+          <tbody>
+            <tr *ngFor="let techInfo of techInfoList; trackBy: trackByFn">
+              <td contenteditable="true">
+                <input appInput [(ngModel)]="techInfo.key">
+              </td>
+              <td  contenteditable="true">
+                <input appInput [(ngModel)]="techInfo.value">
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -273,9 +283,14 @@
         <input [(ngModel)]="techKey" type="text" appInput>
         <input [(ngModel)]="techValue" type="text" appInput>
       </div>
-      <button appIconButton background="bg-orange" (click)="addTechInfoLine()">
-        <fa-icon [icon]="faPlus"></fa-icon>
-      </button>
+      <div style="display: flex; gap: 5px">
+        <button appIconButton background="bg-orange" (click)="addTechInfoLine()">
+          <fa-icon [icon]="faPlus"></fa-icon>
+        </button>
+<!--        <button appIconButton background="bg-red"  matTooltip="Xóa dòng cuối cùng" [matTooltipPosition]="'right'" (click)="removeLastTechInfoLine()">-->
+<!--          <fa-icon [icon]="faTrash"></fa-icon>-->
+<!--        </button>-->
+      </div>
     </div>
     <div class="form-group">
       <div style="display: flex; gap: 10px">

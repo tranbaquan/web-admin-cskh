@@ -25,8 +25,9 @@ import {MatChipsModule} from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatCurrencyFormatModule} from 'mat-currency-format';
-import { GallerySliderComponent } from './component/gallery-slider/gallery-slider.component';
+import {GallerySliderComponent} from './component/gallery-slider/gallery-slider.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {EscapeHtmlPipe} from './pipe/escape-html.pipe';
 
 @NgModule({
   imports: [
@@ -51,6 +52,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     IconButtonDirective,
     VndPipe,
     PricePipe,
+    EscapeHtmlPipe,
     PaginationComponent,
     SelectDirective,
     TableDirective,
@@ -81,6 +83,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     IconButtonDirective,
     VndPipe,
     PricePipe,
+    EscapeHtmlPipe,
     PaginationComponent,
     SelectDirective,
     CKEditorModule,
