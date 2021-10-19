@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, SecurityContext, ViewChild} from '@angular/core';
 import {faCameraRetro, faEdit, faPlus, faSave, faTrash} from '@fortawesome/free-solid-svg-icons';
 import {faTimesCircle} from '@fortawesome/free-regular-svg-icons';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -61,6 +61,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
   readonly separatorKeysCodes = [ENTER] as const;
   category: string;
   imagePrefix = environment.storageUrl;
+  techInfoList: { key: string, value: string }[];
 
   constructor(private route: ActivatedRoute,
               private modalService: ModalService,
@@ -84,6 +85,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     this.techInfoLines = [];
     this.updatePagination();
     this.category = route.snapshot.queryParamMap.get('category');
+    this.techInfoList = [];
   }
 
   ngOnInit(): void {
@@ -99,6 +101,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
       startWith(''),
       map(value => this.filterProductType(value))
     );
+    this.updateTechInfoList();
   }
 
   ngAfterViewInit(): void {
@@ -110,6 +113,15 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     }
     const filterValue = value.toLowerCase();
     return this.producers.filter(producer => producer.NameProduction?.toLowerCase().includes(filterValue));
+  }
+
+  updateTechInfoList(): void {
+    const array = JSON.parse(this.product.InformationTech);
+    if (Array.isArray(array)) {
+      this.techInfoList = array as any[];
+    } else {
+      this.techInfoList = [];
+    }
   }
 
   filterProductType(value: string): any[] {
@@ -126,10 +138,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
       this.product = data;
       this.updatePagination();
     });
-  }
-
-  trustHtml(html: string): SafeHtml {
-    return this.domSanitizer.bypassSecurityTrustHtml(html);
   }
 
   validateProduct(): void {
@@ -164,6 +172,9 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     });
   }
 
+  trackByFn(index: number, value: any): any {
+    return index;
+  }
 
   openFileDialog(): void {
     this.fileUpload.nativeElement.click();
@@ -208,6 +219,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     product.UserCreated = this.user.UserCreated;
     product.UserUpdated = this.user.Code;
     product.Status = this.product.Status ? 1 : 0;
+    product.InformationTech = JSON.stringify(this.techInfoList);
     // product.ImagesPath = JSON.stringify(this.product.ImagesPath);
 
     this.productService.updateProduct(product).subscribe(() => {
@@ -232,6 +244,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     product.UserUpdated = this.user.Code;
     product.Status = this.product.Status ? 1 : 0;
     product.FIFO = this.product.FIFO ? 1 : 0;
+    product.InformationTech = JSON.stringify(this.techInfoList);
     // product.ImagesPath = JSON.stringify(this.product.ImagesPath);
 
     this.productService.createProduct(product).subscribe(data => {
@@ -439,7 +452,8 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
   }
 
   addTechInfoLine(): void {
-    this.product.InformationTech = this.product.InformationTech + this.techInfoToHtml(this.techKey, this.techValue);
+    this.techInfoList.push({key: this.techKey, value: this.techValue});
+    // this.product.InformationTech = this.product.InformationTech + this.techInfoToHtml(this.techKey, this.techValue);
     this.techKey = '';
     this.techValue = '';
   }
@@ -530,5 +544,10 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
   removeImage($event: number): void {
     this.product.ImagesPath.splice($event, 1);
     this.product.ImagesPath = Array.from(this.product.ImagesPath);
+  }
+
+  removeLastTechInfoLine(): void {
+    const index = this.product.InformationTech.lastIndexOf('<tr>');
+    this.product.InformationTech = this.product.InformationTech.substring(0, index);
   }
 }

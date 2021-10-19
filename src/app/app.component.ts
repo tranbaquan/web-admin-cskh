@@ -11,7 +11,7 @@ export class AppComponent {
 
   isNavigating: boolean;
   progressPercent: number;
-  intervalId: number;
+  intervalId: any;
 
   constructor(private router: Router) {
     this.isSplashLoading = true;
