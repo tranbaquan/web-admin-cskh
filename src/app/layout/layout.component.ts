@@ -76,6 +76,8 @@ export class LayoutComponent implements OnInit {
       });
     });
 
+    console.log(this.user.UserID);
+
     messaging.onMessage(message, (payload) => {
       this.subject.next(payload);
     });

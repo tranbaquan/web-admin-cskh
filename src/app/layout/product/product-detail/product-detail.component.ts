@@ -53,7 +53,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
   newSpec2: string;
   newSpec3: string;
   stores: any[];
-  techInfoLines: any[];
   techKey: string;
   techValue: string;
   producerFormControl: FormControl;
@@ -82,7 +81,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     this.currentPage = 1;
     this.pageSize = 50;
     this.stores = [];
-    this.techInfoLines = [];
     this.updatePagination();
     this.category = route.snapshot.queryParamMap.get('category');
     this.techInfoList = [];
@@ -547,7 +545,8 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
   }
 
   removeLastTechInfoLine(): void {
-    const index = this.product.InformationTech.lastIndexOf('<tr>');
-    this.product.InformationTech = this.product.InformationTech.substring(0, index);
+    if (this.techInfoList.length > 0) {
+      this.techInfoList.splice(this.techInfoList.length - 1, 1);
+    }
   }
 }
