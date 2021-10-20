@@ -28,6 +28,7 @@ import {MatCurrencyFormatModule} from 'mat-currency-format';
 import {GallerySliderComponent} from './component/gallery-slider/gallery-slider.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {EscapeHtmlPipe} from './pipe/escape-html.pipe';
+import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
   imports: [
@@ -43,6 +44,7 @@ import {EscapeHtmlPipe} from './pipe/escape-html.pipe';
     MatChipsModule,
     MatIconModule,
     MatTooltipModule,
+    MatMenuModule,
     MatCurrencyFormatModule,
     MatFormFieldModule
   ],
@@ -97,6 +99,7 @@ import {EscapeHtmlPipe} from './pipe/escape-html.pipe';
     MatChipsModule,
     MatIconModule,
     MatTooltipModule,
+    MatMenuModule,
     MatCurrencyFormatModule,
     GallerySliderComponent,
     MatFormFieldModule

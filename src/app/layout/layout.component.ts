@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {faUser} from '@fortawesome/free-regular-svg-icons';
+import {faUser, faBell} from '@fortawesome/free-regular-svg-icons';
 import {faBars, faTimes} from '@fortawesome/free-solid-svg-icons';
 import {Router} from '@angular/router';
 import {UserResponseModel} from '../shared/model/response/user-response.model';
@@ -40,20 +40,34 @@ export class LayoutComponent implements OnInit {
   faUser = faUser;
   faBars = faBars;
   faTimes = faTimes;
+  faBell = faBell;
 
   user: UserResponseModel;
   isMenuShow: boolean;
+  notifications: any[];
   subject = new BehaviorSubject(null);
 
   constructor(private router: Router,
               private firebaseService: FirebaseService) {
     this.isMenuShow = false;
+    this.getNotifications();
 
     this.subject.subscribe(data => {
       if (data != null) {
-        console.log(data);
+        data.unread = true;
+        this.notifications.unshift(data);
+        localStorage.setItem('notifications', JSON.stringify(this.notifications));
       }
     });
+  }
+
+  private getNotifications(): void {
+    const notifications = localStorage.getItem('notifications');
+    if (notifications) {
+      this.notifications = JSON.parse(notifications);
+    } else {
+      this.notifications = [];
+    }
   }
 
   ngOnInit(): void {
@@ -65,6 +79,19 @@ export class LayoutComponent implements OnInit {
       });
     }
 
+    if (Notification.permission === 'granted') {
+      this.registerMessage();
+    } else {
+      Notification.requestPermission().then((permission: NotificationPermission) => {
+        if (permission === 'granted') {
+          this.registerMessage();
+        }
+      });
+    }
+
+  }
+
+  private registerMessage(): void {
     const firebaseApp = firebase.initializeApp(firebaseConfig);
     const message = messaging.getMessaging(firebaseApp);
 
@@ -72,18 +99,24 @@ export class LayoutComponent implements OnInit {
       vapidKey: 'BPYPqxNbCmR_NNt0jxvZskuvUUpkt5OMPP0qYWQvSged5KvOeOyjyx9HkgSGcX9ndUyjOM9FbmXwuktsiQmjWhc',
     }).then((token) => {
       this.firebaseService.subscribeToTopic(token, this.user.UserID).subscribe(res => {
-        console.log(res);
       });
     });
 
-    console.log(this.user.UserID);
-
     messaging.onMessage(message, (payload) => {
-      this.subject.next(payload);
+      this.subject.next(payload.notification);
     });
   }
 
   closeMenu(): void {
     this.isMenuShow = false;
+  }
+
+  readNotification(notification: any): void {
+    notification.unread = false;
+    localStorage.setItem('notifications', JSON.stringify(this.notifications));
+  }
+
+  unreadNotifications(): number {
+    return this.notifications.filter(notification => notification.unread).length;
   }
 }

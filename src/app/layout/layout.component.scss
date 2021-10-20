@@ -29,6 +29,26 @@
   }
 
   .right {
+    display: flex;
+    gap: 20px;
+
+    &:nth-child(n) {
+      cursor: pointer;
+    }
+
+    .notification {
+      width: 20px;
+      height: 100%;
+      position: relative;
+
+      .badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background-color: $color-red-l3;
+        padding: .25em .4em;
+      }
+    }
 
     .icon {
       color: $color-black-l4;
@@ -148,6 +168,40 @@
         }
       }
     }
+  }
+}
 
+.notification-content {
+  width: 100%;
+  padding: 5px 10px;
+  min-height: 46px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $color-gray-l7;
+  }
+
+  .title {
+    font-weight: 600;
+  }
+
+  .description {
+    color: $color-gray-l1;
+    font-size: 12px;
+  }
+}
+
+.unread {
+  background-color: $color-blue-l5;
+
+  .description {
+    color: $color-black-l2;
+  }
+
+  &:hover {
+    background-color: $color-blue-l3;
   }
 }

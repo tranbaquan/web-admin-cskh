@@ -5,8 +5,25 @@
       <div class="desc">Cung cấp giải pháp & vật liệu trong xây dựng</div>
     </div>
     <div class="right">
-      <fa-icon [icon]="faUser" size="lg"></fa-icon>
-      <span class="username">{{user?.Name}}</span>
+      <div class="notification">
+        <fa-icon [matMenuTriggerFor]="notificationDd" class="notification" [icon]="faBell" size="lg">
+        </fa-icon>
+        <span *ngIf="unreadNotifications()" class="badge">{{unreadNotifications()}}</span>
+        <mat-menu #notificationDd="matMenu" xPosition="before" style="width: 350px">
+          <div class="notification-content" *ngIf="!notifications.length">
+            <span class="title">Không có thông báo</span>
+          </div>
+          <div class="notification-content" [class.unread]="notification.unread"
+               *ngFor="let notification of notifications" (click)="readNotification(notification)">
+            <div class="title">{{notification.title}}</div>
+            <div class="description">{{notification.body}}</div>
+          </div>
+        </mat-menu>
+      </div>
+      <div>
+        <fa-icon [icon]="faUser" size="lg"></fa-icon>
+        <span class="username">{{user?.Name}}</span>
+      </div>
     </div>
   </nav>
   <div class="base-bar">
@@ -39,8 +56,8 @@
         <li class="item" [routerLink]="['/store']" (click)="closeMenu()">Quản lý kho</li>
         <li class="item" [routerLink]="['/order']" (click)="closeMenu()">Quản lý đơn hàng</li>
         <li class="item" [routerLink]="['/user']" (click)="closeMenu()">Quản lý tài khoản</li>
-        <li class="item"  [routerLink]="['/customer']" (click)="closeMenu()">Quản lý khách hàng</li>
-        <li class="item"  [routerLink]="['/company']" (click)="closeMenu()">Quản lý công ty</li>
+        <li class="item" [routerLink]="['/customer']" (click)="closeMenu()">Quản lý khách hàng</li>
+        <li class="item" [routerLink]="['/company']" (click)="closeMenu()">Quản lý công ty</li>
         <li class="item" [routerLink]="['/news']" (click)="closeMenu()">Quản lý tin tức</li>
         <li class="item" (click)="closeMenu()">Thống kê</li>
 
