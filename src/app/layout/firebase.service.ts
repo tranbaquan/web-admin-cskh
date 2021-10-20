@@ -15,7 +15,6 @@ export class FirebaseService {
   }
 
   subscribeToTopic(token: string, userId: number): Observable<any> {
-    console.log(token);
     const headers = new HttpHeaders().append('MessagingToken', token).append('UserID', userId.toString());
     return this.http.post(this.baseUrl + '/api/messaging/subscribechannels', {}, {headers});
   }
