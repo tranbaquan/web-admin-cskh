@@ -73,3 +73,32 @@
     }
   }
 }
+
+.icon-group {
+  display: flex;
+  min-width: 70px;
+  gap: 5px;
+  height: 100%;
+  align-items: center;
+  justify-content: right;
+}
+
+.invalid-feild {
+  border: 1px solid #E02E2E;
+}
+
+.label-orange {
+  font-weight: bold;
+  color: $color-orange-l1;
+}
+
+.dropdown select {
+  padding-top: 1px;
+  border: none;
+}
+
+.show-password {
+  width: 32px;
+  height: 32px;
+  border: none;
+}
