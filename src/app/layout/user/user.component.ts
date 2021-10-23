@@ -104,7 +104,6 @@ export class UserComponent implements OnInit {
 
   openUpdateModal(user: UserResponseModel): void {
     const item = this.cloneUser(user);
-    console.log(item);
     this.selectedUser = item;
     this.openModal('create-user-modal');
   }
@@ -165,6 +164,29 @@ export class UserComponent implements OnInit {
           this.toastService.warning(error.error.message, 'Xóa thất bại!');
         });
     }
+  }
+
+  updateUser(): void {
+    this.selectedUser.UserUpdated = this.user.Code;
+    this.updating = true;
+    if (this.selectedUser.Status) {
+      this.selectedUser.Status = 1;
+    } else {
+      this.selectedUser.Status = 0;
+    }
+    this.userService.updateUser(this.selectedUser)
+      .pipe(
+        finalize(() => {
+          this.updating = false;
+        })
+      )
+      .subscribe(data => {
+        this.toastService.success('Lưu thành công!');
+        this.closeModal('create-user-modal');
+        this.searchUsers();
+      }, error => {
+        this.toastService.warning(error.error.message, 'Lưu thất bại!');
+      });
   }
 
   validateType(): boolean {

@@ -101,7 +101,7 @@
     </div>
   </app-modal-header>
   <app-modal-body>
-    <div class="input">
+    <div class="input my-2">
       <label>Loại tài khoản</label>
       <select class="form-select" [class]="errorType ? 'invalid-feild' : ''" (change)="validateType()" [(ngModel)]="selectedUser.TypeUser">
         <option [value]=1 [selected]="true">Tài khoản cho web</option>
@@ -109,12 +109,12 @@
       </select>
       <mat-hint *ngIf="errorType" >{{errorType}}</mat-hint>
     </div>
-    <div class="input">
+    <div class="input my-2">
       <label>Tên đăng nhập</label>
       <input class="form-control" placeholder="Tên đăng nhập" type="text" (change)="validateUserName()" [class]="errorUserName ? 'invalid-feild' : ''" [(ngModel)]="selectedUser.Code">
       <mat-hint *ngIf="errorUserName" >{{errorUserName}}</mat-hint>
     </div>
-    <div class="input" *ngIf="isCreateNew">
+    <div class="input my-2" *ngIf="isCreateNew">
       <label>Mật khẩu</label>
       <div class="input-group">
         <input class="form-control" placeholder="Mật khẩu" [class]="errorPassword ? 'invalid-feild' : ''"
@@ -126,19 +126,19 @@
       </div>
       <mat-hint *ngIf="errorPassword" >{{errorPassword}}</mat-hint>
     </div>
-    <div class="input">
+    <div class="input my-2">
       <label>Email</label>
       <input class="form-control" placeholder="Email" type="email" (change)="validateEmail()"
              [class]="errorEmail ? 'invalid-feild' : ''" [(ngModel)]="selectedUser.Email">
       <mat-hint *ngIf="errorEmail" >{{errorEmail}}</mat-hint>
     </div>
-    <div class="input">
+    <div class="input my-2">
       <label>Tên đầy đủ</label>
       <input class="form-control" placeholder="Tên đầy đủ" type="text" (change)="validateName()"
              [class]="errorName ? 'invalid-feild' : ''" [(ngModel)]="selectedUser.Name">
       <mat-hint *ngIf="errorName" >{{errorName}}</mat-hint>
     </div>
-    <div class="form-check">
+    <div class="form-check my-2">
       <label class="form-check-label">Status</label>
       <input type="checkbox" ng-model="checkboxModel" class="form-check-input" ng-true-value="1" ng-false-value="0" [(ngModel)]="selectedUser.Status">
     </div>
@@ -146,7 +146,7 @@
   <app-modal-footer>
     <div class="right-section">
       <div class="btn-group">
-        <button [disabled]="updating" *ngIf="!isCreateNew" appButton background="bg-orange" >Lưu</button>
+        <button [disabled]="updating" *ngIf="!isCreateNew" appButton background="bg-orange" (click)="updateUser()">Lưu</button>
         <button [disabled]="updating" *ngIf="!isCreateNew" appButton background="bg-orange" (click)="deleteUser(selectedUser.UserID)">Xóa</button>
         <button appButton background="bg-gray" (click)="closeModal('create-user-modal')">Đóng</button>
         <button [disabled]="updating" *ngIf="isCreateNew" appButton background="bg-orange" (click)="createUser()">Tạo tài khoản</button>

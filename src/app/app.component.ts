@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router} from '@angular/router';
+import {AutoLogoutServiceService} from './shared/service/auto-logout-service.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,8 @@ export class AppComponent {
   progressPercent: number;
   intervalId: any;
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+              private autoLogoutService: AutoLogoutServiceService) {
     this.isSplashLoading = true;
     this.registerPageLoading();
   }
