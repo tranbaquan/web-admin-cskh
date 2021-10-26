@@ -16,6 +16,7 @@ import {CustomerComponent} from './customer/customer.component';
 import { CompanyComponent } from './company/company.component';
 import { StoreComponent } from './store/store.component';
 import { NewsComponent } from './news/news.component';
+import { SurchargeComponent } from './surcharge/surcharge.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { NewsComponent } from './news/news.component';
     CompanyComponent,
     StoreComponent,
     NewsComponent,
+    SurchargeComponent,
   ],
   imports: [
     LayoutRoutingModule,
