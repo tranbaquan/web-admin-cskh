@@ -1,0 +1,277 @@
+<div>
+  <div class="action-bar">
+    <div class="category-name">Danh sách phụ thu</div>
+    <div class="action-group">
+      <fa-icon *ngIf="loading" [icon]="faSpinner" [spin]="true"></fa-icon>
+      <div class="search-bar">
+        <input type="text" appInput [width]="300" [(ngModel)]="searchQuery" (keyup.enter)="searchSurcharge()">
+        <button appButton [width]="50" background="bg-dark" (click)="searchSurcharge()">
+          <fa-icon [icon]="faSearch"></fa-icon>
+        </button>
+      </div>
+
+      <button appButton background="bg-orange" (click)="openModal('create-surcharge-modal')">
+        <fa-icon size="sm" [icon]="faPlus"></fa-icon>
+        <span>Tạo phụ thu</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <div>
+      <label class="label">Hiển thị:</label>
+      <label class="value">{{surcharges.length}}/{{pagination.totalItem}} phụ thu
+        (từ {{(pagination.page - 1) * pagination.size}}
+        - {{(pagination.page - 1) * pagination.size + surcharges.length}})
+      </label>
+    </div>
+    <div class="filter-group">
+      <!--      <div class="label w-100">Lọc theo:</div>-->
+      <!--      <div class="w-100">Sản phẩm</div>-->
+      <!--      <div class="w-100">Giá</div>-->
+      <!--      <div class="w-100">Hãng</div>-->
+    </div>
+  </div>
+
+  <div>
+    <table appTable [isEvenSeparate]="true">
+      <thead>
+      <tr>
+        <th style="min-width: 100px">Tên</th>
+        <th>Hình ảnh</th>
+        <th>Giảm giá</th>
+        <th style="min-width: 120px">Ngày bắt đầu</th>
+        <th style="min-width: 120px">Ngày kết thúc</th>
+        <th>Tất cả</th>
+        <th style="min-width: 100px">Trạng thái</th>
+        <th style="min-width: 100px">Mô tả</th>
+        <th style="min-width: 100px">Tài khoản tạo</th>
+        <th style="min-width: 120px">Ngày tạo</th>
+        <th style="min-width: 120px">Ngày sửa</th>
+        <th style="min-width: 70px"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let surcharge of surcharges">
+        <td>{{surcharge.Title}}</td>
+        <td><a [href]="getImageUrl(surcharge.ImagesPaths)">{{getImageUrl(surcharge.ImagesPaths)}}</a></td>
+        <td>{{surcharge.Discount + '%'}}</td>
+        <td>{{surcharge.TimeStart | date: 'dd/MM/yyyy'}}</td>
+        <td>{{surcharge.TimeEnd | date: 'dd/MM/yyyy'}}</td>
+        <td>
+          <input type="checkbox" [disabled]="true" [checked]="surcharge.IsAll">
+        </td>
+        <td>{{surcharge.Status ? 'Kích hoạt' : 'Không kích hoạt'}}</td>
+        <td>{{surcharge.Description}}</td>
+        <td>{{surcharge.UserCreated}}</td>
+        <td>{{surcharge.CreatedDate | date: 'dd/MM/yyyy'}}</td>
+        <td>{{surcharge.UpdatedDate | date: 'dd/MM/yyyy'}}</td>
+        <td style="min-width: 70px">
+          <div class="icon-group">
+            <button appIconButton background="bg-orange" (click)="openEditModal(surcharge)">
+              <fa-icon [icon]="faEdit"></fa-icon>
+            </button>
+            <button appIconButton background="bg-red" matTooltip="Nhấn 2 lần để xóa" [matTooltipPosition]="'above'"
+                    (dblclick)="deleteSurcharge(surcharge)">
+              <fa-icon [icon]="faTrashAlt"></fa-icon>
+            </button>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <div class="filter-bar">
+    <div>
+      <label class="label">Hiển thị:</label>
+      <label class="value">{{surcharges.length}}/{{pagination.totalItem}} phụ thu
+        (từ {{(pagination.page - 1) * pagination.size}}
+        - {{(pagination.page - 1) * pagination.size + surcharges.length}})
+      </label>
+    </div>
+    <div class="filter-group">
+      <!--      <div class="label w-100">Lọc theo:</div>-->
+      <!--      <div class="w-100">Sản phẩm</div>-->
+      <!--      <div class="w-100">Giá</div>-->
+      <!--      <div class="w-100">Hãng</div>-->
+    </div>
+  </div>
+
+  <div class="paging">
+    <app-pagination [pagination]="pagination" (pageChange)="onPageChange($event)"></app-pagination>
+  </div>
+</div>
+
+<app-modal id="create-surcharge-modal" [width]="500" [contentTemplate]="createSurchargeModal"></app-modal>
+<app-modal id="update-surcharge-modal" [width]="500" [contentTemplate]="updateSurchargeModal"></app-modal>
+
+<ng-template #createSurchargeModal>
+  <app-modal-header>
+    <div class="modal-title">
+      <div class="title">Tạo phụ thu</div>
+    </div>
+    <div>
+      <button appIconButton background="bg-transparent" (click)="closeModal('create-surcharge-modal')">
+        <fa-icon size="lg" [icon]="faTimesCircle"></fa-icon>
+      </button>
+    </div>
+  </app-modal-header>
+  <app-modal-body>
+    <form [formGroup]="createSurchargeFormGroup" class="modal-form">
+      <div class="input-group">
+        <div class="almost modal-form">
+          <div class="input">
+            <label class="required">Tên phụ thu</label>
+            <input formControlName="Title" placeholder="Tên phụ thu" type="text" appInput>
+            <mat-hint *ngIf="!isCreateValidField('Title')">Tên phụ thu không được rỗng.</mat-hint>
+          </div>
+          <div class="input">
+            <label class="required">Ngày bắt đầu</label>
+            <input appInput type="date" [valueAsDate]="getDate(newSurcharge.TimeStart)"
+                   (change)="updateDate($event, 'TimeEnd', 'create')">
+            <mat-hint *ngIf="!isCreateValidField('TimeStart')">Ngày bắt đầu không được rỗng.</mat-hint>
+          </div>
+          <div class="input">
+            <label class="required">Ngày kết thúc</label>
+            <input appInput type="date" [valueAsDate]="getDate(newSurcharge.TimeEnd)"
+                   (change)="updateDate($event, 'TimeEnd', 'create')">
+            <mat-hint *ngIf="!isCreateValidField('TimeEnd')">Ngày kết thúc không được rỗng.</mat-hint>
+          </div>
+        </div>
+        <div class="image">
+          <img [src]="getImageUrl(newSurcharge.ImagesPaths)" alt="">
+          <div class="upload">
+            <input #fileUpload type="file" [hidden]="true" accept="image/*" [multiple]="false"
+                   (change)="onFileSelected($event, 'create')">
+            <button appIconButton background="bg-orange" (click)="openFileDialog('create')" matTooltip="Thay đổi ảnh"
+                    matTooltipPosition="above">
+              <fa-icon [icon]="faCameraRetro"></fa-icon>
+            </button>
+          </div>
+          <div class="remove">
+            <button appIconButton background="bg-red" (click)="removeImage('create')" matTooltip="Xóa ảnh này"
+                    matTooltipPosition="above">
+              <fa-icon [icon]="faTrashAlt"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="input">
+        <label class="required">Giảm giá</label>
+        <input formControlName="Discount" placeholder="Giảm giá" type="number" appInput>
+        <mat-hint *ngIf="!isCreateValidField('Discount')">Giảm giá không được rỗng.</mat-hint>
+      </div>
+      <div class="input-group">
+        <div class="input">
+          <label>Trạng thái</label>
+          <select formControlName="Status" appSelect>
+            <option [value]="1">Kích hoạt</option>
+            <option [value]="0">Không kích hoạt</option>
+          </select>
+        </div>
+        <div class="input">
+          <label>Phạm vi</label>
+          <select formControlName="IsAll" appSelect>
+            <option [value]="1">Tất cả</option>
+            <option [value]="0">Mặc định</option>
+          </select>
+        </div>
+      </div>
+    </form>
+  </app-modal-body>
+  <app-modal-footer>
+    <div class="right-section">
+      <div class="btn-group">
+        <button appButton background="bg-gray" (click)="closeModal('create-surcharge-modal')">Đóng</button>
+        <button appButton background="bg-orange" (click)="createSurcharge()">Tạo phụ thu</button>
+      </div>
+    </div>
+  </app-modal-footer>
+</ng-template>
+
+
+<ng-template #updateSurchargeModal>
+  <app-modal-header>
+    <div class="modal-title">
+      <div class="title">Cập nhật phụ thu</div>
+    </div>
+    <div>
+      <button appIconButton background="bg-transparent" (click)="closeModal('update-surcharge-modal')">
+        <fa-icon size="lg" [icon]="faTimesCircle"></fa-icon>
+      </button>
+    </div>
+  </app-modal-header>
+  <app-modal-body>
+    <form [formGroup]="updateSurchargeFormGroup" class="modal-form">
+      <div class="input-group">
+        <div class="almost modal-form">
+          <div class="input">
+            <label class="required">Tên phụ thu</label>
+            <input formControlName="Title" placeholder="Tên phụ thu" type="text" appInput>
+            <mat-hint *ngIf="!isUpdateValidField('Title')">Tên phụ thu không được rỗng.</mat-hint>
+          </div>
+          <div class="input">
+            <label class="required">Ngày bắt đầu</label>
+            <input appInput type="date" [valueAsDate]="getDate(editingSurcharge.TimeStart)"
+                   (change)="updateDate($event, 'TimeEnd', 'update')">
+            <mat-hint *ngIf="!isUpdateValidField('TimeStart')">Ngày bắt đầu không được rỗng.</mat-hint>
+          </div>
+          <div class="input">
+            <label class="required">Ngày kết thúc</label>
+            <input appInput type="date" [valueAsDate]="getDate(editingSurcharge.TimeEnd)"
+                   (change)="updateDate($event, 'TimeEnd', 'update')">
+            <mat-hint *ngIf="!isUpdateValidField('TimeEnd')">Ngày kết thúc không được rỗng.</mat-hint>
+          </div>
+        </div>
+        <div class="image">
+          <img [src]="getImageUrl(editingSurcharge.ImagesPaths)" alt="">
+          <div class="upload">
+            <input #updateFileUpload type="file" [hidden]="true" accept="image/*" [multiple]="false"
+                   (change)="onFileSelected($event, 'update')">
+            <button appIconButton background="bg-orange" (click)="openFileDialog('update')" matTooltip="Thay đổi ảnh"
+                    matTooltipPosition="above">
+              <fa-icon [icon]="faCameraRetro"></fa-icon>
+            </button>
+          </div>
+          <div class="remove">
+            <button appIconButton background="bg-red" (click)="removeImage('update')" matTooltip="Xóa ảnh này"
+                    matTooltipPosition="above">
+              <fa-icon [icon]="faTrashAlt"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="input">
+        <label class="required">Giảm giá</label>
+        <input formControlName="Discount" placeholder="Giảm giá" type="number" appInput>
+        <mat-hint *ngIf="!isUpdateValidField('Discount')">Giảm giá không được rỗng.</mat-hint>
+      </div>
+      <div class="input-group">
+        <div class="input">
+          <label>Trạng thái</label>
+          <select formControlName="Status" appSelect>
+            <option [value]="1">Kích hoạt</option>
+            <option [value]="0">Không kích hoạt</option>
+          </select>
+        </div>
+        <div class="input">
+          <label>Phạm vi</label>
+          <select formControlName="IsAll" appSelect>
+            <option [value]="1">Tất cả</option>
+            <option [value]="0">Mặc định</option>
+          </select>
+        </div>
+      </div>
+    </form>
+  </app-modal-body>
+  <app-modal-footer>
+    <div class="right-section">
+      <div class="btn-group">
+        <button appButton background="bg-gray" (click)="closeModal('update-surcharge-modal')">Đóng</button>
+        <button appButton background="bg-orange" (click)="updateSurcharge()">Cập nhật</button>
+      </div>
+    </div>
+  </app-modal-footer>
+</ng-template>

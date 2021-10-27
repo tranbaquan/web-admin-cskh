@@ -17,6 +17,7 @@ import {CompanyResolver, StoreResolver} from './customer/customer.resolver';
 import {CompanyComponent} from './company/company.component';
 import {StoreComponent} from './store/store.component';
 import {NewsComponent} from './news/news.component';
+import {SurchargeComponent} from './surcharge/surcharge.component';
 
 const routes: Routes = [
   {
@@ -103,6 +104,11 @@ const routes: Routes = [
         path: 'store',
         pathMatch: 'full',
         component: StoreComponent
+      },
+      {
+        path: 'surcharge',
+        pathMatch: 'full',
+        component: SurchargeComponent
       }
     ]
   }
