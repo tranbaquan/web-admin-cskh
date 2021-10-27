@@ -125,24 +125,6 @@ export class OrderDetailComponent implements OnInit {
     order.AddressReceive = this.orderDetailForm.get('address').value;
 
     // update order info
-    const res = await this.updateOrderInfo(order);
-    if (!res) {
-      return;
-    }
-    // updates status
-    const orderStatusModal = this.orderService.getStatusByStatusId(Number(this.orderDetailForm.get('status').value));
-    if (orderStatusModal) {
-      this.orderService.updateOrderStatus(order.ExportID, orderStatusModal.statusId, orderStatusModal.isAccept)
-        .subscribe(data => {
-        }, error => {
-          this.toastService.warning(error.error.message, 'Cập nhật trạng thái thất bại!');
-        });
-    }
-    window.location.reload();
-  }
-
-  updateOrderInfo(order: OrderResponseModel): boolean {
-    const result = false;
     this.isLoadingUpdate = true;
     this.orderService.updateOrder(order)
       .pipe(
@@ -150,11 +132,22 @@ export class OrderDetailComponent implements OnInit {
           this.isLoadingUpdate = false;
         })
       ).subscribe(data => {
+      this.updateOrderStatus(order.ExportID);
     }, error => {
-      this.toastService.warning(error.error.message, 'Lưu thất bại!');
-      return result;
+      this.toastService.warning(error.error.message, 'Cập nhật thông tin thất bại!');
     });
-    return true;
+  }
+
+  updateOrderStatus(orderId: number): void{
+    const orderStatusModal = this.orderService.getStatusByStatusId(Number(this.orderDetailForm.get('status').value));
+    if (orderStatusModal) {
+      this.orderService.updateOrderStatus(orderId, orderStatusModal.statusId, orderStatusModal.isAccept)
+        .subscribe(data => {
+          window.location.reload();
+        }, error => {
+          this.toastService.warning(error.error.message, 'Cập nhật trạng thái thất bại!');
+        });
+    }
   }
 
   changePrice(): void {
