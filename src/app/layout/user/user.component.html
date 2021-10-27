@@ -4,13 +4,13 @@
     <div class="action-group">
       <fa-icon *ngIf="loading" [icon]="faSpinner" [spin]="true"></fa-icon>
       <div class="search-bar">
-        <input type="text" appInput [width]="300" [(ngModel)]="searchQuery">
-        <button appButton [width]="50" background="bg-dark">
+        <input type="text" appInput [width]="300" [(ngModel)]="keySearch" (keyup.enter)="searchUsers()">
+        <button appButton [width]="50" background="bg-dark" (click)="searchUsers()">
           <fa-icon [icon]="faSearch"></fa-icon>
         </button>
       </div>
 
-      <button appButton background="bg-orange" (click)="openModal('create-user-modal')">
+      <button appButton background="bg-orange" (click)="openCreateModal()">
         <fa-icon size="sm" [icon]="faPlus"></fa-icon>
         <span>Tạo tài khoản</span>
       </button>
@@ -18,17 +18,23 @@
   </div>
 
   <div class="filter-bar">
-    <div>
+    <div *ngIf="pagination.data">
       <label class="label">Hiển thị:</label>
-      <label class="value">{{users.length}}/{{pagination.totalItem}} tài khoản
+      <label class="value">{{pagination.data.length}}/{{pagination.totalItem}} tài khoản
         (từ {{(pagination.page - 1) * pagination.size}} - {{(pagination.page - 1) * pagination.size + users.length}})
       </label>
     </div>
     <div class="filter-group">
-      <!--      <div class="label w-100">Lọc theo:</div>-->
-      <!--      <div class="w-100">Sản phẩm</div>-->
-      <!--      <div class="w-100">Giá</div>-->
-      <!--      <div class="w-100">Hãng</div>-->
+      <div class="dropdown-sort">
+        <div class="dropdown">
+          <label class="label-orange">Loại tài khoản: </label>
+          <select class="" [(ngModel)]="typeUser" (change)="searchUsers()">
+            <option value=0 selected >Tất cả</option>
+            <option value=1 >Web</option>
+            <option value=2 >Mobile</option>
+          </select>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -41,40 +47,40 @@
         <th>Loại tài khoản</th>
         <th>Email</th>
         <th>Trạng thái</th>
-        <th>Tài khoản tạo</th>
+        <th>Người tạo</th>
         <th>Ngày tạo</th>
+        <th></th>
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <th>ID</th>
-        <th>Tên đầy đủ</th>
-        <th>Loại tài khoản</th>
-        <th>Email</th>
-        <th>Trạng thái</th>
-        <th>Tài khoản tạo</th>
-        <th>Ngày tạo</th>
+      <tr *ngFor="let item of pagination.data">
+        <td>{{item.UserID}}</td>
+        <td>{{item.Name}}</td>
+        <td>{{item.TypeUser === 1 ? 'web': 'app'}}</td>
+        <td>{{item.Email}}</td>
+        <td>{{item.Status === 0 ? 'DeActive' : 'Active'}}</td>
+        <td>{{item.UserCreated}}</td>
+        <td>{{item.DateCreated | date:'yyyy-MM-dd H:mm'}}</td>
+        <td style="min-width: 70px">
+          <div class="icon-group">
+            <button appIconButton background="bg-orange" (click)="openUpdateModal(item)">
+              <fa-icon [icon]="faEdit"></fa-icon>
+            </button>
+            <button appIconButton background="bg-red" (click)="deleteUser(item.UserID)">
+              <fa-icon [icon]="faTrashAlt"></fa-icon>
+            </button>
+          </div>
+        </td>
       </tr>
       </tbody>
     </table>
   </div>
-
-
-  <div class="filter-bar">
-    <div>
-      <label class="label">Hiển thị:</label>
-      <label class="value">{{users.length}}/{{pagination.totalItem}} tài khoản
-        (từ {{(pagination.page - 1) * pagination.size}} - {{(pagination.page - 1) * pagination.size + users.length}})
-      </label>
-    </div>
-    <div class="filter-group">
-      <!--      <div class="label w-100">Lọc theo:</div>-->
-      <!--      <div class="w-100">Sản phẩm</div>-->
-      <!--      <div class="w-100">Giá</div>-->
-      <!--      <div class="w-100">Hãng</div>-->
-    </div>
+  <div *ngIf="loading" class="spinner-loading">
+    <fa-icon [icon]="faSpinner" [spin]="true"></fa-icon>
   </div>
-
+  <div class="my-3" *ngIf="!loading && !pagination.data">
+    <p>Chưa có dữ liệu</p>
+  </div>
   <div class="paging">
     <app-pagination [pagination]="pagination" (pageChange)="onPageChange($event)"></app-pagination>
   </div>
@@ -95,29 +101,55 @@
     </div>
   </app-modal-header>
   <app-modal-body>
-    <form [formGroup]="createUserFormGroup" class="modal-form">
-      <div class="input">
-          <label>Tên tài khoản</label>
-        <input [required]="true" placeholder="Tên tài khoản" type="text" appInput>
+    <div class="input my-2">
+      <label>Loại tài khoản</label>
+      <select class="form-select" [class]="errorType ? 'invalid-feild' : ''" (change)="validateType()" [(ngModel)]="selectedUser.TypeUser">
+        <option [value]=1 [selected]="true">Tài khoản cho web</option>
+        <option [value]=0>Tài khoản cho app</option>
+      </select>
+      <mat-hint *ngIf="errorType" >{{errorType}}</mat-hint>
+    </div>
+    <div class="input my-2">
+      <label>Tên đăng nhập</label>
+      <input class="form-control" placeholder="Tên đăng nhập" type="text" (change)="validateUserName()" [class]="errorUserName ? 'invalid-feild' : ''" [(ngModel)]="selectedUser.Code">
+      <mat-hint *ngIf="errorUserName" >{{errorUserName}}</mat-hint>
+    </div>
+    <div class="input my-2" *ngIf="isCreateNew">
+      <label>Mật khẩu</label>
+      <div class="input-group">
+        <input class="form-control" placeholder="Mật khẩu" [class]="errorPassword ? 'invalid-feild' : ''"
+               (change)="validatePassword()" [type]="showPassword ? 'text' : 'password'" [(ngModel)]="selectedUser.Password" >
+        <div class="input-group-addon">
+          <button class="show-password" (click)="isShowPassword()"><fa-icon [icon]="faEye"  *ngIf="!showPassword"></fa-icon>
+            <fa-icon [icon]="faEyeSlash" *ngIf="showPassword"></fa-icon></button>
+        </div>
       </div>
-      <div class="input">
-        <label>Email</label>
-        <input [required]="true" placeholder="Email" type="email" appInput>
-      </div>
-      <div class="input">
-        <label>Loại tài khoản</label>
-        <select [required]="true" appSelect>
-          <option [value]="1">Tài khoản cho web</option>
-          <option [value]="0">Tài khoản cho app</option>
-        </select>
-      </div>
-    </form>
+      <mat-hint *ngIf="errorPassword" >{{errorPassword}}</mat-hint>
+    </div>
+    <div class="input my-2">
+      <label>Email</label>
+      <input class="form-control" placeholder="Email" type="email" (change)="validateEmail()"
+             [class]="errorEmail ? 'invalid-feild' : ''" [(ngModel)]="selectedUser.Email">
+      <mat-hint *ngIf="errorEmail" >{{errorEmail}}</mat-hint>
+    </div>
+    <div class="input my-2">
+      <label>Tên đầy đủ</label>
+      <input class="form-control" placeholder="Tên đầy đủ" type="text" (change)="validateName()"
+             [class]="errorName ? 'invalid-feild' : ''" [(ngModel)]="selectedUser.Name">
+      <mat-hint *ngIf="errorName" >{{errorName}}</mat-hint>
+    </div>
+    <div class="form-check my-2">
+      <label class="form-check-label">Status</label>
+      <input type="checkbox" ng-model="checkboxModel" class="form-check-input" ng-true-value="1" ng-false-value="0" [(ngModel)]="selectedUser.Status">
+    </div>
   </app-modal-body>
   <app-modal-footer>
     <div class="right-section">
       <div class="btn-group">
+        <button [disabled]="updating" *ngIf="!isCreateNew" appButton background="bg-orange" (click)="updateUser()">Lưu</button>
+        <button [disabled]="updating" *ngIf="!isCreateNew" appButton background="bg-orange" (click)="deleteUser(selectedUser.UserID)">Xóa</button>
         <button appButton background="bg-gray" (click)="closeModal('create-user-modal')">Đóng</button>
-        <button appButton background="bg-orange" (click)="createUser()">Tạo tài khoản</button>
+        <button [disabled]="updating" *ngIf="isCreateNew" appButton background="bg-orange" (click)="createUser()">Tạo tài khoản</button>
       </div>
     </div>
   </app-modal-footer>

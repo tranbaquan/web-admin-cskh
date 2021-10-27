@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {UserModel} from '../model/user.model';
@@ -26,4 +26,28 @@ export class UserService {
     );
   }
 
+  getListUser(page: number, limit: number, keySearch: string, typeUserID: string, status: string): Observable<any> {
+    const url = this.baseUrl + '/api/useradmin/getuserSearch';
+    const headers = new HttpHeaders().append('page', page.toString()).append('limit', limit.toString());
+    const params = new HttpParams()
+      .set('typeUserID', typeUserID)
+      .set('keySearch', keySearch)
+      .set('status', status);
+    return this.http.get(url, {headers, params});
+  }
+
+  createUser(user: UserResponseModel): Observable<any> {
+    const url = this.baseUrl + '/api/useradmin/create';
+    return this.http.post(url, user);
+  }
+
+  updateUser(user: UserResponseModel): Observable<any> {
+    const url = this.baseUrl + '/api/useradmin/update';
+    return this.http.post(url, user);
+  }
+
+  deleteUser(userId: number): Observable<any> {
+    const url = this.baseUrl + '/api/useradmin/delete/' + userId;
+    return this.http.delete(url);
+  }
 }

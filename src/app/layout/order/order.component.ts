@@ -7,6 +7,7 @@ import {OrderStatusModel} from '../../shared/model/order-status.model';
 import {finalize} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import {ModalService} from '../../shared/component/modal/modal.service';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-order',
@@ -36,7 +37,8 @@ export class OrderComponent implements OnInit {
 
   constructor(private orderSerVice: OrderService,
               private router: Router,
-              private modalService: ModalService) {
+              private modalService: ModalService,
+              private toastService: ToastrService) {
     this.isLoading = false;
     this.page = 1;
     this.size = 20;
@@ -80,6 +82,8 @@ export class OrderComponent implements OnInit {
         pagination.data = data.data.data.map(obj => Object.assign(new OrderResponseModel(), obj));
         this.pagination = pagination;
         this.listOrder = pagination.data;
+      }, errror => {
+        this.toastService.warning(errror.error.message, 'Tải dữ liệu thất bại!');
       });
   }
 
