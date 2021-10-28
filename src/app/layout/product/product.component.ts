@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {faAngleLeft, faAngleRight, faSearch, faPlus, faBars, faTh, faStar, faSpinner} from '@fortawesome/free-solid-svg-icons';
+import {faAngleLeft, faAngleRight, faBars, faPlus, faSearch, faSpinner, faStar, faTh} from '@fortawesome/free-solid-svg-icons';
 import {faEye} from '@fortawesome/free-regular-svg-icons';
 import {ProductService} from './product.service';
 import {ProductResponseModel} from '../../shared/model/response/product-response.model';
@@ -8,7 +8,7 @@ import {Pagination} from '../../shared/model/pagination';
 import {CategoryService} from '../category/category.service';
 import {CategoryResponseModel} from '../../shared/model/response/category-response.model';
 import {HttpParams} from '@angular/common/http';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-product',

@@ -19,6 +19,8 @@ export class GallerySliderComponent implements OnInit, OnChanges {
   @Input() imageSize: number;
   @Input() maxItem: number;
   @Input() urlPrefix: string;
+  @Input() deleteDisabled: boolean;
+  @Input() updateDisabled: boolean;
 
   @Output() fileChange = new EventEmitter<{ file: File, index: number }>();
   @Output() imageRemove = new EventEmitter<number>();
@@ -31,6 +33,8 @@ export class GallerySliderComponent implements OnInit, OnChanges {
 
   constructor() {
     this.imagesUrl = [];
+    this.updateDisabled = false;
+    this.updateDisabled = false;
   }
 
   ngOnInit(): void {

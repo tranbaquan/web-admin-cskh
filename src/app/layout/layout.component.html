@@ -53,6 +53,10 @@
         <li class="item" [routerLink]="['/product']" [queryParams]="{category: 'all'}" (click)="closeMenu()">Quản lý sản
           phẩm
         </li>
+        <li class="item" *ngIf="user.TypeUser === 1 || user.TypeUser === 3 || user.TypeUser === 5"
+            [routerLink]="['/product-confirmation']" (click)="closeMenu()">
+          Duyệt sản phẩm
+        </li>
         <li class="item" [routerLink]="['/store']" (click)="closeMenu()">Quản lý kho</li>
         <li class="item" [routerLink]="['/order']" (click)="closeMenu()">Quản lý đơn hàng</li>
         <li class="item" [routerLink]="['/user']" (click)="closeMenu()">Quản lý tài khoản</li>

@@ -18,6 +18,8 @@ import {CompanyComponent} from './company/company.component';
 import {StoreComponent} from './store/store.component';
 import {NewsComponent} from './news/news.component';
 import {SurchargeComponent} from './surcharge/surcharge.component';
+import {ProductConfirmationComponent} from './product-confirmation/product-confirmation.component';
+import {ProductConfirmationDetailComponent} from './product-confirmation/product-confirmation-detail/product-confirmation-detail.component';
 
 const routes: Routes = [
   {
@@ -109,7 +111,22 @@ const routes: Routes = [
         path: 'surcharge',
         pathMatch: 'full',
         component: SurchargeComponent
-      }
+      },
+      {
+        path: 'product-confirmation',
+        pathMatch: 'full',
+        component: ProductConfirmationComponent
+      },
+      {
+        path: 'product-confirmation/:productId',
+        pathMatch: 'full',
+        component: ProductConfirmationDetailComponent,
+        resolve: {
+          product: ProductDetailResolver,
+          producers: ProducersResolver,
+          productTypes: ProductTypeResolver
+        },
+      },
     ]
   }
 ];
