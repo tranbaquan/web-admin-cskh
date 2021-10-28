@@ -217,6 +217,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     product.UserCreated = this.user.UserCreated;
     product.UserUpdated = this.user.Code;
     product.Status = this.product.Status ? 1 : 0;
+    product.FIFO = this.product.FIFO ? 1 : 0;
     product.InformationTech = JSON.stringify(this.techInfoList);
     // product.ImagesPath = JSON.stringify(this.product.ImagesPath);
 
