@@ -1,0 +1,72 @@
+<div>
+  <div class="action-bar">
+    <div class="category-name">Sản phẩm chờ duyệt</div>
+    <div class="action-group">
+      <fa-icon *ngIf="loading" [icon]="faSpinner" [spin]="true"></fa-icon>
+      <div class="search-bar">
+        <input type="text" appInput [width]="300" [(ngModel)]="searchQuery"
+               (keyup.enter)="searchProduct(searchQuery, currentCategory?.TypeProductID)">
+        <button appButton [width]="50" background="bg-dark"
+                (click)="searchProduct(searchQuery, currentCategory?.TypeProductID)">
+          <fa-icon [icon]="faSearch"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <div>
+      <label class="label">Hiển thị:</label>
+      <label class="value">{{products.length}}/{{pagination.totalItem}} sản phẩm
+        (từ {{(pagination.page - 1) * pagination.size}} - {{(pagination.page - 1) * pagination.size + products.length}})
+      </label>
+    </div>
+    <div class="filter-group">
+    </div>
+  </div>
+
+  <div class="product-list">
+    <div class="product" *ngFor="let product of products">
+      <div class="image">
+        <img [src]="getUrl(product)" alt="">
+      </div>
+      <div class="info">
+        <div class="product-name">{{product.NameProduct}}</div>
+        <del class="base-cost">{{product.AmountSaleMuilti | vnd}}</del>
+        <div class="discounted-cost">{{product.AmountPromotion | vnd}}</div>
+        <!--        <div class="producer">{{product.Code}}</div>-->
+        <div class="rating">
+          <fa-icon class="star" [icon]="faStar"></fa-icon>
+          <span class="star">{{product.Rating}}</span>
+          <span class="comment">({{product.CountNumberRating}} đánh giá)</span>
+        </div>
+      </div>
+      <div style="display: flex; gap: 10px">
+        <button appButton background="bg-dark" (click)="viewDetail(product)">
+          <fa-icon [icon]="faEye"></fa-icon>
+          <span>Chi tiết</span>
+        </button>
+        <button appButton background="bg-orange" (click)="confirm(product)">
+          <fa-icon [icon]="faCheckCircle"></fa-icon>
+          <span>Duyệt</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="filter-bar">
+    <div>
+      <label class="label">Hiển thị:</label>
+      <label class="value">{{products.length}}/{{pagination.totalItem}} sản phẩm
+        (từ {{(pagination.page - 1) * pagination.size}} - {{(pagination.page - 1) * pagination.size + products.length}})
+      </label>
+    </div>
+    <div class="filter-group">
+    </div>
+  </div>
+
+  <div class="paging">
+    <app-pagination [pagination]="pagination" (pageChange)="onPageChange($event)"></app-pagination>
+  </div>
+</div>

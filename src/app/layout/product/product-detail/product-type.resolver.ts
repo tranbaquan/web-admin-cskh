@@ -14,7 +14,11 @@ export class ProductTypeResolver implements Resolve<CategoryResponseModel[]> {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<CategoryResponseModel[]> {
-    const categoryId = route.queryParamMap.get('category');
+    let categoryId = route.queryParamMap.get('category');
+    if (!categoryId) {
+      categoryId = 'all';
+    }
+
     if (categoryId === 'all') {
       return this.categoryService.getAllCategories().pipe(
         map((data) => this.sort(data, null))

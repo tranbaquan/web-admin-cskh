@@ -2,7 +2,7 @@
   <div *ngIf="imagesUrl.length > 0" class="image-preview">
     <img [src]="getImageUrl(previewImage)" alt="" [style.max-height.px]="height - sliderHeight - 20"
          [style.max-width.px]="width - 20">
-    <div class="upload">
+    <div class="upload" *ngIf="!updateDisabled">
       <input #fileUpload type="file" [hidden]="true" accept="image/*" [multiple]="false"
              (change)="onFileSelected($event)">
       <button appIconButton background="bg-orange" (click)="openFileDialog()" matTooltip="Thay đổi ảnh"
@@ -10,7 +10,7 @@
         <fa-icon [icon]="faCameraRetro"></fa-icon>
       </button>
     </div>
-    <div class="remove">
+    <div class="remove" *ngIf="!deleteDisabled">
       <button appIconButton background="bg-red" (click)="removeImage()" matTooltip="Xóa ảnh này"
               matTooltipPosition="above">
         <fa-icon [icon]="faTrashAlt"></fa-icon>

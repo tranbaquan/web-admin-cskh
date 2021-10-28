@@ -1,0 +1,229 @@
+<div class="main">
+  <div class="form">
+    <div class="form-group">
+      <div class="image-preview">
+        <app-gallery-slider [urlPrefix]="imagePrefix" [imagesUrl]="product.ImagesPath" [width]="360" [height]="400"
+                            [sliderHeight]="70" [imageSize]="60" [deleteDisabled]="true" [updateDisabled]="true">
+        </app-gallery-slider>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="group-title">Thông tin sản phẩm</div>
+      <div class="input">
+        <label>Tên sản phẩm</label>
+        <input type="text" placeholder="Tên sản phẩm" [required]="true" [disabled]="true"
+               [ngModel]="product.NameProduct" appInput>
+      </div>
+      <div class="input">
+        <label>Loại sản phẩm</label>
+        <mat-chip-list>
+          <mat-chip *ngIf="product.TypeProductID" [selectable]="false">
+            {{getProductType(product.TypeProductID)}}
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+      <div class="input-group">
+        <div class="input">
+          <label>Mã sản phẩm</label>
+          <input type="text" placeholder="Mã sản phẩm" [required]="true" [disabled]="true" [(ngModel)]="product.Code"
+                 appInput>
+        </div>
+        <div class="input">
+          <label>Hãng sản xuất</label>
+          <input type="text" [disabled]="true" [ngModel]="product?.ListProduction[0]?.NameProduction" appInput>
+        </div>
+      </div>
+      <div class="input-group">
+        <div class="input">
+          <label>Khối lượng tối thiểu</label>
+          <input placeholder="Khối lượng tối thiểu" [min]="1" type="number" [disabled]="true" appInput
+                 [ngModel]="product.MinQuantity">
+        </div>
+        <div class="input">
+          <label>Đơn vị</label>
+          <input placeholder="Đơn vị" appInput [disabled]="true" [ngModel]="product.Unit">
+        </div>
+      </div>
+      <div class="input-group">
+        <div class="input checkbox">
+          <label>FIFO</label>
+          <input type="checkbox" appInput [ngModel]="product.FIFO" [disabled]="true">
+        </div>
+
+        <div class="input checkbox">
+          <label>Sản phẩm đặc biệt</label>
+          <input type="checkbox" appInput [ngModel]="product.IsSpecical" [disabled]="true">
+        </div>
+      </div>
+      <div class="input-group">
+        <div class="input checkbox">
+          <label>Hiển thị ở trang chủ</label>
+          <input type="checkbox" appInput [ngModel]="product.IsHome" [disabled]="true">
+        </div>
+
+        <div class="input checkbox">
+          <label>Sản phẩm phổ biến</label>
+          <input type="checkbox" appInput [ngModel]="product.IsStandard" [disabled]="true">
+        </div>
+      </div>
+      <div class="input-group">
+        <div class="input checkbox">
+          <label>Sản phẩm bán chạy</label>
+          <input type="checkbox" appInput [ngModel]="product.IsBestSell" [disabled]="true">
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="group-title">Đặc tả sản phẩm</div>
+      <ng-container *ngIf="product.ListSpec1.length != 0">
+        <div class="input">
+          <label>Tên đặc tả</label>
+          <div class="has-delete">
+            <div class="spec-item" style="flex: 1">
+              {{product.ListSpec1[0].SpecName}}
+            </div>
+          </div>
+        </div>
+        <div class="input">
+          <label>Giá trị</label>
+          <div class="input-list">
+            <ng-container *ngFor="let spec of product.ListSpec1; index as index">
+              <div class="spec-item" *ngIf="spec.ParentID">
+                {{spec.SpecName}}
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="product.ListSpec2.length != 0">
+        <div class="input">
+          <label>Tên đặc tả</label>
+          <div class="has-delete">
+            <div class="spec-item" style="flex: 1">
+              {{product.ListSpec2[0].SpecName}}
+            </div>
+          </div>
+        </div>
+        <div class="input">
+          <label>Giá trị</label>
+          <div class="input-list">
+            <ng-container *ngFor="let spec of product.ListSpec2; index as index">
+              <div class="spec-item" *ngIf="spec.ParentID">
+                {{spec.SpecName}}
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="product.ListSpec3.length != 0">
+        <div class="input">
+          <label>Tên đặc tả</label>
+          <div class="has-delete">
+            <div class="spec-item" style="flex: 1">
+              {{product.ListSpec3[0].SpecName}}
+            </div>
+          </div>
+        </div>
+        <div class="input">
+          <label>Giá trị</label>
+          <div class="input-list">
+            <ng-container *ngFor="let spec of product.ListSpec3; index as index">
+              <div class="spec-item" *ngIf="spec.ParentID">
+                {{spec.SpecName}}
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <div class="form-group">
+      <div class="group-title">Giá và chiết khấu</div>
+      <div class="input-group">
+        <div class="input">
+          <label>Giá</label>
+          <input type="text" [min]="0" appInput mvndrMatCurrencyFormat [disabled]="true"
+                 [allowNegative]="false" [currencyCode]="'VND'" [value]="product.AmountSaleMuilti"
+                 (blur)="updateProductAmountSaleMulti($event)">
+        </div>
+        <div class="input">
+          <label>Chiết khấu</label>
+          <input type="number" [min]="0" appInput [ngModel]="product.DiscountProvider" [disabled]="true">
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="group-title">Thông tin chi tiết</div>
+      <div class="input">
+        <label>Mô tả ngắn</label>
+        <ckeditor [readOnly]="true" [ngModel]="product.ShortDescription"></ckeditor>
+      </div>
+      <div class="input">
+        <label>Chi tiết</label>
+        <ckeditor [readOnly]="true" [ngModel]="product.Description"></ckeditor>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="group-title">Thông số kỹ thuật</div>
+      <div class="tech-info-table">
+        <table class="core-table even-separate">
+          <tbody>
+          <tr *ngFor="let techInfo of techInfoList; trackBy: trackByFn">
+            <td>
+              <input appInput [(ngModel)]="techInfo.key">
+            </td>
+            <td>
+              <input appInput [(ngModel)]="techInfo.value">
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="form-group">
+      <div style="display: flex; gap: 10px">
+        <button style="flex: 1" routerLink="../" background="bg-dark" appButton>Về danh sách</button>
+        <button style="flex: 1" background="bg-orange" appButton (click)="confirm(product)">Duyệt sản phẩm</button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="helios-table">
+    <table appTable [isEvenSeparate]="true">
+      <thead>
+      <tr>
+        <th style="min-width: 100px" *ngIf="product.ListSpec1.length != 0">{{product.ListSpec1[0]?.SpecName}}</th>
+        <th style="min-width: 100px" *ngIf="product.ListSpec2.length != 0">{{product.ListSpec2[0]?.SpecName}}</th>
+        <th style="min-width: 100px" *ngIf="product.ListSpec3.length != 0">{{product.ListSpec3[0]?.SpecName}}</th>
+        <th style="min-width: 100px">Kho</th>
+        <th style="min-width: 100px">Đơn vị</th>
+        <th style="min-width: 150px">Giá</th>
+        <th>Chiết khấu</th>
+        <th>Tối thiểu</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let price of pagination.data">
+        <td style="min-width: 100px"
+            *ngIf="product.ListSpec1.length != 0">{{findSpecName(product.ListSpec1, price.SpecID1)}}</td>
+        <td style="min-width: 100px"
+            *ngIf="product.ListSpec2.length != 0">{{findSpecName(product.ListSpec2, price.SpecID2)}}</td>
+        <td style="min-width: 100px"
+            *ngIf="product.ListSpec3.length != 0">{{findSpecName(product.ListSpec3, price.SpecID3)}}</td>
+        <td style="min-width: 100px">{{getStoreName(price.StoreID)}}</td>
+        <td style="min-width: 100px">{{product.Unit}}</td>
+        <td style="min-width: 150px"> {{price.Prices | vnd}}</td>
+        <td>{{product.DiscountProvider}}</td>
+        <td>{{product.MinQuantity}}</td>
+      </tr>
+      <tr *ngIf="!product.ListPrices || product.ListPrices.length == 0">
+        <td colspan="10" style="text-align: center">Chưa có dữ liệu</td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="paging">
+      <app-pagination [pagination]="pagination" (pageChange)="onPageChange($event)"></app-pagination>
+    </div>
+  </div>
+</div>

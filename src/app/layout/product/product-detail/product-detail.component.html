@@ -3,7 +3,8 @@
     <div class="form-group">
       <div class="image-preview">
         <app-gallery-slider [urlPrefix]="imagePrefix" [imagesUrl]="product.ImagesPath" [width]="360" [height]="400"
-                            [sliderHeight]="70" [imageSize]="60" (fileChange)="imagePathChange($event)" (imageRemove)="removeImage($event)">
+                            [sliderHeight]="70" [imageSize]="60" (fileChange)="imagePathChange($event)"
+                            (imageRemove)="removeImage($event)">
         </app-gallery-slider>
       </div>
       <div class="upload-group">
@@ -96,13 +97,13 @@
       </div>
       <div class="input-group">
         <div class="input checkbox">
-          <label>Trạng thái</label>
-          <input type="checkbox" appInput [(ngModel)]="product.Status">
+          <label>FIFO</label>
+          <input type="checkbox" appInput [(ngModel)]="product.FIFO">
         </div>
 
         <div class="input checkbox">
-          <label>FIFO</label>
-          <input type="checkbox" appInput [(ngModel)]="product.FIFO">
+          <label>Sản phẩm đặc biệt</label>
+          <input type="checkbox" appInput [(ngModel)]="product.IsSpecical">
         </div>
       </div>
       <div class="input-group">
@@ -120,11 +121,6 @@
         <div class="input checkbox">
           <label>Sản phẩm bán chạy</label>
           <input type="checkbox" appInput [(ngModel)]="product.IsBestSell">
-        </div>
-
-        <div class="input checkbox">
-          <label>Sản phẩm đặc biệt</label>
-          <input type="checkbox" appInput [(ngModel)]="product.IsSpecical">
         </div>
       </div>
     </div>
@@ -265,17 +261,15 @@
       <div class="group-title">Thông số kỹ thuật</div>
       <div class="tech-info-table">
         <table class="core-table even-separate">
-<!--          <tbody [innerHTML]="product.InformationTech | escapeHtml">-->
-<!--          </tbody>-->
           <tbody>
-            <tr *ngFor="let techInfo of techInfoList; trackBy: trackByFn">
-              <td contenteditable="true">
-                <input appInput [(ngModel)]="techInfo.key">
-              </td>
-              <td  contenteditable="true">
-                <input appInput [(ngModel)]="techInfo.value">
-              </td>
-            </tr>
+          <tr *ngFor="let techInfo of techInfoList; trackBy: trackByFn">
+            <td>
+              <input appInput [(ngModel)]="techInfo.key">
+            </td>
+            <td>
+              <input appInput [(ngModel)]="techInfo.value">
+            </td>
+          </tr>
           </tbody>
         </table>
       </div>
@@ -287,7 +281,8 @@
         <button appIconButton background="bg-orange" (click)="addTechInfoLine()">
           <fa-icon [icon]="faPlus"></fa-icon>
         </button>
-        <button appIconButton background="bg-red"  matTooltip="Xóa dòng cuối cùng" [matTooltipPosition]="'right'" (click)="removeLastTechInfoLine()">
+        <button appIconButton background="bg-red" matTooltip="Xóa dòng cuối cùng" [matTooltipPosition]="'right'"
+                (click)="removeLastTechInfoLine()">
           <fa-icon [icon]="faTrash"></fa-icon>
         </button>
       </div>
