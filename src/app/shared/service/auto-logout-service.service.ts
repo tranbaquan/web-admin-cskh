@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Router} from '@angular/router';
+import {UserService} from "./user.service";
 
 const MINUTES_UNITL_AUTO_LOGOUT = 15; // in mins
 const CHECK_INTERVAL = 15000; // in ms
@@ -16,7 +17,7 @@ export class AutoLogoutServiceService {
     localStorage.setItem(STORE_KEY, lastAction.toString());
   }
 
-  constructor(private router: Router) {
+  constructor(private userService: UserService) {
     this.check();
     this.initListener();
     this.initInterval();
@@ -49,8 +50,7 @@ export class AutoLogoutServiceService {
     const isTimeout = diff < 0;
 
     if (isTimeout)  {
-      localStorage.removeItem('user:info');
-      window.location.reload();
+      this.userService.logout();
     }
   }
 }

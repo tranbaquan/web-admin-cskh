@@ -21,8 +21,15 @@
         </mat-menu>
       </div>
       <div>
-        <fa-icon [icon]="faUser" size="lg"></fa-icon>
-        <span class="username">{{user?.Name}}</span>
+
+        <button class="user-info" mat-button [matMenuTriggerFor]="menuItem">
+          <fa-icon [icon]="faUser" size="lg"></fa-icon>
+          <span class="username">{{user?.Name}}</span>
+        </button>
+        <mat-menu #menuItem="matMenu">
+          <button mat-menu-item (click)="changePassword()">Đổi mật khẩu</button>
+          <button mat-menu-item (click)="logout()">Đăng xuất</button>
+        </mat-menu>
       </div>
     </div>
   </nav>

@@ -4,6 +4,9 @@ import {UserValidator} from '../shared/validator/user.validator';
 import {UserModel} from '../shared/model/user.model';
 import {UserService} from '../shared/service/user.service';
 import {Router} from '@angular/router';
+import {finalize} from 'rxjs/operators';
+import {faSpinner} from '@fortawesome/free-solid-svg-icons';
+
 
 @Component({
   selector: 'app-login-page',
@@ -15,6 +18,9 @@ export class LoginPageComponent implements OnInit {
   userForm: FormGroup;
   user: UserModel;
   errorMessage: string;
+  isLogin = false;
+
+  faSpinner = faSpinner;
 
   constructor(private userService: UserService, private router: Router) {
     this.user = new UserModel();
@@ -35,7 +41,14 @@ export class LoginPageComponent implements OnInit {
   }
 
   login(): void {
-    this.userService.login(this.user).subscribe(data => {
+    this.isLogin = true;
+    this.userService.login(this.user)
+      .pipe(
+        finalize(() => {
+          this.isLogin = false;
+        })
+      )
+      .subscribe(data => {
       localStorage.setItem('user:info', JSON.stringify(data));
       this.router.navigate(['category']).then(() => {
       });

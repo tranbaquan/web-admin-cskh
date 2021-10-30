@@ -5,6 +5,7 @@ import {environment} from '../../../environments/environment';
 import {UserModel} from '../model/user.model';
 import {map} from 'rxjs/operators';
 import {UserResponseModel} from '../model/response/user-response.model';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ export class UserService {
 
   baseUrl: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private router: Router) {
     this.baseUrl = environment.apiBaseUrl;
   }
 
@@ -24,6 +26,22 @@ export class UserService {
         return Object.assign(new UserResponseModel(), response.data);
       })
     );
+  }
+
+  logout(): void {
+    localStorage.removeItem('user:info');
+    this.router.navigate(['login']).then(() => {
+    });
+  }
+
+  changePassworl(userName: string, oldPass: string, newPass): Observable<any> {
+    const url = this.baseUrl + '/api/useradmin/changepass';
+    const data = {
+      UserName: userName,
+      PassWordOld: oldPass,
+      PassWordNew: newPass
+    };
+    return this.http.post(url, data);
   }
 
   getListUser(page: number, limit: number, keySearch: string, typeUserID: string, status: string): Observable<any> {
@@ -49,5 +67,15 @@ export class UserService {
   deleteUser(userId: number): Observable<any> {
     const url = this.baseUrl + '/api/useradmin/delete/' + userId;
     return this.http.delete(url);
+  }
+
+  resetPasswork(userId: number, email: string, user: string): Observable<any> {
+    const url = this.baseUrl + '/api/useradmin/resetpassword';
+    const data = {
+      userID: userId,
+      emailReceive: email,
+      userUpdate: user
+    };
+    return this.http.post(url, data);
   }
 }

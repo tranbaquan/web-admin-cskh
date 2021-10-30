@@ -8,6 +8,7 @@ import firebase from 'firebase/compat/app';
 import * as messaging from 'firebase/messaging';
 import {BehaviorSubject} from 'rxjs';
 import {FirebaseService} from './firebase.service';
+import {UserService} from '../shared/service/user.service';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBYX9m-Cu_S79oqd1DyuUoO2MljOBKkgvM',
@@ -48,7 +49,8 @@ export class LayoutComponent implements OnInit {
   subject = new BehaviorSubject(null);
 
   constructor(private router: Router,
-              private firebaseService: FirebaseService) {
+              private firebaseService: FirebaseService,
+              private userService: UserService) {
     this.isMenuShow = false;
     this.getNotifications();
 
@@ -118,5 +120,13 @@ export class LayoutComponent implements OnInit {
 
   unreadNotifications(): number {
     return this.notifications.filter(notification => notification.unread).length;
+  }
+
+  logout(): void {
+    this.userService.logout();
+  }
+
+  changePassword(): void {
+    this.router.navigate(['change-pass']).then();
   }
 }

@@ -18,6 +18,7 @@ import {CompanyComponent} from './company/company.component';
 import {StoreComponent} from './store/store.component';
 import {NewsComponent} from './news/news.component';
 import {SurchargeComponent} from './surcharge/surcharge.component';
+import {ChangePassComponent} from "./change-pass/change-pass.component";
 
 const routes: Routes = [
   {
@@ -109,6 +110,11 @@ const routes: Routes = [
         path: 'surcharge',
         pathMatch: 'full',
         component: SurchargeComponent
+      },
+      {
+        path: 'change-pass',
+        pathMatch: 'full',
+        component: ChangePassComponent
       }
     ]
   }
