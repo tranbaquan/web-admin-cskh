@@ -24,7 +24,7 @@
           </div>
           <div class="right">
             <div class="login-button">
-              <button type="submit" appButton [width]="200" background="bg-dark" (click)="login()"><span>Đăng Nhập</span></button>
+              <button type="submit" appButton [width]="200" background="bg-dark" (click)="login()" [disabled]="isLogin"><span>Đăng Nhập <fa-icon *ngIf="isLogin" [icon]="faSpinner"></fa-icon></span></button>
             </div>
           </div>
         </div>

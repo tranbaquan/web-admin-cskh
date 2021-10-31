@@ -66,7 +66,7 @@
             <button appIconButton background="bg-orange" (click)="openUpdateModal(item)">
               <fa-icon [icon]="faEdit"></fa-icon>
             </button>
-            <button appIconButton background="bg-red" (click)="deleteUser(item.UserID)">
+            <button appIconButton background="bg-red" (click)="deleteUser(item)">
               <fa-icon [icon]="faTrashAlt"></fa-icon>
             </button>
           </div>
@@ -144,10 +144,13 @@
     </div>
   </app-modal-body>
   <app-modal-footer>
+    <div class="left-section">
+      <button [disabled]="updating" *ngIf="!isCreateNew" appButton background="bg-orange" (click)="resetPassword()">Reset mật khẩu</button>
+    </div>
     <div class="right-section">
       <div class="btn-group">
         <button [disabled]="updating" *ngIf="!isCreateNew" appButton background="bg-orange" (click)="updateUser()">Lưu</button>
-        <button [disabled]="updating" *ngIf="!isCreateNew" appButton background="bg-orange" (click)="deleteUser(selectedUser.UserID)">Xóa</button>
+        <button [disabled]="updating" *ngIf="!isCreateNew" appButton background="bg-orange" (click)="deleteUser(selectedUser)">Xóa</button>
         <button appButton background="bg-gray" (click)="closeModal('create-user-modal')">Đóng</button>
         <button [disabled]="updating" *ngIf="isCreateNew" appButton background="bg-orange" (click)="createUser()">Tạo tài khoản</button>
       </div>

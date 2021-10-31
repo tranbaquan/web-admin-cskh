@@ -67,6 +67,7 @@ export class OrderComponent implements OnInit {
   }
 
   searchOrder(): void {
+    this.isLoading = true;
     this.orderSerVice.getOrder(this.page, this.size, this.keySearch, this.status.toString(), this.isAccept.toString())
       .pipe(
         finalize(() => {

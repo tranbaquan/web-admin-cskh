@@ -1,0 +1,40 @@
+<div class="change-pass my-3">
+  <div class="form-group row my-3">
+    <label for="Password" class="col-4 col-form-label">Mật khẩu cũ</label>
+    <div class="col-8">
+      <input [type]="isShowPassword ? 'text' : 'password'" [class]="errorPass ? 'invalid' : ''" (change)="validatePass()"
+             [(ngModel)]="password" class="form-control" id="Password" placeholder="Mật khẩu cũ">
+      <mat-hint *ngIf="errorPass" >{{errorPass}}</mat-hint>
+    </div>
+  </div>
+  <div class="form-group row my-3">
+    <label for="newPassword" class="col-4 col-form-label">Mật khẩu mới</label>
+    <div class="col-8">
+      <input [type]="isShowPassword ? 'text' : 'password'" [class]="errorNew ? 'invalid' : ''" (change)="validateNewPass()"
+             [(ngModel)]="newPass" class="form-control" id="newPassword" placeholder="Mật khẩu mới">
+      <mat-hint *ngIf="errorNew" >{{errorNew}}</mat-hint>
+    </div>
+  </div>
+  <div class="form-group row my-3">
+    <label for="reNewPassword" class="col-4 col-form-label">Nhập lại Mật khẩu</label>
+    <div class="col-8">
+      <input [type]="isShowPassword ? 'text' : 'password'" [class]="errorRe ? 'invalid' : ''" (change)="validateRePass()"
+             [(ngModel)]="reNewPass" class="form-control" id="reNewPassword" placeholder="Nhập lại Mật khẩu">
+      <mat-hint *ngIf="errorRe" >{{errorRe}}</mat-hint>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4" ></div>
+    <div class="col-8">
+      <input [(ngModel)]="isShowPassword" id="showPassword" type="checkbox" ng-model="checkboxModel" class="form-check-input" ng-true-value="1" ng-false-value="0" >
+      <label for="showPassword" class="form-check-label">&nbsp;Hiển thị mật khẩu</label>
+      <br>
+      <mat-hint *ngIf="error" >{{error}}</mat-hint>
+    </div>
+  </div>
+  <div class="text-center my-3">
+    <button appButton background="bg-orange" (click)="changePassword()" [disabled]="isChanging">
+      {{isChanging ? '' : 'Đổi mật khẩu'}}
+      <fa-icon *ngIf="isChanging" [icon]="faSpinner"></fa-icon></button>
+  </div>
+</div>

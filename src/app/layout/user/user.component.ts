@@ -147,10 +147,10 @@ export class UserComponent implements OnInit {
     }
   }
 
-  deleteUser(userId: number): void {
-    if (window.confirm('Xóa tài khoản: ' + this.selectedUser.Name + ' ?')) {
+  deleteUser(user: UserResponseModel): void {
+    if (window.confirm('Xóa tài khoản: ' + user.Name + ' ?')) {
       this.updating = true;
-      this.userService.deleteUser(userId)
+      this.userService.deleteUser(user.UserID)
         .pipe(
           finalize(() => {
             this.updating = false;
@@ -256,5 +256,20 @@ export class UserComponent implements OnInit {
   regexMail(email): boolean {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
+  }
+
+  resetPassword(): void {
+    this.updating = true;
+    this.userService.resetPasswork(this.selectedUser.UserID, this.selectedUser.Email, this.user.Code)
+      .pipe(
+        finalize(() => {
+          this.updating = false;
+        })
+      )
+      .subscribe(data => {
+        this.toastService.info('Đã gửi mật khẩu đến email: ' + this.selectedUser.Email);
+      }, error => {
+        this.toastService.warning(error.error.message, 'Gửi yêu cầu thất bại!');
+      });
   }
 }

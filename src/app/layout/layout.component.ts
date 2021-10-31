@@ -8,6 +8,7 @@ import firebase from 'firebase/compat/app';
 import * as messaging from 'firebase/messaging';
 import {BehaviorSubject} from 'rxjs';
 import {FirebaseService} from './firebase.service';
+import {UserService} from '../shared/service/user.service';
 import {ToastrService} from 'ngx-toastr';
 import {NotificationService} from './notification.service';
 import {HttpParams} from '@angular/common/http';
@@ -54,6 +55,7 @@ export class LayoutComponent implements OnInit {
   subject = new BehaviorSubject(null);
 
   constructor(private router: Router,
+              private userService: UserService,
               private toastService: ToastrService,
               private notificationService: NotificationService,
               private firebaseService: FirebaseService) {
@@ -150,5 +152,13 @@ export class LayoutComponent implements OnInit {
     }, () => {
       this.getNotifications();
     });
+  }
+
+  logout(): void {
+    this.userService.logout();
+  }
+
+  changePassword(): void {
+    this.router.navigate(['change-pass']).then();
   }
 }
