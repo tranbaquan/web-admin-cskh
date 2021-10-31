@@ -10,13 +10,26 @@
         </fa-icon>
         <span *ngIf="unreadNotifications()" class="badge">{{unreadNotifications()}}</span>
         <mat-menu #notificationDd="matMenu" xPosition="before" style="width: 350px">
+          <div class="notification-header">
+            Thông báo
+          </div>
           <div class="notification-content" *ngIf="!notifications.length">
             <span class="title">Không có thông báo</span>
           </div>
-          <div class="notification-content" [class.unread]="notification.unread"
+          <div class="notification-content" [class.unread]="!notification.IsRead"
                *ngFor="let notification of notifications" (click)="readNotification(notification)">
-            <div class="title">{{notification.title}}</div>
-            <div class="description">{{notification.body}}</div>
+            <div class="title-group">
+              <fa-icon [icon]="faBullhorn" size="lg"></fa-icon>
+              <div class="tg-1">
+                <div class="title">{{notification.Title}}</div>
+                <div class="time">{{notification.CreatedDate | date: 'dd/MM hh:mm'}}</div>
+              </div>
+              <fa-icon [icon]="faTimesCircle" size="lg" (click)="deleteNotification(notification)"
+                       matTooltip="Xóa thông báo này"
+                       matTooltipPosition="above">
+              </fa-icon>
+            </div>
+            <div class="description">{{notification.Message}}</div>
           </div>
         </mat-menu>
       </div>
