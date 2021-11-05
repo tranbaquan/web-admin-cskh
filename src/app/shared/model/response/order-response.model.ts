@@ -1,6 +1,7 @@
 import { OrderDetail } from '../order-detail.model';
 export class OrderResponseModel {
   ExportID: number;
+  Title: string;
   StatusID: number;
   TypeExport: number;
   VAT: number;

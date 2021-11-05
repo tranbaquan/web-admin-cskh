@@ -1,5 +1,6 @@
 export class NewResponseModel {
   NewsID: number;
+  IsNew: number;
   TypeNewsID: number;
   Title: string;
   ShortDescription: string;
