@@ -36,20 +36,22 @@
       <table appTable [isEvenSeparate]="true">
         <thead>
           <tr>
-            <th style="width: 15%">Mã đơn hàng</th>
-            <th style="width: 15%">Ngày xuất</th>
-            <th style="width: 15%">Tên khách hàng</th>
-            <th style="width: 25%">Trạng thái</th>
+            <th style="width: 12%">Mã đơn hàng</th>
+            <th style="width: 17%">Title</th>
+            <th style="width: 11%">Ngày xuất</th>
+            <th style="width: 12%">Tên khách hàng</th>
+            <th style="width: 21%">Trạng thái</th>
             <th style="width: 15%">Người tạo</th>
-            <th style="width: 15%">Ngày tạo</th>
+            <th style="width: 11%">Ngày tạo</th>
          </tr>
         </thead>
         <tbody>
         <tr *ngFor="let item of listOrder">
-          <td style="width: 15%"><a (click)="gotoDetail(item.ExportID)">{{item.Code}}</a></td>
-          <td style="width: 15%">{{item.DateCreated | date:'yyyy-MM-dd H:mm'}}</td>
-          <td style="width: 15%">{{item.NameCustomer}}</td>
-          <td style="width: 25%">
+          <td style="width: 12%"><a (click)="gotoDetail(item.ExportID)">{{item.Code}}</a></td>
+          <td style="width: 17%"><a (click)="gotoDetail(item.ExportID)">{{item.Title}}</a></td>
+          <td style="width: 11%">{{item.DateCreated | date:'yyyy-MM-dd H:mm'}}</td>
+          <td style="width: 13%">{{item.NameCustomer}}</td>
+          <td style="width: 21%">
             <div class="inline">
               <input class="status-input" type="text" appInput [width]="150" [value]="getStatusLabel(item)" disabled>
               <button class="status-button" (click)="openStatusModal(item)" appIconButton>
@@ -58,7 +60,7 @@
             </div>
           </td>
           <td style="width: 15%">{{item.UserCreated}}</td>
-          <td style="width: 15%">{{item.DateCreated | date:'yyyy-MM-dd H:mm'}}</td>
+          <td style="width: 11%">{{item.DateCreated | date:'yyyy-MM-dd H:mm'}}</td>
         </tr>
         </tbody>
       </table>

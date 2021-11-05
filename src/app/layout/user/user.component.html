@@ -25,13 +25,12 @@
       </label>
     </div>
     <div class="filter-group">
-      <div class="dropdown-sort">
+      <div class="dropdown-sort" *ngIf="listTypeUser">
         <div class="dropdown">
           <label class="label-orange">Loại tài khoản: </label>
           <select class="" [(ngModel)]="typeUser" (change)="searchUsers()">
-            <option value=0 selected >Tất cả</option>
-            <option value=1 >Web</option>
-            <option value=2 >Mobile</option>
+            <option value=0 selected >All</option>
+            <option *ngFor="let item of listTypeUser" [value]="item.TypeUserID">{{item.TypeName}}</option>
           </select>
         </div>
       </div>
@@ -75,10 +74,10 @@
       </tbody>
     </table>
   </div>
-  <div *ngIf="loading" class="spinner-loading">
+  <div *ngIf="loading" class="spinner-loading text-center">
     <fa-icon [icon]="faSpinner" [spin]="true"></fa-icon>
   </div>
-  <div class="my-3" *ngIf="!loading && !pagination.data">
+  <div class="my-3 text-center" *ngIf="!loading && pagination.data.length === 0">
     <p>Chưa có dữ liệu</p>
   </div>
   <div class="paging">
@@ -104,8 +103,7 @@
     <div class="input my-2">
       <label>Loại tài khoản</label>
       <select class="form-select" [class]="errorType ? 'invalid-feild' : ''" (change)="validateType()" [(ngModel)]="selectedUser.TypeUser">
-        <option [value]=1 [selected]="true">Tài khoản cho web</option>
-        <option [value]=0>Tài khoản cho app</option>
+        <option *ngFor="let item of listTypeUser" [value]="item.TypeUserID" >{{item.TypeName}}</option>
       </select>
       <mat-hint *ngIf="errorType" >{{errorType}}</mat-hint>
     </div>

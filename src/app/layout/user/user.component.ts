@@ -7,6 +7,7 @@ import {UserService} from '../../shared/service/user.service';
 import {UserResponseModel} from '../../shared/model/response/user-response.model';
 import {finalize} from 'rxjs/operators';
 import {ToastrService} from 'ngx-toastr';
+import {TypeUserResponse} from "../../shared/model/response/type-user-response";
 
 @Component({
   selector: 'app-user',
@@ -43,6 +44,8 @@ export class UserComponent implements OnInit {
   errorEmail = '';
   errorName = '';
 
+  listTypeUser: TypeUserResponse[] = [];
+
   constructor(private modalService: ModalService,
               private userService: UserService,
               private toastService: ToastrService) {
@@ -58,6 +61,7 @@ export class UserComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getTypeUser();
     this.searchUsers();
   }
 
@@ -270,6 +274,13 @@ export class UserComponent implements OnInit {
         this.toastService.info('Đã gửi mật khẩu đến email: ' + this.selectedUser.Email);
       }, error => {
         this.toastService.warning(error.error.message, 'Gửi yêu cầu thất bại!');
+      });
+  }
+
+  getTypeUser(): void {
+    this.userService.getListTypeUser()
+      .subscribe(data => {
+        this.listTypeUser = data.data.data.map(obj => Object.assign(new TypeUserResponse(), obj));
       });
   }
 }

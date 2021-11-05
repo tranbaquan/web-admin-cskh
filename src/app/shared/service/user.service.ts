@@ -78,4 +78,9 @@ export class UserService {
     };
     return this.http.post(url, data);
   }
+
+  getListTypeUser(): Observable<any> {
+    const url = this.baseUrl + '/api/typeuser/gettypeuserall';
+    return this.http.get(url);
+  }
 }
