@@ -133,7 +133,7 @@
             </div>
             <div class="form-group my-2">
               <label>Mô tả<span style="color: red">*</span></label>
-              <textarea class="form-control" [class]="errorShortDes ? 'invalid-feild' : ''" rows="7" [(ngModel)]="selectedItem.ShortDescription" (ngModelChange)="validateShortDes()"></textarea>
+              <textarea class="form-control" maxlength="500" [class]="errorShortDes ? 'invalid-feild' : ''" rows="7" [(ngModel)]="selectedItem.ShortDescription" (ngModelChange)="validateShortDes()"></textarea>
               <mat-hint *ngIf="validateShortDes()" >{{errorShortDes}}</mat-hint>
             </div>
             <div class="form-check">
