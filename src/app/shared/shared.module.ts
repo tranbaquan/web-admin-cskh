@@ -12,7 +12,6 @@ import {IconButtonDirective} from './component/icon-button.directive';
 import {VndPipe} from './pipe/vnd.pipe';
 import {PaginationComponent} from './component/pagination/pagination.component';
 import {SelectDirective} from './component/select.directive';
-import {CKEditorModule} from 'ckeditor4-angular';
 import {TableDirective} from './component/table.directive';
 import {ModalComponent} from './component/modal/modal.component';
 import {ModalHeaderComponent} from './component/modal/modal-header/modal-header.component';
@@ -29,6 +28,7 @@ import {GallerySliderComponent} from './component/gallery-slider/gallery-slider.
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {EscapeHtmlPipe} from './pipe/escape-html.pipe';
 import {MatMenuModule} from '@angular/material/menu';
+import {CKEditorModule} from '@ckeditor/ckeditor5-angular';
 
 @NgModule({
   imports: [

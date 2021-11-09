@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit, SecurityContext, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {faCameraRetro, faEdit, faPlus, faSave, faTrash} from '@fortawesome/free-solid-svg-icons';
 import {faTimesCircle} from '@fortawesome/free-regular-svg-icons';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -11,13 +11,16 @@ import {ProductService} from '../product.service';
 import {SpecificService} from './specific.service';
 import {Pagination} from '../../../shared/model/pagination';
 import {ToastrService} from 'ngx-toastr';
-import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
+import {DomSanitizer} from '@angular/platform-browser';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {ENTER} from '@angular/cdk/keycodes';
 import {ProducerResponseModel} from '../../../shared/model/response/producer-response.model';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import {MyUploadAdapter} from './my-upload.adapter';
+import {CKEditor5} from '@ckeditor/ckeditor5-angular';
 
 @Component({
   selector: 'app-product-detail',
@@ -31,6 +34,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
   faSave = faSave;
   faEdit = faEdit;
   faTrash = faTrash;
+  public Editor = ClassicEditor;
 
   @ViewChild('fileUpload')
   fileUpload: ElementRef;
@@ -61,6 +65,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
   category: string;
   imagePrefix = environment.storageUrl;
   techInfoList: { key: string, value: string }[];
+  ckeditorConfig: any;
 
   constructor(private route: ActivatedRoute,
               private modalService: ModalService,
@@ -549,5 +554,14 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     if (this.techInfoList.length > 0) {
       this.techInfoList.splice(this.techInfoList.length - 1, 1);
     }
+  }
+
+  onReady($event: CKEditor5.Editor): void {
+    $event.on('upload', () => {
+      console.log('upload');
+    });
+    $event.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+      return new MyUploadAdapter(loader, this.fileUploadService);
+    };
   }
 }
