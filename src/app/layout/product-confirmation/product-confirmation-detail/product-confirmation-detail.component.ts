@@ -10,6 +10,8 @@ import {FileUploadService} from '../../product/product-detail/file-upload.servic
 import {ProductService} from '../../product/product.service';
 import {map, startWith} from 'rxjs/operators';
 import {ToastrService} from 'ngx-toastr';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
 
 @Component({
   selector: 'app-product-confirmation-detail',
@@ -17,7 +19,7 @@ import {ToastrService} from 'ngx-toastr';
   styleUrls: ['./product-confirmation-detail.component.scss']
 })
 export class ProductConfirmationDetailComponent implements OnInit {
-
+  public Editor = ClassicEditor;
   product: ProductResponseModel;
   producers: any[];
   producersAsync: Observable<any[]>;
