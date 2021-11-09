@@ -1,5 +1,15 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {faSearch, faSortDown, faEllipsisH, faSpinner, faTimesCircle, faWindowClose, faSave, faClone, faPlus} from '@fortawesome/free-solid-svg-icons';
+import {
+  faSearch,
+  faSortDown,
+  faEllipsisH,
+  faSpinner,
+  faTimesCircle,
+  faWindowClose,
+  faSave,
+  faClone,
+  faPlus
+} from '@fortawesome/free-solid-svg-icons';
 import {Pagination} from '../../shared/model/pagination';
 import {NewResponseModel} from '../../shared/model/response/new-response.model';
 import {NewService} from './new.service';
@@ -10,6 +20,8 @@ import {finalize} from 'rxjs/operators';
 import {ModalService} from '../../shared/component/modal/modal.service';
 import {FileUploadService} from '../product/product-detail/file-upload.service';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import {CKEditor5} from '@ckeditor/ckeditor5-angular';
+import {MyUploadAdapter} from '../product/product-detail/my-upload.adapter';
 
 
 @Component({
@@ -71,6 +83,7 @@ export class NewsComponent implements OnInit {
     await this.getListTypeNew();
     this.searchNew();
   }
+
   getListTypeNew(): void {
     this.newService.getNewType(1, 1000)
       .subscribe(data => {
@@ -283,5 +296,11 @@ export class NewsComponent implements OnInit {
 
   cloneNew(data: NewResponseModel): NewResponseModel {
     return Object.assign(new NewResponseModel(), data);
+  }
+
+  onReady($event: CKEditor5.Editor): void {
+    $event.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+      return new MyUploadAdapter(loader, this.fileUploadService);
+    };
   }
 }

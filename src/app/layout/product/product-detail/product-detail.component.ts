@@ -557,9 +557,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
   }
 
   onReady($event: CKEditor5.Editor): void {
-    $event.on('upload', () => {
-      console.log('upload');
-    });
     $event.plugins.get('FileRepository').createUploadAdapter = (loader) => {
       return new MyUploadAdapter(loader, this.fileUploadService);
     };
