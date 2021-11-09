@@ -154,7 +154,7 @@
             </div>
             <div>
               <label>Nội dung</label>
-              <ckeditor [(ngModel)]="selectedItem.Description"></ckeditor>
+              <ckeditor [editor]="Editor" [(ngModel)]="selectedItem.Description"></ckeditor>
             </div>
           </div>
         </div>
