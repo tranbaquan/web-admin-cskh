@@ -114,7 +114,6 @@ export class NewsComponent implements OnInit {
   }
 
   createNew(): void {
-    this.isUpdate = true;
     this.selectedItem.UserCreated = this.user.Code;
     this.selectedItem.UserUpdated = this.user.Code;
     this.selectedItem.TypeNewsID = Number(this.selectedItem.TypeNewsID);
@@ -129,6 +128,7 @@ export class NewsComponent implements OnInit {
       this.selectedItem.IsNew = 0;
     }
     if (this.validate()) {
+      this.isUpdate = true;
       this.selectedItem.Description1 = '';
       this.newService.createNew(this.selectedItem)
         .pipe(
