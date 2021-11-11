@@ -55,12 +55,16 @@ export class ProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params: any) => {
+      if (params.page) {
+        this.page = Number(params.page);
+      }
       this.init(params.category);
     });
   }
 
   init(parentCategory: string): void {
     if (parentCategory === 'all') {
+      this.currentCategory = null;
       this.getProducts();
       this.getParentCategories();
     } else {
@@ -82,6 +86,19 @@ export class ProductComponent implements OnInit {
     });
   }
 
+  backToParent(): void {
+    const parentCategory = this.currentCategory.ParentID ? this.currentCategory.ParentID + '' : 'all';
+    this.router.navigate(['./'], {
+      relativeTo: this.route,
+      queryParams: {
+        category: parentCategory,
+        page: this.page + ''
+      }
+    }).then(() => {
+      this.init(parentCategory);
+    });
+  }
+
   searchProduct(query: string, categoryType: number): void {
     this.loading = true;
     let params = new HttpParams().append('keySearch', query);
@@ -94,10 +111,17 @@ export class ProductComponent implements OnInit {
       this.products = data.data;
       if (this.pagination.totalItem > 0 && this.pagination.data.length === 0) {
         this.page = 1;
-        this.productService.getProducts(this.page, this.size, params).subscribe(newData => {
-          this.pagination = newData;
-          this.products = newData.data;
+        this.router.navigate(['./'], {
+          relativeTo: this.route,
+          queryParams: {
+            category: this.currentCategory ? this.currentCategory.TypeProductID : 'all',
+            page: 1
+          }
         });
+        // this.productService.getProducts(this.page, this.size, params).subscribe(newData => {
+        //   this.pagination = newData;
+        //   this.products = newData.data;
+        // });
       }
     }, () => {
     }, () => {
@@ -110,6 +134,13 @@ export class ProductComponent implements OnInit {
   }
 
   onPageChange(page: number): void {
+    this.router.navigate(['./'], {
+      relativeTo: this.route,
+      queryParams: {
+        category: this.currentCategory ? this.currentCategory.TypeProductID : 'all',
+        page: page + ''
+      }
+    });
     this.page = page;
     this.searchProduct(this.searchQuery, this.currentCategory?.TypeProductID);
   }
@@ -121,11 +152,19 @@ export class ProductComponent implements OnInit {
   }
 
   updateCategory(category: CategoryResponseModel): void {
-    this.currentCategory = category;
-    this.categoryService.getCategoriesByParentId(this.currentCategory.TypeProductID).subscribe(data => {
-      this.categories = data;
+    this.router.navigate(['./'], {
+      relativeTo: this.route,
+      queryParams: {
+        category: category.TypeProductID,
+        page: this.page + ''
+      }
+    }).then(() => {
+      this.currentCategory = category;
+      this.categoryService.getCategoriesByParentId(this.currentCategory.TypeProductID).subscribe(data => {
+        this.categories = data;
+      });
+      this.searchProduct('', category.TypeProductID);
     });
-    this.searchProduct('', category.TypeProductID);
   }
 
   viewDetail(product: ProductResponseModel): void {

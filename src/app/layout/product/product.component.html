@@ -17,7 +17,7 @@
       </div>
       <div class="category parent" *ngIf="currentCategory">
         <input type="radio" id="current" name="category" [checked]="true">
-        <label>{{currentCategory.NameType}}</label>
+        <label (click)="backToParent()">{{currentCategory.NameType}}</label>
       </div>
       <div class="category" *ngFor="let category of categories">
         <input type="radio" [id]="category.TypeProductID.toString()" name="category"
