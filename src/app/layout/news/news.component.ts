@@ -127,6 +127,9 @@ export class NewsComponent implements OnInit {
     } else {
       this.selectedItem.IsNew = 0;
     }
+    if (!this.selectedItem.Description) {
+      this.selectedItem.Description = '';
+    }
     if (this.validate()) {
       this.isUpdate = true;
       this.selectedItem.Description1 = '';
@@ -177,6 +180,9 @@ export class NewsComponent implements OnInit {
       this.selectedItem.IsNew = 1;
     } else {
       this.selectedItem.IsNew = 0;
+    }
+    if (!this.selectedItem.Description) {
+      this.selectedItem.Description = '';
     }
     if (this.validate()) {
       this.isUpdate = true;
