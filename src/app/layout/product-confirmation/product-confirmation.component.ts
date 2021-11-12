@@ -52,7 +52,12 @@ export class ProductConfirmationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.searchConfirmationProducts();
+    this.route.queryParams.subscribe((params: any) => {
+      if (params.page) {
+        this.page = Number(params.page);
+      }
+      this.searchConfirmationProducts();
+    });
   }
 
   searchConfirmationProducts(): void {
@@ -95,7 +100,13 @@ export class ProductConfirmationComponent implements OnInit {
   }
 
   onPageChange(page: number): void {
-    this.page = page;
+    // this.page = page;
+    // this.router.navigate(['./'], {
+    //   relativeTo: this.route,
+    //   queryParams: {
+    //     page: page + ''
+    //   }
+    // });
     this.searchProduct(this.searchQuery, this.currentCategory?.TypeProductID);
   }
 
