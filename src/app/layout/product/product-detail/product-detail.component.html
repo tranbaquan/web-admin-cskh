@@ -289,7 +289,7 @@
     </div>
     <div class="form-group">
       <div style="display: flex; gap: 10px">
-        <button style="flex: 1" routerLink="../" [queryParams]="{category: category}">Về danh sách</button>
+        <button style="flex: 1" routerLink="../" queryParamsHandling="preserve" [queryParams]="{category: category}">Về danh sách</button>
         <button style="flex: 1" *ngIf="!isCreated" background="bg-orange" appButton (click)="saveChange()">Lưu thay
           đổi
         </button>
