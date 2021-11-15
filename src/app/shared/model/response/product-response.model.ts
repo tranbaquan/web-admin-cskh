@@ -59,7 +59,7 @@ export class ProductResponseModel {
     this.Order = 0;
     this.MinQuantity = 1;
     this.DiscountProvider = 0;
-    this.InformationTech = '';
+    this.InformationTech = '[]';
     this.Rating = 0;
     this.CountNumberRating = 0;
     this.ListSpec1 = [];
