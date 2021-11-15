@@ -256,3 +256,11 @@ body.core-modal-show {
 textarea {
   padding: 10px 15px;
 }
+
+.ck.ck-reset.ck-dropdown__panel.ck-dropdown__panel_sw.ck-dropdown__panel-visible {
+  max-width: 400px;
+}
+
+.ck-blurred.ck.ck-content.ck-editor__editable {
+  min-height: 200px;
+}

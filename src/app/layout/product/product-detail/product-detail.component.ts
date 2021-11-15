@@ -18,7 +18,7 @@ import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {ENTER} from '@angular/cdk/keycodes';
 import {ProducerResponseModel} from '../../../shared/model/response/producer-response.model';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import * as CustomEditor from 'ckeditor5-custom-build';
 import {MyUploadAdapter} from './my-upload.adapter';
 import {CKEditor5} from '@ckeditor/ckeditor5-angular';
 
@@ -34,7 +34,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
   faSave = faSave;
   faEdit = faEdit;
   faTrash = faTrash;
-  public Editor = ClassicEditor;
+  public Editor = CustomEditor;
 
   @ViewChild('fileUpload')
   fileUpload: ElementRef;

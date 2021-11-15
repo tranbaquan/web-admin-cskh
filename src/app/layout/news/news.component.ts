@@ -19,9 +19,10 @@ import {ToastrService} from 'ngx-toastr';
 import {finalize} from 'rxjs/operators';
 import {ModalService} from '../../shared/component/modal/modal.service';
 import {FileUploadService} from '../product/product-detail/file-upload.service';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+// import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import {CKEditor5} from '@ckeditor/ckeditor5-angular';
 import {MyUploadAdapter} from '../product/product-detail/my-upload.adapter';
+import * as CustomEditor from 'ckeditor5-custom-build';
 
 
 @Component({
@@ -30,7 +31,7 @@ import {MyUploadAdapter} from '../product/product-detail/my-upload.adapter';
   styleUrls: ['./news.component.scss']
 })
 export class NewsComponent implements OnInit {
-  public Editor = ClassicEditor;
+  public Editor = CustomEditor;
   faSearch = faSearch;
   faSortDown = faSortDown;
   faSpinner = faSpinner;
