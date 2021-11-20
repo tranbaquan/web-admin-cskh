@@ -250,7 +250,7 @@
       <div class="group-title">Thông tin chi tiết</div>
       <div class="input">
         <label>Mô tả ngắn</label>
-        <ckeditor id="abc" [(ngModel)]="product.ShortDescription" [editor]="Editor" (ready)="onReady($event)"></ckeditor>
+        <ckeditor [(ngModel)]="product.ShortDescription" [editor]="Editor" (ready)="onReady($event)"></ckeditor>
       </div>
       <div class="input">
         <label>Chi tiết</label>

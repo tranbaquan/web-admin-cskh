@@ -137,13 +137,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
           'tableRow',
           'mergeTableCells'
         ]
-      },
-      htmlSupport: {
-        allow: [
-          {name: 'iframe', styles: true, attributes: true, classes: true}
-        ]
-      },
-      allowContent: '*(*)',
+      }
     };
   }
 
