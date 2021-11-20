@@ -69,20 +69,31 @@
     </div>
     <div class="body" *ngIf="isMenuShow">
       <ul>
-        <li class="item" [routerLink]="['/type-product']" (click)="closeMenu()">Quản lý danh mục</li>
-        <li class="item" [routerLink]="['/product']" [queryParams]="{category: 'all'}" (click)="closeMenu()">Quản lý sản
+        <li class="item" *ngIf="isInGroup(user.TypeUser, 1, 5)" [routerLink]="['/type-product']" (click)="closeMenu()">Quản lý danh mục</li>
+        <li class="item" *ngIf="isInGroup(user.TypeUser, 1, 5)" [routerLink]="['/product']"
+            [queryParams]="{category: 'all'}" (click)="closeMenu()">Quản lý sản
           phẩm
         </li>
-        <li class="item" *ngIf="user.TypeUser === 1 || user.TypeUser === 3 || user.TypeUser === 5"
-            [routerLink]="['/product-confirmation']" (click)="closeMenu()">
+        <li class="item" *ngIf="isInGroup(user.TypeUser, 1, 5)" [routerLink]="['/product-confirmation']"
+            (click)="closeMenu()">
           Duyệt sản phẩm
         </li>
         <li class="item" [routerLink]="['/store']" (click)="closeMenu()">Quản lý kho</li>
-        <li class="item" [routerLink]="['/order']" (click)="closeMenu()">Quản lý đơn hàng</li>
-        <li class="item" *ngIf="user.TypeUser === 1" [routerLink]="['/user']" (click)="closeMenu()">Quản lý tài khoản</li>
-        <li class="item" [routerLink]="['/customer']" (click)="closeMenu()">Quản lý khách hàng</li>
-        <li class="item" [routerLink]="['/company']" (click)="closeMenu()">Quản lý công ty</li>
-        <li class="item" [routerLink]="['/news']" (click)="closeMenu()">Quản lý tin tức</li>
+        <li class="item" *ngIf="isInGroup(user.TypeUser, 1, 4)" [routerLink]="['/order']" (click)="closeMenu()">Quản lý
+          đơn hàng
+        </li>
+        <li class="item" *ngIf="isInGroup(user.TypeUser, 1)" [routerLink]="['/user']" (click)="closeMenu()">Quản lý tài
+          khoản
+        </li>
+        <li class="item" *ngIf="isInGroup(user.TypeUser, 1)" [routerLink]="['/customer']" (click)="closeMenu()">Quản lý
+          khách hàng
+        </li>
+        <li class="item" *ngIf="isInGroup(user.TypeUser, 1, 5)" [routerLink]="['/company']" (click)="closeMenu()">Quản lý
+          công ty
+        </li>
+        <li class="item" *ngIf="isInGroup(user.TypeUser, 1, 3, 5)" [routerLink]="['/news']" (click)="closeMenu()">Quản lý
+          tin tức
+        </li>
         <!-- <li class="item" [routerLink]="['/surcharge']" (click)="closeMenu()">Quản lý phụ thu</li> -->
       </ul>
     </div>

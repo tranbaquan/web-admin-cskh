@@ -21,7 +21,6 @@ import {ProducerResponseModel} from '../../../shared/model/response/producer-res
 import * as CustomEditor from 'ckeditor5-custom-build';
 import {MyUploadAdapter} from './my-upload.adapter';
 import {CKEditor5} from '@ckeditor/ckeditor5-angular';
-import {iframely} from '@iframely/embed.js';
 
 @Component({
   selector: 'app-product-detail',
@@ -66,7 +65,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
   category: string;
   imagePrefix = environment.storageUrl;
   techInfoList: { key: string, value: string }[];
-  ckeditorConfig: any;
 
   constructor(private route: ActivatedRoute,
               private modalService: ModalService,
@@ -90,55 +88,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     this.updatePagination();
     this.category = route.snapshot.queryParamMap.get('category');
     this.techInfoList = [];
-    iframely.load();
-
-    this.ckeditorConfig = {
-      toolbar: {
-        items: [
-          'bold',
-          'underline',
-          'italic',
-          '|',
-          'fontSize',
-          'fontColor',
-          'fontBackgroundColor',
-          'alignment',
-          'blockQuote',
-          '|',
-          'imageUpload',
-          'link',
-          'insertTable',
-          'htmlEmbed',
-          'sourceEditing',
-          '|',
-          'bulletedList',
-          'numberedList',
-          'outdent',
-          'indent',
-          '|',
-          'undo',
-          'redo',
-          'heading'
-        ]
-      },
-      language: 'en',
-      image: {
-        toolbar: [
-          'imageTextAlternative',
-          'imageStyle:inline',
-          'imageStyle:block',
-          'imageStyle:side',
-          'linkImage'
-        ]
-      },
-      table: {
-        contentToolbar: [
-          'tableColumn',
-          'tableRow',
-          'mergeTableCells'
-        ]
-      }
-    };
   }
 
   ngOnInit(): void {

@@ -161,4 +161,8 @@ export class LayoutComponent implements OnInit {
   changePassword(): void {
     this.router.navigate(['change-pass']).then();
   }
+
+  isInGroup(id: number, ...groupIds: number[]): boolean {
+    return !!groupIds.find(groupId => groupId === id);
+  }
 }

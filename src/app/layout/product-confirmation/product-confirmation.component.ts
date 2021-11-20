@@ -10,6 +10,9 @@ import {environment} from '../../../environments/environment';
 import {faBars, faPlus, faSearch, faSpinner, faStar, faTh} from '@fortawesome/free-solid-svg-icons';
 import {faEye, faCheckCircle} from '@fortawesome/free-regular-svg-icons';
 import {ToastrService} from 'ngx-toastr';
+import {NotificationService} from '../notification.service';
+import {NotificationResponseModel} from '../../shared/model/response/notification-response.model';
+import {UserResponseModel} from '../../shared/model/response/user-response.model';
 
 @Component({
   selector: 'app-product-confirmation',
@@ -34,6 +37,7 @@ export class ProductConfirmationComponent implements OnInit {
   categories: CategoryResponseModel[];
   pagination: Pagination<ProductResponseModel>;
   loading: boolean;
+  user: UserResponseModel;
 
   @ViewChild('categorySlider') categorySlider: ElementRef;
 
@@ -41,6 +45,7 @@ export class ProductConfirmationComponent implements OnInit {
               private categoryService: CategoryService,
               private route: ActivatedRoute,
               private toastService: ToastrService,
+              private notificationService: NotificationService,
               private router: Router) {
     this.page = 1;
     this.size = 50;
@@ -48,7 +53,13 @@ export class ProductConfirmationComponent implements OnInit {
     this.categories = [];
     this.searchQuery = '';
     this.pagination = new Pagination<ProductResponseModel>();
-
+    const user = localStorage.getItem('user:info');
+    if (user) {
+      this.user = Object.assign(new UserResponseModel(), JSON.parse(user));
+    } else {
+      this.router.navigate(['login']).then(() => {
+      });
+    }
   }
 
   ngOnInit(): void {
@@ -123,9 +134,23 @@ export class ProductConfirmationComponent implements OnInit {
 
   confirm(product: ProductResponseModel): void {
     product.Status = 1;
+    product.UserCreated = product.UserCreated.Code;
+    const notification = new NotificationResponseModel();
+    notification.Title = 'Sản phẩm được duyệt';
+    notification.Message = 'Sản phẩm của bạn đã được duyệt bởi ' + this.user.Name;
+    notification.IsRead = 0;
+    notification.IsAll = 0;
+    notification.NotificationID = 0;
+    notification.Status = 1;
+    notification.ID = 1;
+    notification.TypeID = 1;
+    notification.UserID = this.user.UserID;
+    notification.UserCreated = this.user.Code;
+    notification.UserUpdated = this.user.UserUpdated;
     this.toastService.info('Đang duyệt sản phẩm', 'Duyệt sản phẩm', {timeOut: 3000});
     this.productService.updateProduct(product).subscribe(() => {
       this.toastService.success('Duyệt sản phẩm thành công', 'Duyệt sản phẩm', {timeOut: 3000});
+      this.notificationService.createNotification(notification).subscribe(() => {});
     }, () => {
       this.toastService.error('Duyệt sản phẩm thất bại', 'Duyệt sản phẩm', {timeOut: 3000});
     }, () => {
