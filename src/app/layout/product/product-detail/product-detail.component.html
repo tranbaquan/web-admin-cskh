@@ -250,7 +250,7 @@
       <div class="group-title">Thông tin chi tiết</div>
       <div class="input">
         <label>Mô tả ngắn</label>
-        <ckeditor [editor]="Editor" [(ngModel)]="product.ShortDescription" (ready)="onReady($event)"></ckeditor>
+        <ckeditor id="abc" [(ngModel)]="product.ShortDescription" [editor]="Editor" (ready)="onReady($event)"></ckeditor>
       </div>
       <div class="input">
         <label>Chi tiết</label>
@@ -296,6 +296,9 @@
         <button style="flex: 1" *ngIf="isCreated" background="bg-orange" appButton (click)="createProduct()">Tạo sản
           phẩm
         </button>
+      </div>
+      <div style="display: flex" *ngIf="!isCreated && product.Status">
+        <button style="flex: 1" appButton background="bg-red" (click)="hideProduct(product)">Ẩn sản phẩm</button>
       </div>
     </div>
   </div>

@@ -45,7 +45,7 @@ export class ProductComponent implements OnInit {
     const display = localStorage.getItem('product:display') as ProductDisplay;
     this.display = display ? display : 'grid';
     this.page = 1;
-    this.size = 50;
+    this.size = 48;
     this.products = [];
     this.categories = [];
     this.searchQuery = '';
@@ -118,10 +118,6 @@ export class ProductComponent implements OnInit {
             page: 1
           }
         });
-        // this.productService.getProducts(this.page, this.size, params).subscribe(newData => {
-        //   this.pagination = newData;
-        //   this.products = newData.data;
-        // });
       }
     }, () => {
     }, () => {

@@ -1,13 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {faPlus, faSearch, faSpinner, faTrashAlt, faEdit, faTimesCircle, faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
+import {faEdit, faEye, faEyeSlash, faPlus, faSearch, faSpinner, faTimesCircle, faTrashAlt} from '@fortawesome/free-solid-svg-icons';
 import {Pagination} from '../../shared/model/pagination';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ModalService} from '../../shared/component/modal/modal.service';
 import {UserService} from '../../shared/service/user.service';
 import {UserResponseModel} from '../../shared/model/response/user-response.model';
 import {finalize} from 'rxjs/operators';
 import {ToastrService} from 'ngx-toastr';
-import {TypeUserResponse} from "../../shared/model/response/type-user-response";
+import {TypeUserResponse} from '../../shared/model/response/type-user-response';
 
 @Component({
   selector: 'app-user',
@@ -282,5 +281,13 @@ export class UserComponent implements OnInit {
       .subscribe(data => {
         this.listTypeUser = data.data.data.map(obj => Object.assign(new TypeUserResponse(), obj));
       });
+  }
+
+  getUsertype(type: number): string {
+    return this.listTypeUser.find(data => data.TypeUserID === type).TypeName;
+  }
+
+  capitalize(value: string): string {
+    return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
   }
 }

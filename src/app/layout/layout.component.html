@@ -35,10 +35,10 @@
       </div>
       <div>
 
-        <button class="user-info" mat-button [matMenuTriggerFor]="menuItem">
+        <div class="user-info" [matMenuTriggerFor]="menuItem">
           <fa-icon [icon]="faUser" size="lg"></fa-icon>
           <span class="username">{{user?.Name}}</span>
-        </button>
+        </div>
         <mat-menu #menuItem="matMenu">
           <button mat-menu-item (click)="changePassword()">Đổi mật khẩu</button>
           <button mat-menu-item (click)="logout()">Đăng xuất</button>
@@ -79,7 +79,7 @@
         </li>
         <li class="item" [routerLink]="['/store']" (click)="closeMenu()">Quản lý kho</li>
         <li class="item" [routerLink]="['/order']" (click)="closeMenu()">Quản lý đơn hàng</li>
-        <li class="item" [routerLink]="['/user']" (click)="closeMenu()">Quản lý tài khoản</li>
+        <li class="item" *ngIf="user.TypeUser === 1" [routerLink]="['/user']" (click)="closeMenu()">Quản lý tài khoản</li>
         <li class="item" [routerLink]="['/customer']" (click)="closeMenu()">Quản lý khách hàng</li>
         <li class="item" [routerLink]="['/company']" (click)="closeMenu()">Quản lý công ty</li>
         <li class="item" [routerLink]="['/news']" (click)="closeMenu()">Quản lý tin tức</li>

@@ -11,7 +11,7 @@ import {ProductService} from '../product.service';
 import {SpecificService} from './specific.service';
 import {Pagination} from '../../../shared/model/pagination';
 import {ToastrService} from 'ngx-toastr';
-import {DomSanitizer} from '@angular/platform-browser';
+import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
@@ -21,6 +21,7 @@ import {ProducerResponseModel} from '../../../shared/model/response/producer-res
 import * as CustomEditor from 'ckeditor5-custom-build';
 import {MyUploadAdapter} from './my-upload.adapter';
 import {CKEditor5} from '@ckeditor/ckeditor5-angular';
+import {iframely} from '@iframely/embed.js';
 
 @Component({
   selector: 'app-product-detail',
@@ -89,6 +90,61 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     this.updatePagination();
     this.category = route.snapshot.queryParamMap.get('category');
     this.techInfoList = [];
+    iframely.load();
+
+    this.ckeditorConfig = {
+      toolbar: {
+        items: [
+          'bold',
+          'underline',
+          'italic',
+          '|',
+          'fontSize',
+          'fontColor',
+          'fontBackgroundColor',
+          'alignment',
+          'blockQuote',
+          '|',
+          'imageUpload',
+          'link',
+          'insertTable',
+          'htmlEmbed',
+          'sourceEditing',
+          '|',
+          'bulletedList',
+          'numberedList',
+          'outdent',
+          'indent',
+          '|',
+          'undo',
+          'redo',
+          'heading'
+        ]
+      },
+      language: 'en',
+      image: {
+        toolbar: [
+          'imageTextAlternative',
+          'imageStyle:inline',
+          'imageStyle:block',
+          'imageStyle:side',
+          'linkImage'
+        ]
+      },
+      table: {
+        contentToolbar: [
+          'tableColumn',
+          'tableRow',
+          'mergeTableCells'
+        ]
+      },
+      htmlSupport: {
+        allow: [
+          {name: 'iframe', styles: true, attributes: true, classes: true}
+        ]
+      },
+      allowContent: '*(*)',
+    };
   }
 
   ngOnInit(): void {
@@ -236,11 +292,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     });
   }
 
-  techInfoToHtml(key: string, value: string): string {
-    return `<tr><td>${key}</td><td>${value}</td></tr>`;
-  }
-
-
   createProduct(): void {
     this.toast.info('Đang tạo sản phẩm...', 'Tạo sản phẩm', {timeOut: 3000});
     const product = Object.assign({} as any, this.product);
@@ -249,7 +300,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     product.Status = this.product.Status ? 1 : 0;
     product.FIFO = this.product.FIFO ? 1 : 0;
     product.InformationTech = JSON.stringify(this.techInfoList);
-    // product.ImagesPath = JSON.stringify(this.product.ImagesPath);
 
     this.productService.createProduct(product).subscribe(data => {
       this.toast.clear();
@@ -560,5 +610,30 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     $event.plugins.get('FileRepository').createUploadAdapter = (loader) => {
       return new MyUploadAdapter(loader, this.fileUploadService);
     };
+
+    $event.ui.getEditableElement().parentElement.insertBefore(
+      $event.ui.view.toolbar.element,
+      $event.ui.getEditableElement()
+    );
+  }
+
+  hideProduct(product: ProductResponseModel): void {
+    product.Status = 0;
+    this.toast.info('Đang ẩn sản phẩm', 'Duyệt sản phẩm', {timeOut: 3000});
+    this.productService.updateProduct(product).subscribe(() => {
+      this.toast.success('Duyệt sản phẩm thành công', 'Duyệt sản phẩm', {timeOut: 3000});
+    }, () => {
+      this.toast.error('Duyệt sản phẩm thất bại', 'Duyệt sản phẩm', {timeOut: 3000});
+    }, () => {
+      this.router.navigate(['product'], {
+        queryParams: {category: this.category},
+        queryParamsHandling: 'preserve'
+      }).then(() => {
+      });
+    });
+  }
+
+  trustHtml(html: string): SafeHtml {
+    return this.domSanitizer.bypassSecurityTrustHtml(html);
   }
 }
