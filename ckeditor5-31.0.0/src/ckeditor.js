@@ -108,6 +108,8 @@ Editor.defaultConfig = {
 			'undo',
 			'blockQuote',
 			'sourceEditing',
+      '|',
+      'htmlEmbed',
 			'heading'
 		]
 	},
