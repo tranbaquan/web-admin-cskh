@@ -1,6 +1,6 @@
 <div *ngIf="pagination && pagination.totalItem > 0" class="paging">
   <button appIconButton background="bg-transparent" [disabled]="previousDisabled"
-          (click)="updateCurrentPage(currentPage - 1)">
+          (click)="previousRange()">
     <fa-icon [icon]="faAngleLeft" size="sm"></fa-icon>
   </button>
   <button appButton *ngFor="let page of pageList" [class.current]="currentPage == page"
@@ -8,7 +8,7 @@
     {{page}}
   </button>
   <button appIconButton background="bg-transparent" size="20" [disabled]="nextDisabled"
-          (click)="updateCurrentPage(currentPage + 1)">
+          (click)="nextRange()">
     <fa-icon [icon]="faAngleRight" size="sm"></fa-icon>
   </button>
 </div>

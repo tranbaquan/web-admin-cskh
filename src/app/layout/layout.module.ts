@@ -13,13 +13,13 @@ import {ProductTypeComponent} from './product-type/product-type.component';
 import {TreeviewModule} from 'ngx-treeview';
 import {UserComponent} from './user/user.component';
 import {CustomerComponent} from './customer/customer.component';
-import { CompanyComponent } from './company/company.component';
-import { StoreComponent } from './store/store.component';
-import { NewsComponent } from './news/news.component';
-import { SurchargeComponent } from './surcharge/surcharge.component';
-import { ChangePassComponent } from './change-pass/change-pass.component';
-import { ProductConfirmationComponent } from './product-confirmation/product-confirmation.component';
-import { ProductConfirmationDetailComponent } from './product-confirmation/product-confirmation-detail/product-confirmation-detail.component';
+import {CompanyComponent} from './company/company.component';
+import {StoreComponent} from './store/store.component';
+import {NewsComponent} from './news/news.component';
+import {SurchargeComponent} from './surcharge/surcharge.component';
+import {ChangePassComponent} from './change-pass/change-pass.component';
+import {ProductConfirmationComponent} from './product-confirmation/product-confirmation.component';
+import {ProductConfirmationDetailComponent} from './product-confirmation/product-confirmation-detail/product-confirmation-detail.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +45,7 @@ import { ProductConfirmationDetailComponent } from './product-confirmation/produ
     LayoutRoutingModule,
     SharedModule,
     FormsModule,
-    TreeviewModule.forRoot(),
+    TreeviewModule.forRoot()
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,

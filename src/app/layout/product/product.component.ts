@@ -45,7 +45,7 @@ export class ProductComponent implements OnInit {
     const display = localStorage.getItem('product:display') as ProductDisplay;
     this.display = display ? display : 'grid';
     this.page = 1;
-    this.size = 50;
+    this.size = 48;
     this.products = [];
     this.categories = [];
     this.searchQuery = '';
@@ -77,7 +77,8 @@ export class ProductComponent implements OnInit {
 
   getProducts(): void {
     this.loading = true;
-    this.productService.getProducts(this.page, this.size).subscribe(data => {
+    const params = new HttpParams().append('Status', '1');
+    this.productService.getProducts(this.page, this.size, params).subscribe(data => {
       this.pagination = data;
       this.products = data.data;
     }, () => {
@@ -101,7 +102,7 @@ export class ProductComponent implements OnInit {
 
   searchProduct(query: string, categoryType: number): void {
     this.loading = true;
-    let params = new HttpParams().append('keySearch', query);
+    let params = new HttpParams().append('keySearch', query).append('Status', '1');
     if (categoryType) {
       params = params.append('typeProductID', categoryType.toString());
     }
@@ -118,10 +119,6 @@ export class ProductComponent implements OnInit {
             page: 1
           }
         });
-        // this.productService.getProducts(this.page, this.size, params).subscribe(newData => {
-        //   this.pagination = newData;
-        //   this.products = newData.data;
-        // });
       }
     }, () => {
     }, () => {

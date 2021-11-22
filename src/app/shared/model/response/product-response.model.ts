@@ -31,8 +31,8 @@ export class ProductResponseModel {
   ListSpec3: Specific[];
   ListProduction: any;
   ListPrices: any[];
-  UserCreated: string;
-  UserUpdated: string;
+  UserCreated: any;
+  UserUpdated: any;
 
   constructor() {
     this.ProductID = 0;

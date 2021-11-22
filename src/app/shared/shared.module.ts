@@ -29,6 +29,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {EscapeHtmlPipe} from './pipe/escape-html.pipe';
 import {MatMenuModule} from '@angular/material/menu';
 import {CKEditorModule} from '@ckeditor/ckeditor5-angular';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   imports: [
@@ -46,7 +47,8 @@ import {CKEditorModule} from '@ckeditor/ckeditor5-angular';
     MatTooltipModule,
     MatMenuModule,
     MatCurrencyFormatModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatButtonModule,
   ],
   declarations: [
     InputDirective,
@@ -102,7 +104,8 @@ import {CKEditorModule} from '@ckeditor/ckeditor5-angular';
     MatMenuModule,
     MatCurrencyFormatModule,
     GallerySliderComponent,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatButtonModule,
   ]
 })
 export class SharedModule {

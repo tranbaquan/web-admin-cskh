@@ -55,7 +55,7 @@
       <tr *ngFor="let item of pagination.data">
         <td>{{item.UserID}}</td>
         <td>{{item.Name}}</td>
-        <td>{{item.TypeUser === 1 ? 'web': 'app'}}</td>
+        <td>{{getUsertype(item.TypeUser)}}</td>
         <td>{{item.Email}}</td>
         <td>{{item.Status === 0 ? 'DeActive' : 'Active'}}</td>
         <td>{{item.UserCreated}}</td>

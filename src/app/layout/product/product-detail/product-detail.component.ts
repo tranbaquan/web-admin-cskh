@@ -11,7 +11,7 @@ import {ProductService} from '../product.service';
 import {SpecificService} from './specific.service';
 import {Pagination} from '../../../shared/model/pagination';
 import {ToastrService} from 'ngx-toastr';
-import {DomSanitizer} from '@angular/platform-browser';
+import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
@@ -65,7 +65,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
   category: string;
   imagePrefix = environment.storageUrl;
   techInfoList: { key: string, value: string }[];
-  ckeditorConfig: any;
 
   constructor(private route: ActivatedRoute,
               private modalService: ModalService,
@@ -236,11 +235,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     });
   }
 
-  techInfoToHtml(key: string, value: string): string {
-    return `<tr><td>${key}</td><td>${value}</td></tr>`;
-  }
-
-
   createProduct(): void {
     this.toast.info('Đang tạo sản phẩm...', 'Tạo sản phẩm', {timeOut: 3000});
     const product = Object.assign({} as any, this.product);
@@ -249,7 +243,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     product.Status = this.product.Status ? 1 : 0;
     product.FIFO = this.product.FIFO ? 1 : 0;
     product.InformationTech = JSON.stringify(this.techInfoList);
-    // product.ImagesPath = JSON.stringify(this.product.ImagesPath);
 
     this.productService.createProduct(product).subscribe(data => {
       this.toast.clear();
@@ -560,5 +553,30 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     $event.plugins.get('FileRepository').createUploadAdapter = (loader) => {
       return new MyUploadAdapter(loader, this.fileUploadService);
     };
+
+    $event.ui.getEditableElement().parentElement.insertBefore(
+      $event.ui.view.toolbar.element,
+      $event.ui.getEditableElement()
+    );
+  }
+
+  hideProduct(product: ProductResponseModel): void {
+    product.Status = 0;
+    this.toast.info('Đang ẩn sản phẩm', 'Ẩn sản phẩm', {timeOut: 3000});
+    this.productService.updateProduct(product).subscribe(() => {
+      this.toast.success('Ẩn sản phẩm thành công', 'Ẩn sản phẩm', {timeOut: 3000});
+    }, () => {
+      this.toast.error('Ẩn sản phẩm thất bại', 'Ẩn sản phẩm', {timeOut: 3000});
+    }, () => {
+      this.router.navigate(['product'], {
+        queryParams: {category: this.category},
+        queryParamsHandling: 'preserve'
+      }).then(() => {
+      });
+    });
+  }
+
+  trustHtml(html: string): SafeHtml {
+    return this.domSanitizer.bypassSecurityTrustHtml(html);
   }
 }
