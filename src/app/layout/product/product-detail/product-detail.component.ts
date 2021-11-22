@@ -562,11 +562,11 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
 
   hideProduct(product: ProductResponseModel): void {
     product.Status = 0;
-    this.toast.info('Đang ẩn sản phẩm', 'Duyệt sản phẩm', {timeOut: 3000});
+    this.toast.info('Đang ẩn sản phẩm', 'Ẩn sản phẩm', {timeOut: 3000});
     this.productService.updateProduct(product).subscribe(() => {
-      this.toast.success('Duyệt sản phẩm thành công', 'Duyệt sản phẩm', {timeOut: 3000});
+      this.toast.success('Ẩn sản phẩm thành công', 'Ẩn sản phẩm', {timeOut: 3000});
     }, () => {
-      this.toast.error('Duyệt sản phẩm thất bại', 'Duyệt sản phẩm', {timeOut: 3000});
+      this.toast.error('Ẩn sản phẩm thất bại', 'Ẩn sản phẩm', {timeOut: 3000});
     }, () => {
       this.router.navigate(['product'], {
         queryParams: {category: this.category},
