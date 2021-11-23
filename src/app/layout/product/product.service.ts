@@ -18,9 +18,11 @@ export class ProductService {
     this.baseUrl = environment.apiBaseUrl;
   }
 
-  getProducts(page: number, limit: number, params?: HttpParams): Observable<Pagination<ProductResponseModel>> {
+  getProducts(page: number, limit: number, userId: number, params?: HttpParams): Observable<Pagination<ProductResponseModel>> {
     const url = this.baseUrl + '/api/products/getproductSearch';
-    const headers = new HttpHeaders().append('page', page.toString()).append('limit', limit.toString());
+    const headers = new HttpHeaders().append('page', page.toString())
+      .append('limit', limit.toString())
+      .append('userId', userId.toString());
     return this.http.get(url, {headers, params}).pipe(
       map((response: any) => {
         const data = response.data;

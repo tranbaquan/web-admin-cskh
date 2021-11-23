@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {faUser, faBell, faCircle, faTimesCircle} from '@fortawesome/free-regular-svg-icons';
-import {faBars, faTimes, faBullhorn} from '@fortawesome/free-solid-svg-icons';
+import {faBell, faTimesCircle, faUser} from '@fortawesome/free-regular-svg-icons';
+import {faBars, faBullhorn, faTimes} from '@fortawesome/free-solid-svg-icons';
 import {Router} from '@angular/router';
 import {UserResponseModel} from '../shared/model/response/user-response.model';
 import {animate, state, style, transition, trigger} from '@angular/animations';

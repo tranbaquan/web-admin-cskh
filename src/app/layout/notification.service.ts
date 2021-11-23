@@ -51,4 +51,8 @@ export class NotificationService {
     return this.http.delete(url);
   }
 
+  createRealtimeNotification(topic: string, servicesId: number, title: string, content: string): Observable<any> {
+    const url = this.baseUrl + '/api/messaging/sendnotificationfirebase';
+    return this.http.post(url, {Topic: topic, ServicesID: servicesId, Title: title, Content: content});
+  }
 }

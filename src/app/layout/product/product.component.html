@@ -40,7 +40,7 @@
         </button>
       </div>
 
-      <button appButton background="bg-orange" (click)="createProduct()">
+      <button appButton background="bg-orange" (click)="createProduct()" [disabled]="user.TypeUser == 3 || user.TypeUser == 4">
         <fa-icon size="sm" [icon]="faPlus"></fa-icon>
         <span>Thêm mới</span>
       </button>
