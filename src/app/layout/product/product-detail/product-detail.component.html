@@ -289,16 +289,22 @@
     </div>
     <div class="form-group">
       <div style="display: flex; gap: 10px">
-        <button style="flex: 1" routerLink="../" queryParamsHandling="preserve" [queryParams]="{category: category}">Về danh sách</button>
-        <button style="flex: 1" *ngIf="!isCreated" background="bg-orange" appButton (click)="saveChange()">Lưu thay
+        <button style="flex: 1" routerLink="../" queryParamsHandling="preserve" [queryParams]="{category: category}">Về
+          danh sách
+        </button>
+        <button style="flex: 1" *ngIf="!isCreated" [disabled]="user.TypeUser == 3 || user.TypeUser == 4"
+                background="bg-orange" appButton (click)="saveChange()">Lưu thay
           đổi
         </button>
-        <button style="flex: 1" *ngIf="isCreated" background="bg-orange" appButton (click)="createProduct()">Tạo sản
+        <button style="flex: 1" *ngIf="isCreated" [disabled]="user.TypeUser == 3 || user.TypeUser == 4"
+                background="bg-orange" appButton (click)="createProduct()">Tạo sản
           phẩm
         </button>
       </div>
       <div style="display: flex" *ngIf="!isCreated && product.Status">
-        <button style="flex: 1" appButton background="bg-red" (click)="hideProduct(product)">Ẩn sản phẩm</button>
+        <button style="flex: 1" appButton background="bg-red" [disabled]="user.TypeUser == 3 || user.TypeUser == 4"
+                (click)="hideProduct(product)">Ẩn sản phẩm
+        </button>
       </div>
     </div>
   </div>

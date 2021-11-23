@@ -228,18 +228,14 @@
     <div class="pane">
       <div class="comment-title">Thảo luận</div>
       <div class="content">
-        <div class="comment">
-          <div class="username">Admin</div>
-          <div class="message">Chào em</div>
-        </div>
-        <div class="comment">
-          <div class="username">Editor</div>
-          <div class="message">Có chuyện gì v anh</div>
+        <div *ngFor="let comment of comments" class="comment">
+          <div class="username">{{comment.UserCreated}}</div>
+          <div class="message">{{comment.ContentComment}}</div>
         </div>
       </div>
       <div class="send-message">
-        <textarea></textarea>
-        <button appButton background="bg-orange">Gửi</button>
+        <textarea [(ngModel)]="commentMessage"></textarea>
+        <button appButton background="bg-orange" (click)="sendComment()">Gửi</button>
       </div>
     </div>
   </div>

@@ -12,6 +12,9 @@ import {map, startWith} from 'rxjs/operators';
 import {ToastrService} from 'ngx-toastr';
 // import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import * as CustomEditor from 'ckeditor5-custom-build';
+import {CommentService} from './comment.service';
+import {CommentModel} from '../../../shared/model/response/comment.model';
+import {NotificationService} from '../../notification.service';
 
 @Component({
   selector: 'app-product-confirmation-detail',
@@ -37,12 +40,17 @@ export class ProductConfirmationDetailComponent implements OnInit {
   category: string;
   imagePrefix = environment.storageUrl;
   techInfoList: { key: string, value: string }[];
+  comments: CommentModel[];
+  commentUserIds: number[];
+  commentMessage: string;
 
   constructor(private route: ActivatedRoute,
               private modalService: ModalService,
               private fileUploadService: FileUploadService,
               private toastService: ToastrService,
               private router: Router,
+              private notificationService: NotificationService,
+              private commentService: CommentService,
               private productService: ProductService) {
     this.producerFormControl = new FormControl();
     this.productTypeFormControl = new FormControl();
@@ -57,6 +65,9 @@ export class ProductConfirmationDetailComponent implements OnInit {
     this.updatePagination();
     this.category = route.snapshot.queryParamMap.get('category');
     this.techInfoList = [];
+    this.comments = [];
+    this.commentUserIds = [];
+    this.commentMessage = '';
   }
 
   ngOnInit(): void {
@@ -73,6 +84,20 @@ export class ProductConfirmationDetailComponent implements OnInit {
       map(value => this.filterProductType(value))
     );
     this.updateTechInfoList();
+
+    this.getComments();
+
+  }
+
+  onlyUnique(value, index, self): boolean {
+    return self.indexOf(value) === index;
+  }
+
+  getComments(): void {
+    this.commentService.getAllComments(this.product.ProductID, 0, 1).subscribe((data) => {
+      this.comments = data;
+      this.commentUserIds = this.comments.map(cmt => cmt.CustomerID).filter(this.onlyUnique);
+    });
   }
 
   filterProducer(value: any): any[] {
@@ -166,8 +191,39 @@ export class ProductConfirmationDetailComponent implements OnInit {
     }, () => {
       this.toastService.error('Duyệt sản phẩm thất bại', 'Duyệt sản phẩm', {timeOut: 3000});
     }, () => {
+      this.notificationService.createRealtimeNotification('/topics/useradmin' + this.product.UserCreated.UserID, 0,
+        'Duyệt sản phẩm', this.user.Name + ' đã duyệt sản phẩm của bạn');
       this.router.navigate(['/product-confirmation']).then(() => {
       });
+    });
+  }
+
+  sendComment(): void {
+    const comment = new CommentModel();
+    comment.ContentComment = this.commentMessage.trim();
+    comment.CMSCommentID = 0;
+    comment.ProductID = this.product.ProductID;
+    comment.Status = 1;
+    comment.UserCreated = this.user.Code;
+    comment.CustomerID = this.user.UserID;
+    comment.NewsID = 0;
+    comment.UserUpdated = this.user.Code;
+    this.commentService.createComment(comment).subscribe(() => {
+    }, () => {
+    }, () => {
+      this.commentUserIds.filter(userId => userId !== this.user.UserID).forEach(userId => {
+        this.notificationService.createRealtimeNotification('/topics/useradmin' + userId, 0, 'Thảo luận', this.user.Name + ' đã bình luận trong 1 sản phẩm.')
+          .subscribe(data => {
+          });
+      });
+      this.getComments();
+      this.commentMessage = '';
+      if (!this.commentUserIds.includes(this.product.UserCreated.UserID)) {
+        this.notificationService.createRealtimeNotification('/topics/useradmin' + this.product.UserCreated.UserID, 0, 'Thảo luận',
+          this.user.Name + ' đã bình luận trong 1 sản phẩm.')
+          .subscribe(data => {
+          });
+      }
     });
   }
 }

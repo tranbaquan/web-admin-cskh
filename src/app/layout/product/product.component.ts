@@ -9,6 +9,7 @@ import {CategoryService} from '../category/category.service';
 import {CategoryResponseModel} from '../../shared/model/response/category-response.model';
 import {HttpParams} from '@angular/common/http';
 import {ActivatedRoute, Router} from '@angular/router';
+import {UserResponseModel} from '../../shared/model/response/user-response.model';
 
 @Component({
   selector: 'app-product',
@@ -35,6 +36,7 @@ export class ProductComponent implements OnInit {
   categories: CategoryResponseModel[];
   pagination: Pagination<ProductResponseModel>;
   loading: boolean;
+  user: UserResponseModel;
 
   @ViewChild('categorySlider') categorySlider: ElementRef;
 
@@ -50,6 +52,13 @@ export class ProductComponent implements OnInit {
     this.categories = [];
     this.searchQuery = '';
     this.pagination = new Pagination<ProductResponseModel>();
+    const user = localStorage.getItem('user:info');
+    if (user) {
+      this.user = Object.assign(new UserResponseModel(), JSON.parse(user));
+    } else {
+      this.router.navigate(['login']).then(() => {
+      });
+    }
 
   }
 
@@ -78,7 +87,7 @@ export class ProductComponent implements OnInit {
   getProducts(): void {
     this.loading = true;
     const params = new HttpParams().append('Status', '1');
-    this.productService.getProducts(this.page, this.size, params).subscribe(data => {
+    this.productService.getProducts(this.page, this.size, this.user.UserID, params).subscribe(data => {
       this.pagination = data;
       this.products = data.data;
     }, () => {
@@ -107,7 +116,7 @@ export class ProductComponent implements OnInit {
       params = params.append('typeProductID', categoryType.toString());
     }
 
-    this.productService.getProducts(this.page, this.size, params).subscribe(data => {
+    this.productService.getProducts(this.page, this.size, this.user.UserID, params).subscribe(data => {
       this.pagination = data;
       this.products = data.data;
       if (this.pagination.totalItem > 0 && this.pagination.data.length === 0) {
