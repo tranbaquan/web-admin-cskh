@@ -4,22 +4,31 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl: 'https://apiadminmotolok.way.vn',
-  storageUrl: 'https://attachmentmotolok.way.vn',
-  // apiBaseUrl: 'http://apicskh.heliostech.vn',
-  // storageUrl: 'http://attachment.heliostech.vn',
+  // apiBaseUrl: 'https://apiadminmotolok.way.vn',
+  // storageUrl: 'https://attachmentmotolok.way.vn',
+  apiBaseUrl: 'http://apicskh.heliostech.vn',
+  storageUrl: 'http://attachment.heliostech.vn',
   // test
   // vapidKey : 'BPYPqxNbCmR_NNt0jxvZskuvUUpkt5OMPP0qYWQvSged5KvOeOyjyx9HkgSGcX9ndUyjOM9FbmXwuktsiQmjWhc',
   // release
   vapidKey : 'BK1azpVainwoEhIv7PzVlAK-hNXhYM_LxTKDica9tJdpO2xhSKuDBJIhycS3IxBijeSgfl__5-OESY3uQ7SQAPY',
-  firebaseConfig: {
-    apiKey: 'AIzaSyBYX9m-Cu_S79oqd1DyuUoO2MljOBKkgvM',
-    authDomain: 'notication-tmdt.firebaseapp.com',
-    projectId: 'notication-tmdt',
-    storageBucket: 'notication-tmdt.appspot.com',
-    messagingSenderId: '398924202747',
-    appId: '1:398924202747:web:6eee93da3e0e7687e4265e',
-    measurementId: 'G-PVPDLZTXRM'
+  // firebaseConfig: {
+  //   apiKey: 'AIzaSyBYX9m-Cu_S79oqd1DyuUoO2MljOBKkgvM',
+  //   authDomain: 'notication-tmdt.firebaseapp.com',
+  //   projectId: 'notication-tmdt',
+  //   storageBucket: 'notication-tmdt.appspot.com',
+  //   messagingSenderId: '398924202747',
+  //   appId: '1:398924202747:web:6eee93da3e0e7687e4265e',
+  //   measurementId: 'G-PVPDLZTXRM'
+  // },
+   firebaseConfig : {
+    apiKey: 'AIzaSyBcmGUBIzEdvuVA1v4D06F4u7-GrRMMP9Y',
+    authDomain: 'helios-180d5.firebaseapp.com',
+    projectId: 'helios-180d5',
+    storageBucket: 'helios-180d5.appspot.com',
+    messagingSenderId: '494985658735',
+    appId: '1:494985658735:web:58f462008b964c3eb6289a',
+    measurementId: 'G-ZPP9CQSJ58'
   }
 };
 

@@ -15,15 +15,6 @@ import {HttpParams} from '@angular/common/http';
 import {NotificationResponseModel} from '../shared/model/response/notification-response.model';
 import {environment} from '../../environments/environment';
 
-const firebaseConfig = {
-  apiKey: 'AIzaSyBYX9m-Cu_S79oqd1DyuUoO2MljOBKkgvM',
-  authDomain: 'notication-tmdt.firebaseapp.com',
-  projectId: 'notication-tmdt',
-  storageBucket: 'notication-tmdt.appspot.com',
-  messagingSenderId: '398924202747',
-  appId: '1:398924202747:web:6eee93da3e0e7687e4265e',
-  measurementId: 'G-PVPDLZTXRM'
-};
 
 @Component({
   selector: 'app-layout',
@@ -115,7 +106,7 @@ export class LayoutComponent implements OnInit {
   }
 
   private registerMessage(): void {
-    const firebaseApp = firebase.initializeApp(firebaseConfig);
+    const firebaseApp = firebase.initializeApp(environment.firebaseConfig);
     const message = messaging.getMessaging(firebaseApp);
 
     messaging.getToken(message, {
