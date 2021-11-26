@@ -8,6 +8,10 @@ export const environment = {
   storageUrl: 'https://attachmentmotolok.way.vn',
   // apiBaseUrl: 'http://apicskh.heliostech.vn',
   // storageUrl: 'http://attachment.heliostech.vn',
+  // test
+  // vapidKey : 'BPYPqxNbCmR_NNt0jxvZskuvUUpkt5OMPP0qYWQvSged5KvOeOyjyx9HkgSGcX9ndUyjOM9FbmXwuktsiQmjWhc',
+  // release
+  vapidKey : 'BK1azpVainwoEhIv7PzVlAK-hNXhYM_LxTKDica9tJdpO2xhSKuDBJIhycS3IxBijeSgfl__5-OESY3uQ7SQAPY',
   firebaseConfig: {
     apiKey: 'AIzaSyBYX9m-Cu_S79oqd1DyuUoO2MljOBKkgvM',
     authDomain: 'notication-tmdt.firebaseapp.com',

@@ -13,6 +13,7 @@ import {ToastrService} from 'ngx-toastr';
 import {NotificationService} from './notification.service';
 import {HttpParams} from '@angular/common/http';
 import {NotificationResponseModel} from '../shared/model/response/notification-response.model';
+import {environment} from '../../environments/environment';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBYX9m-Cu_S79oqd1DyuUoO2MljOBKkgvM',
@@ -118,7 +119,7 @@ export class LayoutComponent implements OnInit {
     const message = messaging.getMessaging(firebaseApp);
 
     messaging.getToken(message, {
-      vapidKey: 'BPYPqxNbCmR_NNt0jxvZskuvUUpkt5OMPP0qYWQvSged5KvOeOyjyx9HkgSGcX9ndUyjOM9FbmXwuktsiQmjWhc',
+      vapidKey: environment.vapidKey,
     }).then((token) => {
       this.firebaseService.subscribeToTopic(token, this.user.UserID).subscribe(res => {
       });
